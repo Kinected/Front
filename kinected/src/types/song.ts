@@ -5,4 +5,5 @@ export type Song = {
     time: string;
     duration: string;
     progress: number;
+    isplaying: boolean;
 };

@@ -19,6 +19,7 @@ export const fetchCurrentlyPlaying = async (token: string) => {
     const track = data.item.name;
     const cover = data.item.album.images[0].url;
     const progress = Number(data.progress_ms) / Number(data.item.duration_ms);
+    const isplaying = data.is_playing;
 
     const duration = formatDuration(Number(data.item.duration_ms));
     const time = formatDuration(Number(data.progress_ms));
@@ -30,5 +31,6 @@ export const fetchCurrentlyPlaying = async (token: string) => {
         time,
         duration,
         progress,
+        isplaying,
     } as Song;
 };

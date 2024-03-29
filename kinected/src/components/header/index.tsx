@@ -10,10 +10,7 @@ export default function Header() {
     return (
         <div className="flex justify-between">
             <div className="flex-1">
-                <Button
-                    onClick={() => router.push("/")}
-                    className="origin-top-left"
-                >
+                <Button className="origin-top-left">
                     <Apps className="w-8 h-8" />
                     Apps
                 </Button>
