@@ -15,7 +15,7 @@ export default function Home() {
                     <span className="text-white text-8xl text-start ">
                         Bonjour,
                     </span>
-                    <span className="text-white text-8xl text-start font-bold">
+                    <span className="text-white text-8xl text-start font-extrabold">
                         Antoine
                     </span>
                 </div>
