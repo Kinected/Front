@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../button";
 import { useRouter } from "next/navigation";
 import Apps from "@/../public/apps.svg";
@@ -6,6 +6,17 @@ import Weather from "../containers/weather";
 
 export default function Header() {
     const router = useRouter();
+    const [time, setTime] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTime(new Date());
+        }, 1000);
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, []);
 
     return (
         <div className="flex justify-between">
@@ -17,11 +28,18 @@ export default function Header() {
             </div>
 
             <div className="flex-1 flex flex-col">
-                <span className="text-white text-2xl text-center font-light">
-                    Lundi 12 Mars
+                <span className="text-white text-2xl text-center font-light capitalize">
+                    {time.toLocaleDateString("fr-FR", {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                    })}
                 </span>
                 <span className="text-white text-8xl text-center font-bold">
-                    12:34
+                    {`${time.getHours().toString().padStart(2, "0")}:${time
+                        .getMinutes()
+                        .toString()
+                        .padStart(2, "0")}`}
                 </span>
             </div>
 
