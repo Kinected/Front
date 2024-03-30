@@ -11,6 +11,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "@/components/header";
 import { QueryClient, QueryClientProvider } from "react-query";
+import HomeButton from "@/components/home";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,21 +30,26 @@ export default function RootLayout({
         <html lang="en">
             <QueryClientProvider client={queryClient}>
                 <body className={inter.className}>
-                    <div className="flex flex-col gap-8 p-8 w-full h-screen">
+                    <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
                         <Header />
 
                         <div className="flex-1">{children}</div>
 
-                        <div className="flex justify-between">
-                            <AnimatePresence>
-                                {path === "/" && (
+                        {path === "/" && (
+                            <div className="flex justify-between">
+                                <AnimatePresence>
                                     <SpotifyPlayer
                                         onClick={() => router.push("/spotify")}
                                         spotify_access_token={token}
                                     />
-                                )}
+                                </AnimatePresence>
+                            </div>
+                        )}
+                        {path === "/spotify" && (
+                            <AnimatePresence>
+                                <HomeButton />
                             </AnimatePresence>
-                        </div>
+                        )}
                     </div>
                 </body>
             </QueryClientProvider>

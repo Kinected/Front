@@ -6,7 +6,7 @@ const CLIENT_ID = "e4073db5b2a64a4f9d807e9c6bb71c3b"; // Remplacez par votre cli
 const CLIENT_SECRET = "88204c90ac414b8da1408dd4eee69d1d";
 const REDIRECT_URI = "http://localhost:3000"; // L'URL de redirection doit être la même que celle que vous avez configurée dans le tableau de bord de votre application Spotify
 const SCOPES =
-    "user-read-currently-playing user-modify-playback-state user-read-recently-played"; // Les scopes déterminent quelles actions votre application est autorisée à effectuer
+    "user-read-currently-playing user-modify-playback-state user-read-recently-played user-read-playback-state"; // Les scopes déterminent quelles actions votre application est autorisée à effectuer
 
 const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(
     REDIRECT_URI
