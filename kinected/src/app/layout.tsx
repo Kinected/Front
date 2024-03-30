@@ -30,7 +30,7 @@ export default function RootLayout({
         <html lang="en">
             <QueryClientProvider client={queryClient}>
                 <body className={inter.className}>
-                    <div className="flex flex-col gap-8 p-8 w-full h-screen overflow-hidden">
+                    <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
                         <Header />
 
                         <div className="flex-1">{children}</div>

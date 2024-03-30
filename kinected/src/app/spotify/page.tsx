@@ -6,7 +6,7 @@ import SpotifyCarousel from "@/components/containers/spotify/carousel";
 import { Song } from "@/types/song";
 
 const token =
-    "BQB6XhPnDBOQFYqPEq6pCl_Tog_AnCjIZ1uYprfZW_il3zr1KQS5Kr_4THkivFGTJmsgijuQnONvLcrbEro721JqxPZ2HFU2E3C9pzsd6-DvZrTLEd3Sm254nbNRY1nguUDA29enQdJAnn0zKtxnvz9IUaAdxKdQgdYUjN9KNFQ33s0t5pFQ2s_fasiYfkyGeFew0Z4ovrYipAobtg";
+    "BQA6392Lx9tK6Ma5pegyO8l5hfZQgjvvyV7gGw6TKNVJHv-TI4v1FtHHgeWLHTvskubMGnl7yWZEo4dy2q8Fo731KzZGJYfDcayyLn9F6KuNsZSLaHDHHmukujgYHQCl8DtixAWh-ympCvqEfsf7r1jcZSrrrMovuwfm3VyqRZvKfoAqFiTSdH_RyXb4YcpwLSvZ7SoEcAjEMvRZlg";
 
 export default function Home() {
     const [previousSong, setPreviousSong] = useState<Song | null>(null);
