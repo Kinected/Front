@@ -10,7 +10,7 @@ import SpotifyPlayer from "../components/containers/spotify";
 import { useRouter, usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "@/components/header";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import HomeButton from "@/components/home";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,8 +24,6 @@ export default function RootLayout({
     const path = usePathname();
     const queryClient = new QueryClient();
 
-    const token =
-        "BQCBxh_0mnT8USh0Ey3LkK4YBj52vOFa6GbKgeYkFzbe6KNStu0_Kdfgy03fzKJ7fI1aI-3lNjIES_iWbpDRjIzFyenLFCmbtyIcoR3YSFCgrhhoToIZPVqBYItnnatOGFJswbHj6ETv9cm-qxX2Jy0-jIxZARCKCzLq5ejk2tk5nGVL";
     return (
         <html lang="en">
             <QueryClientProvider client={queryClient}>
@@ -40,7 +38,6 @@ export default function RootLayout({
                                 <AnimatePresence>
                                     <SpotifyPlayer
                                         onClick={() => router.push("/spotify")}
-                                        spotify_access_token={token}
                                     />
                                 </AnimatePresence>
                             </div>

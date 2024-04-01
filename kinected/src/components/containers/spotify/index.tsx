@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Spotify from "@/../public/Spotify.svg";
+import { useQuery } from "react-query";
+import { fetchSpotifyAccessToken } from "@/utils/get-access-token";
+import { fetchCurrentlyPlaying } from "@/utils/currently-playing";
 
 type Props = {
     onClick?: () => void;
-    spotify_access_token: string;
 };
 
 type Song = {
@@ -15,45 +17,26 @@ type Song = {
 };
 
 export default function SpotifyPlayer(props: Props) {
-    const [song, setSong] = useState<Song | null>(null);
+    const { data: token } = useQuery<string>({
+        queryKey: ["spotify", "token"],
+        queryFn: async () => {
+            return await fetchSpotifyAccessToken("1");
+        },
+    });
 
-    useEffect(() => {
-        const fetchSong = async () => {
-            const headers = {
-                Authorization: `Bearer ${props.spotify_access_token}`,
-            };
+    const {
+        data: song,
+        isLoading,
+        isError,
+        error,
+    } = useQuery<Song | null>({
+        queryKey: ["song", "current"],
+        queryFn: async () => {
+            return await fetchCurrentlyPlaying(token as string);
+        },
+    });
 
-            fetch("https://api.spotify.com/v1/me/player/currently-playing", {
-                headers,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.is_playing) {
-                        const artist = data.item.artists[0].name;
-                        const track = data.item.name;
-                        const cover = data.item.album.images[0].url;
-
-                        setSong({
-                            artist,
-                            track,
-                            cover,
-                        });
-                    } else {
-                        console.log("Aucune musique en cours de lecture");
-                    }
-                })
-                .catch((error) => {
-                    console.error(
-                        "Erreur lors de l'obtention des données du lecteur :",
-                        error
-                    );
-                });
-        };
-
-        fetchSong();
-        const intervalId = setInterval(fetchSong, 1000);
-        return () => clearInterval(intervalId);
-    }, [props.spotify_access_token]);
+    if (!song) return null;
 
     return (
         <motion.div
