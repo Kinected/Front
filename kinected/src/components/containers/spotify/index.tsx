@@ -34,6 +34,7 @@ export default function SpotifyPlayer(props: Props) {
         queryFn: async () => {
             return await fetchCurrentlyPlaying(token as string);
         },
+        enabled: !!token,
     });
 
     if (!song) return null;
