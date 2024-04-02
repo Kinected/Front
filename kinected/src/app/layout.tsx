@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../components/button";
 import clsx from "clsx";
 import SpotifyPlayer from "../components/containers/spotify";
@@ -13,6 +13,7 @@ import Header from "@/components/header";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import HomeButton from "@/components/home";
 import MauriaWidget from "@/components/containers/mauria/widget";
+import Video from "@/components/containers/video";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,21 +33,9 @@ export default function RootLayout({
                     <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
                         <Header />
 
-                        <div className="flex-1">{children}</div>
+                        {children}
 
-                        {path === "/" && (
-                            <div className="flex justify-between items-end">
-                                <AnimatePresence>
-                                    <SpotifyPlayer
-                                        onClick={() => router.push("/spotify")}
-                                    />
-                                </AnimatePresence>
-                                <AnimatePresence>
-                                    <MauriaWidget />
-                                </AnimatePresence>
-                            </div>
-                        )}
-                        {path === "/spotify" && (
+                        {path !== "/" && (
                             <AnimatePresence>
                                 <HomeButton />
                             </AnimatePresence>
@@ -56,4 +45,7 @@ export default function RootLayout({
             </QueryClientProvider>
         </html>
     );
+}
+function useMediaQuery(arg0: string): [any] {
+    throw new Error("Function not implemented.");
 }
