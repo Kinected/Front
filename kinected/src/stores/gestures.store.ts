@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 type Hand = "left_hand" | "right_hand";
-type Gestures =
+export type Gestures =
   | "no_gesture"
   | "palm"
   | "closed"
@@ -9,7 +9,7 @@ type Gestures =
   | "victory_inverted"
   | "point_up"
   | "rock";
-type Swipes =
+export type Swipes =
   | "left"
   | "right"
   | "top"

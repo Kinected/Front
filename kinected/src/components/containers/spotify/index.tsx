@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Spotify from "@/../public/Spotify.svg";
@@ -50,10 +50,10 @@ export default function SpotifyPlayer(props: Props) {
         "after:absolute after:top-0 after:left-0 after:-z-10",
         "after:bg-white after:rounded-2xl",
         "after:w-full after:h-full",
-        "after:transition-all after:ease-in-out after:duration-300",
+        "after:transition-all after:duration-500",
         props.isHover &&
           "scale-110 after:opacity-40 after:scale-110 after:rounded-3xl",
-        "relative bg-white rounded-2xl flex flex-col p-2 gap-4 transition-all ease-in-out duration-300 origin-bottom-left",
+        "relative bg-white rounded-2xl flex flex-col p-2 gap-4 transition-all duration-500 origin-bottom-left",
       )}
     >
       <div className="flex justify-between items-start gap-2">
