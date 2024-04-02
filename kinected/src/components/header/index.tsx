@@ -3,8 +3,16 @@ import Button from "../button";
 import { useRouter } from "next/navigation";
 import Apps from "@/../public/apps.svg";
 import Weather from "../containers/weather";
+import ListeningFeedback from "@/components/Feedbacks/ListeningFeedback";
 
-export default function Header() {
+
+
+type HeaderProps = {
+    hand: "right_hand" | "left_hand" | null;
+};
+
+
+export default function Header(props : HeaderProps) {
     const router = useRouter();
     const [time, setTime] = useState(new Date());
 
@@ -41,6 +49,8 @@ export default function Header() {
                         .toString()
                         .padStart(2, "0")}`}
                 </span>
+              
+              <ListeningFeedback hand={props.hand} />
             </div>
 
             <div className="flex-1 flex justify-end items-start">
