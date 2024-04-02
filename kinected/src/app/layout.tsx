@@ -33,24 +33,9 @@ export default function RootLayout({
                     <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
                         <Header />
 
-                        <div className="flex-1">{children}</div>
-                        {/* <div className="flex-1">
-                            <Video />
-                        </div> */}
+                        {children}
 
-                        {path === "/" && (
-                            <div className="flex justify-between items-end">
-                                <AnimatePresence>
-                                    <SpotifyPlayer
-                                        onClick={() => router.push("/spotify")}
-                                    />
-                                </AnimatePresence>
-                                <AnimatePresence>
-                                    <MauriaWidget />
-                                </AnimatePresence>
-                            </div>
-                        )}
-                        {path === "/spotify" && (
+                        {path !== "/" && (
                             <AnimatePresence>
                                 <HomeButton />
                             </AnimatePresence>

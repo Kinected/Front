@@ -56,7 +56,7 @@ export default function MauriaWidget() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, transition: { delay: 0.3 } }}
             exit={{ opacity: 0 }}
-            className="w-64 p-2 bg-white rounded-2xl flex flex-col gap-2"
+            className="min-w-64 max-h-48 p-2 bg-white rounded-2xl flex flex-col gap-2"
         >
             <div className="flex justify-between items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center">
