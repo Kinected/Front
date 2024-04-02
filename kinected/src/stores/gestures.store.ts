@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Hand = "left" | "right";
+type Hand = "left_hand" | "right_hand";
 type Gestures =
   | "no_gesture"
   | "palm"

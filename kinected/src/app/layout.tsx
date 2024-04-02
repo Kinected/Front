@@ -11,6 +11,7 @@ import Header from "@/components/header";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { useGesturesStore } from "@/stores/gestures.store";
 import GestureHandler from "@/app/GestureHandler";
+import ListeningFeedback from "@/components/Feedbacks/ListeningFeedback";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
@@ -29,6 +30,7 @@ export default function RootLayout({
   });
 
   const swipe = useGesturesStore((state) => state.current_swipe);
+  const hand = useGesturesStore((state) => state.hand);
   const setActionsOnSwipe = useGesturesStore(
     (state) => state.updateActionsOnSwipe,
   );
@@ -41,10 +43,6 @@ export default function RootLayout({
     });
   }, []);
 
-  useEffect(() => {
-    console.log(swipe);
-  }, [swipe]);
-
   const token =
     "BQCBxh_0mnT8USh0Ey3LkK4YBj52vOFa6GbKgeYkFzbe6KNStu0_Kdfgy03fzKJ7fI1aI-3lNjIES_iWbpDRjIzFyenLFCmbtyIcoR3YSFCgrhhoToIZPVqBYItnnatOGFJswbHj6ETv9cm-qxX2Jy0-jIxZARCKCzLq5ejk2tk5nGVL";
   return (
@@ -54,6 +52,7 @@ export default function RootLayout({
           <GestureHandler>
             <div className="flex flex-col gap-8 p-8 w-full h-screen">
               <Header />
+              <ListeningFeedback hand={hand} />
 
               <div className="flex-1">{children}</div>
 

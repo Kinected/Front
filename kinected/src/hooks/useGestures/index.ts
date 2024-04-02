@@ -1,8 +1,24 @@
-import { useEffect, useState } from "react";
-import { useGesturesStore } from "@/stores/gestures.store";
+import {useEffect, useState} from "react";
+import {useGesturesStore} from "@/stores/gestures.store";
+
+
+type Coordinates = number[];
+
+type GestureData = {
+  is_listen: boolean;
+  hand: "right_hand" | "left_hand";
+  gesture: string;
+  swipe: string;
+  coordinates: {
+    face: Coordinates;
+    right_hand: Coordinates;
+    left_hand: Coordinates;
+  }
+}
+
 
 export const useGestures = () => {
-  const [gestureData, setGestureData] = useState<any>();
+  const [gestureData, setGestureData] = useState<GestureData>();
 
   const gestures = useGesturesStore();
 
