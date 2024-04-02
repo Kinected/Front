@@ -37,8 +37,6 @@ export default function SpotifyPlayer(props: Props) {
         enabled: !!token,
     });
 
-    if (!song) return null;
-
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -58,13 +56,18 @@ export default function SpotifyPlayer(props: Props) {
                         />
                     )}
                 </div>
-                <Spotify className="w-20 aspect-square rounded-full" />
+                <Spotify className="min-w-12 w-12" />
             </div>
             <div className="flex flex-col">
                 <span className="text-md font-medium">{song?.track}</span>
                 <span className="text-md text-gray-500 font-medium">
                     {song?.artist}
                 </span>
+                {song == null && (
+                    <span className="text-sm font-medium">
+                        Aucune musique n&apos;est jouée pour le moment
+                    </span>
+                )}
             </div>
         </motion.div>
     );
