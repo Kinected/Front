@@ -1,14 +1,11 @@
 import React from "react";
-import clsx from "clsx";
 import { tv } from "tailwind-variants";
 
 const container = tv({
   base: [
-    "absolute inset-0",
     "flex justify-center items-center gap-4",
-    "h-8",
     "-translate-y-full opacity-0",
-    "transition",
+    "transition duration-300",
   ],
 
   variants: {
@@ -26,7 +23,7 @@ const listeningHand = tv({
     "bg-white",
     "opacity-50",
     'after:content-[""] after:size-full after:absolute after:inset-0 after:rounded-full after:bg-white',
-    "transition",
+    "transition duration-300",
   ],
   variants: {
     isListening: {
@@ -41,19 +38,17 @@ type ListeningFeedbackProps = {
 
 export const ListeningFeedback = (props: ListeningFeedbackProps) => {
   return (
-    <div className={clsx("relative")}>
-      <div className={container({ isListening: !!props.hand })}>
-        <div
-          className={listeningHand({
-            isListening: props.hand === "left_hand",
-          })}
-        />
-        <div
-          className={listeningHand({
-            isListening: props.hand === "right_hand",
-          })}
-        />
-      </div>
+    <div className={container({ isListening: !!props.hand })}>
+      <div
+        className={listeningHand({
+          isListening: props.hand === "left_hand",
+        })}
+      />
+      <div
+        className={listeningHand({
+          isListening: props.hand === "right_hand",
+        })}
+      />
     </div>
   );
 };
