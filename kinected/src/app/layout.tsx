@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Header from "@/components/header";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import HomeButton from "@/components/home";
+import MauriaWidget from "@/components/containers/mauria/widget";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,11 +35,14 @@ export default function RootLayout({
                         <div className="flex-1">{children}</div>
 
                         {path === "/" && (
-                            <div className="flex justify-between">
+                            <div className="flex justify-between items-end">
                                 <AnimatePresence>
                                     <SpotifyPlayer
                                         onClick={() => router.push("/spotify")}
                                     />
+                                </AnimatePresence>
+                                <AnimatePresence>
+                                    <MauriaWidget />
                                 </AnimatePresence>
                             </div>
                         )}
