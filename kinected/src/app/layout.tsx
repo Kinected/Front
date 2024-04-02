@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../components/button";
 import clsx from "clsx";
 import SpotifyPlayer from "../components/containers/spotify";
@@ -13,6 +13,7 @@ import Header from "@/components/header";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import HomeButton from "@/components/home";
 import MauriaWidget from "@/components/containers/mauria/widget";
+import Video from "@/components/containers/video";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,9 @@ export default function RootLayout({
                         <Header />
 
                         <div className="flex-1">{children}</div>
+                        {/* <div className="flex-1">
+                            <Video />
+                        </div> */}
 
                         {path === "/" && (
                             <div className="flex justify-between items-end">
@@ -56,4 +60,7 @@ export default function RootLayout({
             </QueryClientProvider>
         </html>
     );
+}
+function useMediaQuery(arg0: string): [any] {
+    throw new Error("Function not implemented.");
 }
