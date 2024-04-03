@@ -38,7 +38,7 @@ export default function MauriaWidget() {
     }
     if (!planning || isLoading || isError) return null;
 
-    console.log(planning);
+    // console.log(planning);
 
     const todaysCourses = planning.filter((course: any) => {
         return isSameDay(course.start, false);
@@ -79,7 +79,7 @@ export default function MauriaWidget() {
                         <Line
                             key={nanoid()}
                             title={course.title.split("\n")[2]}
-                            room={course.title.split("\n\n")[0]}
+                            room={course.title.split("\n")[0]}
                             start={start.toLocaleTimeString([], {
                                 hour: "2-digit",
                                 minute: "2-digit",

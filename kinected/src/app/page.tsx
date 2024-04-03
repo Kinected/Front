@@ -8,62 +8,68 @@ import SpotifyPlayer from "@/components/containers/spotify";
 import MauriaWidget from "@/components/containers/mauria/widget";
 import { useRouter } from "next/navigation";
 import { useGesturesStore } from "@/stores/gestures.store";
+import { useFaceStore } from "@/stores/faces.store";
 
 export default function Home() {
-  const router = useRouter();
-  const id = "1";
-  const { data: user } = useQuery<User>({
-    queryKey: ["user", id],
-    queryFn: async () => {
-      return await fetchUser(id);
-    },
-  });
+    const router = useRouter();
+    const firstname = useFaceStore((state) => state.firstName);
+    const [isDisplayed, setIsDisplayed] = React.useState(false);
 
-  const updateActionsOnSwipe = useGesturesStore(
-    (state) => state.updateActionsOnSwipe,
-  );
+    // detect if firstname changed
+    useEffect(() => {
+        setIsDisplayed(true);
+        setTimeout(() => {
+            setIsDisplayed(false);
+        }, 5000);
+    }, [firstname]);
 
-  const current_swipe = useGesturesStore((state) => state.current_swipe);
+    const updateActionsOnSwipe = useGesturesStore(
+        (state) => state.updateActionsOnSwipe
+    );
 
-  useEffect(() => {
-    updateActionsOnSwipe({
-      "up-right": () => router.push("/spotify"),
-    });
-  }, []);
+    const current_swipe = useGesturesStore((state) => state.current_swipe);
 
-  if (!user) return null;
+    useEffect(() => {
+        updateActionsOnSwipe({
+            "up-right": () => router.push("/spotify"),
+        });
+    }, []);
 
-  return (
-    <div className="flex flex-col flex-1">
-      <div className="flex-1 flex items-center justify-center">
-        <AnimatePresence>
-          <motion.main
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex h-full w-full justify-center items-center"
-          >
-            <div className="flex flex-col items-center">
-              <span className="text-white text-8xl text-start ">Bonjour</span>
-              <span className="text-white text-8xl text-start font-bold">
-                {user?.firstname}
-              </span>
+    return (
+        <div className="flex flex-col flex-1">
+            <div className="flex-1 flex items-center justify-center">
+                {isDisplayed && (
+                    <AnimatePresence>
+                        <motion.main
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="flex h-full w-full justify-center items-center"
+                        >
+                            <div className="flex flex-col items-center">
+                                <span className="text-white text-8xl text-start ">
+                                    Bonjour
+                                </span>
+                                <span className="text-white text-8xl text-start font-bold">
+                                    {firstname}
+                                </span>
+                            </div>
+                        </motion.main>
+                    </AnimatePresence>
+                )}
             </div>
-          </motion.main>
-        </AnimatePresence>
-      </div>
 
-      <div className="flex justify-between items-end">
-        <AnimatePresence>
-          <SpotifyPlayer
-            isHover={current_swipe == "hover_up-right"}
-            onClick={() => router.push("/spotify")}
-          />
-        </AnimatePresence>
-        <AnimatePresence>
-          <MauriaWidget />
-        </AnimatePresence>
-      </div>
-    </div>
-  );
+            <div className="flex justify-between items-end">
+                <AnimatePresence>
+                    <SpotifyPlayer
+                        isHover={current_swipe == "hover_up-right"}
+                        onClick={() => router.push("/spotify")}
+                    />
+                </AnimatePresence>
+                <AnimatePresence>
+                    <MauriaWidget />
+                </AnimatePresence>
+            </div>
+        </div>
+    );
 }
