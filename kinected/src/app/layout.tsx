@@ -14,38 +14,43 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import HomeButton from "@/components/home";
 import MauriaWidget from "@/components/containers/mauria/widget";
 import Video from "@/components/containers/video";
+import { useGesturesStore } from "@/stores/gestures.store";
+import GestureHandler from "@/app/GestureHandler";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    const router = useRouter();
-    const path = usePathname();
-    const queryClient = new QueryClient();
+  const path = usePathname();
+  const queryClient = new QueryClient();
 
-    return (
-        <html lang="en">
-            <QueryClientProvider client={queryClient}>
-                <body className={inter.className}>
-                    <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
-                        <Header />
+  const current_swipe = useGesturesStore((state) => state.current_swipe);
 
-                        {children}
+  return (
+    <html lang="en">
+      <QueryClientProvider client={queryClient}>
+        <body className={inter.className}>
+          <GestureHandler>
+            <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
+              <Header />
 
-                        {path !== "/" && (
-                            <AnimatePresence>
-                                <HomeButton />
-                            </AnimatePresence>
-                        )}
-                    </div>
-                </body>
-            </QueryClientProvider>
-        </html>
-    );
+              {children}
+
+              {path !== "/" && (
+                <AnimatePresence>
+                  <HomeButton isHover={current_swipe === "hover_up"} />
+                </AnimatePresence>
+              )}
+            </div>
+          </GestureHandler>
+        </body>
+      </QueryClientProvider>
+    </html>
+  );
 }
 function useMediaQuery(arg0: string): [any] {
-    throw new Error("Function not implemented.");
+  throw new Error("Function not implemented.");
 }

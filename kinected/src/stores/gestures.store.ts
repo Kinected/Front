@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 type Hand = "left_hand" | "right_hand";
-type Gestures =
+export type Gestures =
   | "no_gesture"
   | "palm"
   | "closed"
@@ -9,23 +9,23 @@ type Gestures =
   | "victory_inverted"
   | "point_up"
   | "rock";
-type Swipes =
+export type Swipes =
   | "left"
   | "right"
-  | "top"
-  | "bottom"
+  | "up"
+  | "down"
   | "up-left"
   | "up-right"
-  | "bottom-left"
-  | "bottom-right"
+  | "down-left"
+  | "down-right"
   | "hover_left"
   | "hover_right"
-  | "hover_top"
-  | "hover_bottom"
+  | "hover_up"
+  | "hover_down"
   | "hover_up-left"
   | "hover_up-right"
-  | "hover_bottom-left"
-  | "hover_bottom-right";
+  | "hover_down-left"
+  | "hover_down-right";
 
 type GestureStore = {
   is_listening: boolean;
@@ -45,20 +45,20 @@ type GestureStore = {
 const emptyActions: Record<Swipes, () => void> = {
   left: () => {},
   right: () => {},
-  top: () => {},
-  bottom: () => {},
+  up: () => {},
+  down: () => {},
   "up-left": () => {},
   "up-right": () => {},
-  "bottom-left": () => {},
-  "bottom-right": () => {},
+  "down-left": () => {},
+  "down-right": () => {},
   hover_left: () => {},
   hover_right: () => {},
-  hover_top: () => {},
-  hover_bottom: () => {},
+  hover_up: () => {},
+  hover_down: () => {},
   "hover_up-left": () => {},
   "hover_up-right": () => {},
-  "hover_bottom-left": () => {},
-  "hover_bottom-right": () => {},
+  "hover_down-left": () => {},
+  "hover_down-right": () => {},
 };
 
 export const useGesturesStore = create<GestureStore>((set) => ({

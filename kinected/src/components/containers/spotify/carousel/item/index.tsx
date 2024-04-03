@@ -22,7 +22,7 @@ export default function CarouselItem(props: Props) {
                 "absolute aspect-square bg-white rounded-2xl flex justify-center items-center",
                 "border-4 border-white border-solid",
                 props.position !== "center" &&
-                    "hover:scale-110 animation-all duration-500"
+                    "hover:scale-110 animation-all  duration-500"
             )}
         >
             <Image
