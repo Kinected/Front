@@ -58,6 +58,3 @@ export default function RootLayout({
         </html>
     );
 }
-function useMediaQuery(arg0: string): [any] {
-    throw new Error("Function not implemented.");
-}

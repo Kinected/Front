@@ -14,6 +14,8 @@ const GestureHandler = (props: GestureHandlerProps) => {
     useEffect(() => {
         if (isNewUser) {
             router.push("/camera");
+        } else {
+            router.push("/");
         }
     }, [isNewUser]);
 
