@@ -1,5 +1,7 @@
 # Kinected / Front
 
+### Attention : le projet ne marche correctement que si Kinected/Back est setup est lancé : https://github.com/Kinected/Back
+
 # Requirement
 ## NodeJS
 ### Install
