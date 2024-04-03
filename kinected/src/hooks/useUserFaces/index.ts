@@ -19,6 +19,7 @@ export const useUserFaces = () => {
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             setGestureData(data);
+            console.log("data : ", data.userID);
             face.updateUser(data.userID);
         };
 
