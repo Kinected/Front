@@ -17,9 +17,15 @@ const PlayerComponent = (props: Props) => {
         refetchInterval: 1000,
     });
 
-    if (!song) return;
+    const { data: previous } = useQuery<Song | null>({
+        queryKey: ["song", "previous"],
+        queryFn: async () => await fetchCurrentlyPlaying(props.token),
+    });
 
-    const progressPercentage = song.progress * 100;
+    const displaySong = song || previous;
+    if (!displaySong) return;
+
+    const progressPercentage = displaySong.progress * 100;
 
     return (
         <div className="flex justify-center items-center">
@@ -27,23 +33,23 @@ const PlayerComponent = (props: Props) => {
                 <div className="flex flex-col gap-2 w-full items-center">
                     <div className="flex flex-col items-center text-sm">
                         <span className="truncate text-center font-medium leading-tight	 ">
-                            {song.track}
+                            {displaySong.track}
                         </span>
                         <span className="font-light text-gray-500 leading-tight	">
-                            {song.artist}
+                            {displaySong.artist}
                         </span>
                     </div>
 
                     <div className="relative w-full border border-gray-200 bg-gray-100 border-solid rounded-2xl h-2 flex items-center overflow-hidden">
                         <div
                             style={{ width: progressPercentage + "%" }}
-                            className="absolute left-0 h-2 bg-black rounded-2xl animation-all duration-1000 ease-in-out"
+                            className="absolute left-0 h-2 bg-black rounded-2xl animation-all duration-1000 ease-in-out border border-black border-solid"
                         />
                     </div>
 
                     <div className="w-full flex justify-between text-xs">
-                        <span>{song.time}</span>
-                        {song.isplaying ? (
+                        <span>{displaySong.time || "0:00"}</span>
+                        {displaySong.isplaying ? (
                             <Pause
                                 className="h-10"
                                 onClick={() =>
@@ -58,7 +64,7 @@ const PlayerComponent = (props: Props) => {
                                 }
                             />
                         )}
-                        <span>{song.duration}</span>
+                        <span>{displaySong.duration}</span>
                     </div>
                 </div>
             </div>
