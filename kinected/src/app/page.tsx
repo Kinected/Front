@@ -13,15 +13,16 @@ import { useFaceStore } from "@/stores/faces.store";
 export default function Home() {
     const router = useRouter();
     const firstname = useFaceStore((state) => state.firstName);
-    const [isDisplayed, setIsDisplayed] = React.useState(false);
+    const [isDisplayed, setIsDisplayed] = React.useState(true);
+    const isNewUser = useFaceStore((state) => state.isNewUser);
 
-    // detect if firstname changed
-    useEffect(() => {
-        setIsDisplayed(true);
-        setTimeout(() => {
-            setIsDisplayed(false);
-        }, 5000);
-    }, [firstname]);
+    // // detect if firstname changed
+    // useEffect(() => {
+    //     setIsDisplayed(true);
+    //     setTimeout(() => {
+    //         setIsDisplayed(false);
+    //     }, 5000);
+    // }, [firstname]);
 
     const updateActionsOnSwipe = useGesturesStore(
         (state) => state.updateActionsOnSwipe
@@ -52,6 +53,9 @@ export default function Home() {
                                 </span>
                                 <span className="text-white text-8xl text-start font-bold">
                                     {firstname}
+                                </span>
+                                <span className="text-white">
+                                    {isNewUser ? "true" : "false"}
                                 </span>
                             </div>
                         </motion.main>
