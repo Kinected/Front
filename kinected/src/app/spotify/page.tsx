@@ -25,6 +25,7 @@ export default function Home() {
   const updateActionsOnSwipe = useGesturesStore(
     (state) => state.updateActionsOnSwipe,
   );
+  const currentSwipe = useGesturesStore((state) => state.current_swipe);
 
   useEffect(() => {
     if (token) {
@@ -44,10 +45,11 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { delay: 0.3 } }}
         exit={{ opacity: 0 }}
-        className="flex h-full w-full flex-col gap-12"
+        className="flex h-full flex-col justify-center gap-12"
       >
         <SpotifyCarousel
           token={token}
+          currentSwipe={currentSwipe}
           previous={previousSong}
           setPreviousSong={setPreviousSong}
           current={currentSong}

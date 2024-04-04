@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { User } from "@/types/user";
 import { fetchUser } from "@/utils/get-user";
-import SpotifyPlayer from "@/components/containers/spotify";
+import SpotifyPlayer from "@/components/widgets/Spotify";
 import MauriaWidget from "@/components/containers/mauria/widget";
 import { useRouter } from "next/navigation";
 import { useGesturesStore } from "@/stores/gestures.store";

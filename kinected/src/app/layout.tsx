@@ -25,27 +25,25 @@ export default function RootLayout({
 
   const current_swipe = useGesturesStore((state) => state.current_swipe);
 
-    return (
-        <html lang="en">
-            <QueryClientProvider client={queryClient}>
-                <body className={inter.className}>
-                    <Provider>
-                        <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
-                            <Header />
+  return (
+    <html lang="en">
+      <QueryClientProvider client={queryClient}>
+        <body className={inter.className}>
+          <Provider>
+            <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
+              <Header />
 
-                            {children}
+              {children}
 
-                            {path !== "/" && (
-                                <AnimatePresence>
-                                    <HomeButton
-                                        isHover={current_swipe === "hover_up"}
-                                    />
-                                </AnimatePresence>
-                            )}
-                        </div>
-                    </Provider>
-                </body>
-            </QueryClientProvider>
-        </html>
-    );
+              {path !== "/" && (
+                <AnimatePresence>
+                  <HomeButton isHover={current_swipe === "hover_up"} />
+                </AnimatePresence>
+              )}
+            </div>
+          </Provider>
+        </body>
+      </QueryClientProvider>
+    </html>
+  );
 }

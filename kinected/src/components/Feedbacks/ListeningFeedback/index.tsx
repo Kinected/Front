@@ -1,5 +1,6 @@
 import React from "react";
 import { tv } from "tailwind-variants";
+import { Deltas } from "@/hooks/useGestures";
 
 const container = tv({
   base: [
@@ -39,8 +40,7 @@ const listeningHand = tv({
     "rounded-full",
     "bg-white",
     "opacity-50",
-
-    "transition duration-300",
+    "transition ease-out",
   ],
   variants: {
     isListening: {
@@ -51,9 +51,17 @@ const listeningHand = tv({
 
 type ListeningFeedbackProps = {
   isListening: boolean;
+  deltas: Deltas;
 };
+const SENSITIVITY = 0.5;
 
 export const ListeningFeedback = (props: ListeningFeedbackProps) => {
+  // -1 because we mirror the hand
+  const x = Math.max(-100, Math.min(100, props.deltas.x * SENSITIVITY));
+  const y = Math.max(-100, Math.min(100, props.deltas.y * SENSITIVITY));
+
+  console.log();
+
   return (
     <div className={container({ isListening: props.isListening })}>
       <div
@@ -62,6 +70,9 @@ export const ListeningFeedback = (props: ListeningFeedbackProps) => {
         })}
       >
         <div
+          style={{
+            transform: `translate(${x}%, ${y}%)`,
+          }}
           className={listeningHand({
             isListening: props.isListening,
           })}
