@@ -4,23 +4,21 @@ import { useFaceStore } from "@/stores/faces.store";
 import { useRouter } from "next/navigation";
 
 type FaceHandlerProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 const FaceHandler = (props: FaceHandlerProps) => {
-    useUserFaces();
-    const isNewUser = useFaceStore((state) => state.isNewUser);
-    const router = useRouter();
+  useUserFaces();
+  const isNewUser = useFaceStore((state) => state.isNewUser);
+  const router = useRouter();
 
-    useEffect(() => {
-        if (isNewUser) {
-            router.push("/camera");
-        } else {
-            router.push("/");
-        }
-    }, [isNewUser]);
+  useEffect(() => {
+    if (isNewUser) {
+      router.push("/camera");
+    }
+  }, [isNewUser]);
 
-    return <>{props.children}</>;
+  return <>{props.children}</>;
 };
 
 export default FaceHandler;
