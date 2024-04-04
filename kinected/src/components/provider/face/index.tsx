@@ -15,8 +15,6 @@ const FaceHandler = (props: FaceHandlerProps) => {
     useEffect(() => {
         if (isNewUser) {
             router.push("/camera");
-        } else {
-            router.push("/");
         }
     }, [isNewUser]);
 
