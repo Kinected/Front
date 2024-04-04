@@ -1,9 +1,21 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Webcam from "react-webcam";
 
 export default function WebcamCapture() {
     const webcamRef = React.useRef<Webcam>(null);
+    const [deviceId, setDeviceId] = useState<string>();
+
+    useEffect(() => {
+        navigator.mediaDevices.enumerateDevices().then((devices) => {
+            const videoDevices = devices.filter(
+                (device) => device.kind === "videoinput"
+            );
+            if (videoDevices[1]) {
+                setDeviceId(videoDevices[1].deviceId);
+            }
+        });
+    }, []);
 
     const capture = React.useCallback(() => {
         if (webcamRef.current) {
@@ -29,11 +41,13 @@ export default function WebcamCapture() {
             <span className="text-white text-4xl font-bold">
                 Créer un profil
             </span>
-            <div className="flex h-full aspect-square flex-col bg-white rounded-2xl p-4">
+            <div className="flex w-3/4 aspect-square flex-col bg-white rounded-2xl p-4">
                 <div className="relative w-full h-full">
                     <Webcam
                         audio={false}
                         ref={webcamRef}
+                        mirrored={true}
+                        videoConstraints={{ deviceId: deviceId }}
                         screenshotFormat="image/jpeg"
                         className="absolute object-cover w-full h-full rounded-2xl top-0 left-0"
                     />
