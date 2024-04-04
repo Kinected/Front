@@ -5,6 +5,7 @@ const container = tv({
   base: [
     "flex justify-center items-center gap-4",
     "-translate-y-full opacity-0",
+
     "transition duration-300",
   ],
 
@@ -15,40 +16,57 @@ const container = tv({
   },
 });
 
+const listeningContainer = tv({
+  base: [
+    "relative",
+    "flex justify-center items-center",
+    'after:content-[""] after:size-full after:absolute after:inset-0 after:rounded-full after:bg-white',
+    "rounded-full",
+    "size-8",
+    "bg-black border-2 border-white",
+  ],
+  variants: {
+    isListening: {
+      true: ["after:animate-ping"],
+    },
+  },
+});
+
 const listeningHand = tv({
   base: [
     "relative",
-    "size-4",
+    "size-3",
     "rounded-full",
     "bg-white",
     "opacity-50",
-    'after:content-[""] after:size-full after:absolute after:inset-0 after:rounded-full after:bg-white',
+
     "transition duration-300",
   ],
   variants: {
     isListening: {
-      true: ["opacity-100", "after:animate-ping"],
+      true: ["opacity-100"],
     },
   },
 });
 
 type ListeningFeedbackProps = {
-  hand: "right_hand" | "left_hand" | null;
+  isListening: boolean;
 };
 
 export const ListeningFeedback = (props: ListeningFeedbackProps) => {
   return (
-    <div className={container({ isListening: !!props.hand })}>
+    <div className={container({ isListening: props.isListening })}>
       <div
-        className={listeningHand({
-          isListening: props.hand === "left_hand",
+        className={listeningContainer({
+          isListening: props.isListening,
         })}
-      />
-      <div
-        className={listeningHand({
-          isListening: props.hand === "right_hand",
-        })}
-      />
+      >
+        <div
+          className={listeningHand({
+            isListening: props.isListening,
+          })}
+        />
+      </div>
     </div>
   );
 };

@@ -32,22 +32,24 @@ export default function Header(props: HeaderProps) {
         </Button>
       </div>
 
-      <div className="flex-1 flex flex-col">
-        <span className="text-white text-2xl text-center font-light capitalize">
-          {time.toLocaleDateString("fr-FR", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-          })}
-        </span>
-        <span className="text-white text-8xl text-center font-bold">
-          {`${time.getHours().toString().padStart(2, "0")}:${time
-            .getMinutes()
-            .toString()
-            .padStart(2, "0")}`}
-        </span>
+      <div className="flex-1 flex flex-col gap-2">
+        <div className="flex flex-col">
+          <span className="text-white text-2xl text-center font-light capitalize">
+            {time.toLocaleDateString("fr-FR", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            })}
+          </span>
+          <span className="text-white text-8xl text-center font-bold">
+            {`${time.getHours().toString().padStart(2, "0")}:${time
+              .getMinutes()
+              .toString()
+              .padStart(2, "0")}`}
+          </span>
+        </div>
 
-        <ListeningFeedback hand={hand} />
+        <ListeningFeedback isListening={!!hand} />
       </div>
 
       <div className="flex-1 flex justify-end items-start">

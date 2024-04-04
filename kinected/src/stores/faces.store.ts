@@ -10,7 +10,7 @@ type FaceStore = {
 };
 
 export const useFaceStore = create<FaceStore>((set) => ({
-    userID: null,
+    userID: "1",
     firstName: "",
     lastName: "",
     isNewUser: false,

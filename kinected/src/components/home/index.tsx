@@ -24,11 +24,16 @@ export default function HomeButton(props: HomeButtonProps) {
       <div
         className={twMerge(
           "h-1.5 w-16 bg-white rounded-full",
-          props.isHover && "w-20 -translate-y-1",
+          props.isHover && "w-24 -translate-y-2",
           "transition-all duration-500",
         )}
       />
-      <span className="relative font-medium text-white text-lg">Accueil</span>
+      <div className={"relative py-2 px-4 "}>
+        <div className={twMerge("absolute -z-10 inset-0 rounded-xl bg-white scale-50 opacity-0", props.isHover && "scale-100 opacity-100", "transition duration-300")}/>
+        <span className={twMerge("font-medium text-white text-lg", props.isHover && "text-black", "transition duration-300")}>
+          Accueil
+        </span>
+      </div>
     </motion.div>
   );
 }

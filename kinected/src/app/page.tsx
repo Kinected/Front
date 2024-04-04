@@ -66,9 +66,9 @@ export default function Home() {
                         onClick={() => router.push("/spotify")}
                     />
                 </AnimatePresence>
-                <AnimatePresence>
-                    <MauriaWidget />
-                </AnimatePresence>
+                {/*<AnimatePresence>*/}
+                {/*    <MauriaWidget />*/}
+                {/*</AnimatePresence>*/}
             </div>
         </div>
     );
