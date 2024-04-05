@@ -7,9 +7,11 @@ import { fetchCurrentlyPlaying } from "@/utils/currently-playing";
 import { fetchPreviousSong } from "@/utils/previously-playing";
 import { fetchNextSong, playNextSong, playPreviousSong } from "@/utils/pause";
 import CarouselItem from "./item";
+import {Gestures, Swipes} from "@/stores/gestures.store";
 
 type Props = {
     token: string;
+    currentSwipe: Swipes | null
     previous: Song | null;
     setPreviousSong: (song: Song) => void;
     current: Song | null;
@@ -52,7 +54,7 @@ export default function SpotifyCarousel(props: Props) {
     if (!props.previous || !props.current || !next) {
         if (props.previous != null) {
             return (
-                <div className="flex items-center relative h-full w-full">
+                <div className="relative flex items-center">
                     <CarouselItem
                         position="center"
                         cover={props.previous.cover}
@@ -62,15 +64,17 @@ export default function SpotifyCarousel(props: Props) {
         }
     } else {
         return (
-            <div className="flex items-center relative h-full w-full">
+            <div className="relative grid grid-cols-6 gap-24 items-center justify-center">
                 <CarouselItem
                     position="left"
+                    isHover={props.currentSwipe === "hover_right"}
                     cover={props.previous.cover}
                     onClick={() => playPreviousSong(props.token)}
                 />
                 <CarouselItem position="center" cover={props.current.cover} />
                 <CarouselItem
                     position="right"
+                    isHover={props.currentSwipe === "hover_left"}
                     cover={next.cover}
                     onClick={() => playNextSong(props.token)}
                 />

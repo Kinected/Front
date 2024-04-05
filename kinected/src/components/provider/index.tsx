@@ -1,6 +1,7 @@
 import React from "react";
 import GestureHandler from "./gesture";
 import FaceHandler from "./face";
+import SensorsHandler from "./sensors";
 
 type Props = {
     children: React.ReactNode;
@@ -8,8 +9,10 @@ type Props = {
 
 export default function Provider(props: Props) {
     return (
-        <GestureHandler>
-            <FaceHandler>{props.children}</FaceHandler>
-        </GestureHandler>
+        <SensorsHandler>
+            <GestureHandler>
+                <FaceHandler>{props.children}</FaceHandler>
+            </GestureHandler>
+        </SensorsHandler>
     );
 }

@@ -15,7 +15,7 @@ export default function HomeButton(props: HomeButtonProps) {
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0 }}
       className={twMerge(
-        "flex flex-col items-center gap-1",
+        "flex flex-col items-center gap-2",
         props.isHover && "scale-110",
         "transition-all duration-500",
       )}
@@ -24,13 +24,13 @@ export default function HomeButton(props: HomeButtonProps) {
       <div
         className={twMerge(
           "h-1.5 w-16 bg-white rounded-full",
-          props.isHover && "w-24 -translate-y-2",
+          props.isHover && "w-32 -translate-y-2",
           "transition-all duration-500",
         )}
       />
-      <div className={"relative py-2 px-4 "}>
-        <div className={twMerge("absolute -z-10 inset-0 rounded-xl bg-white scale-50 opacity-0", props.isHover && "scale-100 opacity-100", "transition duration-300")}/>
-        <span className={twMerge("font-medium text-white text-lg", props.isHover && "text-black", "transition duration-300")}>
+      <div className={"relative py-3 px-6 "}>
+        <div className={twMerge("absolute -z-10 inset-0 rounded-2xl bg-white scale-50 opacity-0", props.isHover && "scale-100 opacity-100", "transition duration-300")}/>
+        <span className={twMerge("font-medium text-white text-2xl", props.isHover && "text-black", "transition duration-300")}>
           Accueil
         </span>
       </div>

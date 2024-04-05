@@ -18,6 +18,7 @@ const FaceHandler = (props: FaceHandlerProps) => {
     }
   }, [isNewUser]);
 
+
   return <>{props.children}</>;
 };
 
