@@ -7,17 +7,18 @@ export default function MicCapture() {
   );
   // const [chunks, setChunks] = useState<BlobPart[]>([]);
   let chunks: BlobPart[] = [];
-
+  const userID = "1";
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ audio: true })
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
       .then((stream) => {
         const newMediaRecorder = new MediaRecorder(stream);
         setMediaRecorder(newMediaRecorder);
 
         newMediaRecorder.ondataavailable = (e) => {
           chunks.push(e.data);
-          if (newMediaRecorder.state === 'inactive') {
+          if (newMediaRecorder.state === "inactive") {
             sendAudio(new Blob(chunks, { type: "audio/mp3" }));
           }
         };
@@ -31,7 +32,7 @@ export default function MicCapture() {
       mediaRecorder.start();
       setTimeout(() => {
         mediaRecorder.stop();
-      }, 5000);
+      }, 2000);
     }
   };
 
@@ -47,10 +48,13 @@ export default function MicCapture() {
         // console.log("Audio size:", formData.get("audio")?.size);
 
         try {
-          const response = await fetch("http://localhost:8000/api/audio", {
-            method: "POST",
-            body: formData,
-          });
+          const response = await fetch(
+            `http://localhost:8000/api/audio/firstname?userID=${userID}`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
           const data = await response.json();
           console.log(data);
         } catch (error) {
