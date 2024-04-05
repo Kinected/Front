@@ -1,59 +1,49 @@
 "use client";
 
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import React from "react";
-import Button from "../components/button";
-import clsx from "clsx";
-import SpotifyPlayer from "../components/containers/spotify";
-import { useRouter, usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { Inter } from "next/font/google";
+import { usePathname } from "next/navigation";
+import { AnimatePresence } from "framer-motion";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import { useGesturesStore } from "@/stores/gestures.store";
+
 import Header from "@/components/header";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import HomeButton from "@/components/home";
-import MauriaWidget from "@/components/containers/mauria/widget";
+import Provider from "@/components/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    const router = useRouter();
-    const path = usePathname();
-    const queryClient = new QueryClient();
+  const path = usePathname();
+  const queryClient = new QueryClient();
 
-    return (
-        <html lang="en">
-            <QueryClientProvider client={queryClient}>
-                <body className={inter.className}>
-                    <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
-                        <Header />
+  const current_swipe = useGesturesStore((state) => state.current_swipe);
 
-                        <div className="flex-1">{children}</div>
+  return (
+    <html lang="en">
+      <QueryClientProvider client={queryClient}>
+        <body className={inter.className}>
+          <Provider>
+            <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
+              <Header />
 
-                        {path === "/" && (
-                            <div className="flex justify-between items-end">
-                                <AnimatePresence>
-                                    <SpotifyPlayer
-                                        onClick={() => router.push("/spotify")}
-                                    />
-                                </AnimatePresence>
-                                <AnimatePresence>
-                                    <MauriaWidget />
-                                </AnimatePresence>
-                            </div>
-                        )}
-                        {path === "/spotify" && (
-                            <AnimatePresence>
-                                <HomeButton />
-                            </AnimatePresence>
-                        )}
-                    </div>
-                </body>
-            </QueryClientProvider>
-        </html>
-    );
+              {children}
+
+              {path !== "/" && (
+                <AnimatePresence>
+                  <HomeButton isHover={current_swipe === "hover_up"} />
+                </AnimatePresence>
+              )}
+            </div>
+          </Provider>
+        </body>
+      </QueryClientProvider>
+    </html>
+  );
 }

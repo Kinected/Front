@@ -52,18 +52,21 @@ export async function fetchNextSong(token: string) {
             Authorization: `Bearer ${token}`,
         },
     });
+    try {
+        const data = await response.json();
 
-    const data = await response.json();
+        const artist = data.queue[0].artists[0].name;
+        const track = data.queue[0].name;
+        const cover = data.queue[0].album.images[0].url;
+        const duration = formatDuration(Number(data.queue[0].duration_ms));
 
-    const artist = data.queue[0].artists[0].name;
-    const track = data.queue[0].name;
-    const cover = data.queue[0].album.images[0].url;
-    const duration = formatDuration(Number(data.queue[0].duration_ms));
-
-    return {
-        artist,
-        track,
-        cover,
-        duration,
-    } as Song;
+        return {
+            artist,
+            track,
+            cover,
+            duration,
+        } as Song;
+    } catch (e) {
+        return null;
+    }
 }

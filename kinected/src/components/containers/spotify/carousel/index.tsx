@@ -7,9 +7,11 @@ import { fetchCurrentlyPlaying } from "@/utils/currently-playing";
 import { fetchPreviousSong } from "@/utils/previously-playing";
 import { fetchNextSong, playNextSong, playPreviousSong } from "@/utils/pause";
 import CarouselItem from "./item";
+import {Gestures, Swipes} from "@/stores/gestures.store";
 
 type Props = {
     token: string;
+    currentSwipe: Swipes | null
     previous: Song | null;
     setPreviousSong: (song: Song) => void;
     current: Song | null;
@@ -21,6 +23,7 @@ export default function SpotifyCarousel(props: Props) {
         queryKey: ["song", "current"],
         queryFn: async () => {
             const newSong = await fetchCurrentlyPlaying(props.token);
+            if (!newSong) return null;
             if (props.current?.track !== newSong.track) {
                 if (props.current) props.setPreviousSong(props.current);
                 props.setCurrentSong(newSong);
@@ -48,21 +51,34 @@ export default function SpotifyCarousel(props: Props) {
         refetchInterval: 1000,
     });
 
-    if (!props.previous || !props.current || !next) return null;
-
-    return (
-        <div className="flex items-center relative h-full w-full">
-            <CarouselItem
-                position="left"
-                cover={props.previous.cover}
-                onClick={() => playPreviousSong(props.token)}
-            />
-            <CarouselItem position="center" cover={props.current.cover} />
-            <CarouselItem
-                position="right"
-                cover={next.cover}
-                onClick={() => playNextSong(props.token)}
-            />
-        </div>
-    );
+    if (!props.previous || !props.current || !next) {
+        if (props.previous != null) {
+            return (
+                <div className="relative flex items-center">
+                    <CarouselItem
+                        position="center"
+                        cover={props.previous.cover}
+                    />
+                </div>
+            );
+        }
+    } else {
+        return (
+            <div className="relative grid grid-cols-6 gap-24 items-center justify-center">
+                <CarouselItem
+                    position="left"
+                    isHover={props.currentSwipe === "hover_right"}
+                    cover={props.previous.cover}
+                    onClick={() => playPreviousSong(props.token)}
+                />
+                <CarouselItem position="center" cover={props.current.cover} />
+                <CarouselItem
+                    position="right"
+                    isHover={props.currentSwipe === "hover_left"}
+                    cover={next.cover}
+                    onClick={() => playNextSong(props.token)}
+                />
+            </div>
+        );
+    }
 }

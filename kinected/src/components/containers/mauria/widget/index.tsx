@@ -38,7 +38,7 @@ export default function MauriaWidget() {
     }
     if (!planning || isLoading || isError) return null;
 
-    console.log(planning);
+    // console.log(planning);
 
     const todaysCourses = planning.filter((course: any) => {
         return isSameDay(course.start, false);
@@ -56,18 +56,18 @@ export default function MauriaWidget() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, transition: { delay: 0.3 } }}
             exit={{ opacity: 0 }}
-            className="w-64 p-2 bg-white rounded-2xl flex flex-col gap-2"
+            className="min-w-64 max-h-48 p-2 bg-white rounded-2xl flex flex-col gap-2"
         >
             <div className="flex justify-between items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center">
                     <Mauria className="w-6 h-6" />
                 </div>
                 <span className="font-medium text-lg">
                     {todaysCourses.length !== 0
                         ? "Aujourd'hui"
                         : tomorrowsCourses.length !== 0
-                        ? "Demain"
-                        : "Lets go!"}
+                          ? "Demain"
+                          : "Lets go!"}
                 </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -79,7 +79,7 @@ export default function MauriaWidget() {
                         <Line
                             key={nanoid()}
                             title={course.title.split("\n")[2]}
-                            room={course.title.split("\n\n")[0]}
+                            room={course.title.split("\n")[0]}
                             start={start.toLocaleTimeString([], {
                                 hour: "2-digit",
                                 minute: "2-digit",
