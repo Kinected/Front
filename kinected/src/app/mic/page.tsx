@@ -5,26 +5,21 @@ export default function MicCapture() {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
     null
   );
-  const [chunks, setChunks] = useState<BlobPart[]>([]);
+  // const [chunks, setChunks] = useState<BlobPart[]>([]);
+  let chunks: BlobPart[] = [];
+
 
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
+    navigator.mediaDevices.getUserMedia({ audio: true })
       .then((stream) => {
-        const recorder = new MediaRecorder(stream);
-        setMediaRecorder(recorder);
+        const newMediaRecorder = new MediaRecorder(stream);
+        setMediaRecorder(newMediaRecorder);
 
-        recorder.ondataavailable = (e) => {
-          setChunks((prev) => [...prev, e.data]);
-        };
-
-        recorder.onstop = () => {
-          const blob = new Blob(chunks, { type: "audio/mp3" });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "name.mp3";
-          a.click();
+        newMediaRecorder.ondataavailable = (e) => {
+          chunks.push(e.data);
+          if (newMediaRecorder.state === 'inactive') {
+            sendAudio(new Blob(chunks, { type: "audio/mp3" }));
+          }
         };
       })
       .catch((err) => console.error("Error: ", err));
@@ -32,11 +27,38 @@ export default function MicCapture() {
 
   const startRecording = () => {
     if (mediaRecorder) {
+      chunks = []; // Reset chunks at the start of recording
       mediaRecorder.start();
       setTimeout(() => {
         mediaRecorder.stop();
       }, 5000);
     }
+  };
+
+  const sendAudio = (audioBlob: Blob) => {
+    console.log("Audio size:", audioBlob.size);
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      if (reader.result) {
+        const formData = new FormData();
+        formData.append("audio", new Blob([reader.result]), "audio.mp3");
+        console.log("Sending audio...");
+        console.log("Audio size:", formData);
+        // console.log("Audio size:", formData.get("audio")?.size);
+
+        try {
+          const response = await fetch("http://localhost:8000/api/audio", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await response.json();
+          console.log(data);
+        } catch (error) {
+          console.error("Error sending audio:", error);
+        }
+      }
+    };
+    reader.readAsArrayBuffer(audioBlob);
   };
 
   return (
@@ -47,7 +69,7 @@ export default function MicCapture() {
       <div className="text-black text-l font-bold bg-white rounded-full p-2">
         <button onClick={startRecording}>Start Recording</button>
       </div>
-      <div className="flex h-full aspect-square flex-col bg-white rounded-2xl p-4">
+      <div className="flex h-1/2 aspect-square flex-col bg-white rounded-2xl p-4">
         <div className="relative w-full h-full">
           <audio
             autoPlay
