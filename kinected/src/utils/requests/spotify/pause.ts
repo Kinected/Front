@@ -1,5 +1,5 @@
 import exp from "constants";
-import { formatDuration } from "./format-duration";
+import { formatDuration } from "../../other/format-duration";
 import { Song } from "@/types/song";
 
 export const tooglePlayerState = async (token: string, isPlay: boolean) => {

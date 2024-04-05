@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { User } from "@/types/user";
-import { fetchUser } from "@/utils/get-user";
+import { fetchUser } from "@/utils/requests/get-user";
 import SpotifyPlayer from "@/components/widgets/Spotify";
 import MauriaWidget from "@/components/containers/mauria/widget";
 import { useRouter } from "next/navigation";
@@ -54,9 +54,6 @@ export default function Home() {
                                 <span className="text-white text-8xl text-start font-bold">
                                     {firstname}
                                 </span>
-                                <span className="text-white">
-                                    {isNewUser ? "true" : "false"}
-                                </span>
                             </div>
                         </motion.main>
                     </AnimatePresence>
@@ -70,9 +67,9 @@ export default function Home() {
                         onClick={() => router.push("/spotify")}
                     />
                 </AnimatePresence>
-                {/*<AnimatePresence>*/}
-                {/*    <MauriaWidget />*/}
-                {/*</AnimatePresence>*/}
+                <AnimatePresence>
+                    <MauriaWidget />
+                </AnimatePresence>
             </div>
         </div>
     );

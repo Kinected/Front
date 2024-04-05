@@ -1,4 +1,4 @@
-import { fetchUser } from "@/utils/get-user";
+import { fetchUser } from "@/utils/requests/get-user";
 import { create } from "zustand";
 
 type FaceStore = {
@@ -11,8 +11,8 @@ type FaceStore = {
 
 export const useFaceStore = create<FaceStore>((set) => ({
     userID: "1",
-    firstName: "",
-    lastName: "",
+    firstName: "Antoine",
+    lastName: "Maes",
     isNewUser: false,
     updateUser: (newUserID: string) => {
         if (newUserID == "Unknown") {

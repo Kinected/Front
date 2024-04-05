@@ -3,10 +3,27 @@ import Mauria from "@/../public/Mauria.svg";
 import { useQuery } from "react-query";
 // import { format, parseISO } from "date-fns";
 import { nanoid } from "nanoid";
-import { fetchMauriaPlanning } from "@/utils/getPlanning";
+import {
+    fetchMauriaPlanning,
+    fetchUpdatedMauriaPlanning,
+} from "@/utils/requests/mauria/getPlanning";
 import { motion } from "framer-motion";
+import { useFaceStore } from "@/stores/faces.store";
+import { isSameDay } from "@/utils/other/isSameDay";
 
 export default function MauriaWidget() {
+    const userID = useFaceStore((state) => state.userID);
+
+    const { data: updatedPlanning } = useQuery({
+        queryKey: ["mauria", "planning", "updated"],
+        queryFn: async () => {
+            return await fetchUpdatedMauriaPlanning(userID as string);
+        },
+        enabled: !!userID,
+    });
+
+    console.log(updatedPlanning);
+
     const {
         data: planning,
         isLoading,
@@ -14,31 +31,12 @@ export default function MauriaWidget() {
     } = useQuery({
         queryKey: ["mauria", "planning"],
         queryFn: async () => {
-            return await fetchMauriaPlanning();
+            return await fetchMauriaPlanning(userID as string);
         },
+        enabled: !!userID,
     });
 
-    function isSameDay(dateStr: string, isTomorrow: boolean) {
-        const today = new Date();
-        const tomorrow = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate() + 1
-        );
-
-        const compareDate = isTomorrow ? tomorrow : today;
-
-        const date = new Date(dateStr);
-
-        return (
-            compareDate.getFullYear() === date.getFullYear() &&
-            compareDate.getMonth() === date.getMonth() &&
-            compareDate.getDate() === date.getDate()
-        );
-    }
     if (!planning || isLoading || isError) return null;
-
-    // console.log(planning);
 
     const todaysCourses = planning.filter((course: any) => {
         return isSameDay(course.start, false);
