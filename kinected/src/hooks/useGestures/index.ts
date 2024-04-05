@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useGesturesStore } from "@/stores/gestures.store";
+import useWebSocket from "react-use-websocket";
 
 type Coordinates = number[];
 
@@ -21,40 +22,27 @@ type GestureData = {
   };
 };
 
+const WEBSOCKET_URL = "ws://localhost:8000/ws/swipes";
+
 export const useGestures = () => {
-  const connectedRef = useRef<boolean>(false);
   const [gestureData, setGestureData] = useState<GestureData>();
 
   const gestures = useGesturesStore();
 
-  useEffect(() => {
-    if (connectedRef.current) {
-      return;
-    }
-
-    const websocket = new WebSocket(`ws:/localhost:8000/ws/swipes`);
-    connectedRef.current = true;
-    websocket.onopen = () => {
-      console.log("Connected to gesture websocket");
-    };
-
-    websocket.onmessage = (event) => {
+  useWebSocket(WEBSOCKET_URL, {
+    shouldReconnect: () => true,
+    onOpen: () => console.log("opened"),
+    onMessage: (event) => {
       const data = JSON.parse(event.data);
       setGestureData(data);
       gestures.updateDeltas(data.deltas);
       gestures.updateHand(data.hand);
+      gestures.updateDeltas(data.deltas);
       gestures.updateCurrentGesture(data.gesture);
       gestures.updateCurrentSwipe(data.swipe);
-    };
-
-    websocket.onerror = (err) => {
-      console.log("ws err : ", err);
-    };
-
-    return () => {
-      websocket.close();
-    };
-  }, []);
+    },
+    onError: (event) => console.log("error", event),
+  });
 
   return gestureData;
 };

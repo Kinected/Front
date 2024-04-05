@@ -57,10 +57,8 @@ const SENSITIVITY = 0.5;
 
 export const ListeningFeedback = (props: ListeningFeedbackProps) => {
   // -1 because we mirror the hand
-  const x = Math.max(-100, Math.min(100, props.deltas.x * SENSITIVITY));
+  const x = -1 * Math.max(-100, Math.min(100, props.deltas.x * SENSITIVITY));
   const y = Math.max(-100, Math.min(100, props.deltas.y * SENSITIVITY));
-
-  console.log();
 
   return (
     <div className={container({ isListening: props.isListening })}>

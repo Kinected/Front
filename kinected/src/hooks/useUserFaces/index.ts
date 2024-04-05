@@ -13,7 +13,7 @@ export const useUserFaces = () => {
     useEffect(() => {
         const websocket = new WebSocket(`ws:/localhost:8000/ws/faces`);
         websocket.onopen = () => {
-            console.log("Connected to gesture websocket");
+            console.log("Connected to face websocket");
         };
 
         websocket.onmessage = (event) => {
