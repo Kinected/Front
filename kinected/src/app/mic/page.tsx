@@ -26,22 +26,27 @@ export default function MicCapture() {
           a.download = "name.mp3";
           a.click();
         };
-
-        setTimeout(() => {
-          recorder.start();
-          setTimeout(() => {
-            recorder.stop();
-          }, 5000);
-        }, 5000);
       })
       .catch((err) => console.error("Error: ", err));
   }, []);
+
+  const startRecording = () => {
+    if (mediaRecorder) {
+      mediaRecorder.start();
+      setTimeout(() => {
+        mediaRecorder.stop();
+      }, 5000);
+    }
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4">
       <span className="text-white text-4xl font-bold">
         Quel est votre nom ?
       </span>
+      <div className="text-black text-l font-bold bg-white rounded-full p-2">
+        <button onClick={startRecording}>Start Recording</button>
+      </div>
       <div className="flex h-full aspect-square flex-col bg-white rounded-2xl p-4">
         <div className="relative w-full h-full">
           <audio
