@@ -46,10 +46,20 @@ export default function SpotifyPlayer(props: Props) {
   const displayedSong = song || previousSong;
 
   const container = tv({
-    base: [],
+    base: [
+      "relative",
+      "flex flex-col justify-between",
+      "bg-white rounded-2xl p-2",
+      "origin-bottom-left transition-all duration-500",
+      "size-48 max-w-[25%]",
+      "after:absolute after:top-0 after:left-0 after:-z-10",
+      "after:bg-white after:rounded-2xl",
+      "after:w-full after:h-full",
+      "after:transition-all after:duration-500",
+    ],
     variants: {
       isHover: {
-        true: [],
+        true: ["scale-110 after:opacity-40 after:scale-110 after:rounded-3xl"],
       },
     },
   });
@@ -60,16 +70,9 @@ export default function SpotifyPlayer(props: Props) {
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0 }}
       onClick={() => props.onClick && props.onClick()}
-      className={twMerge(
-        "size-48 max-w-[25%]",
-        "after:absolute after:top-0 after:left-0 after:-z-10",
-        "after:bg-white after:rounded-2xl",
-        "after:w-full after:h-full",
-        "after:transition-all after:duration-500",
-        props.isHover &&
-          "scale-110 after:opacity-40 after:scale-110 after:rounded-3xl",
-        "relative bg-white rounded-2xl flex flex-col p-2 justify-between transition-all duration-500 origin-bottom-left",
-      )}
+      className={container({
+        isHover: props.isHover,
+      })}
     >
       <div className="flex justify-between items-start gap-2">
         <div className="relative w-full aspect-square bg-gray-300 rounded-2xl">
