@@ -1,6 +1,6 @@
 import React from "react";
 import Mauria from "@/../public/Mauria.svg";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 // import { format, parseISO } from "date-fns";
 import { nanoid } from "nanoid";
 import {
@@ -10,16 +10,26 @@ import {
 import { motion } from "framer-motion";
 import { useFaceStore } from "@/stores/faces.store";
 import { isSameDay } from "@/utils/other/isSameDay";
+import { twMerge } from "tailwind-merge";
 
-export default function MauriaWidget() {
+type Props = {
+    onClick: () => void;
+    isHover: boolean;
+};
+
+export default function MauriaWidget(props: Props) {
     const userID = useFaceStore((state) => state.userID);
+    const queryClient = useQueryClient();
 
     const { data: updatedPlanning } = useQuery({
-        queryKey: ["mauria", "planning", "updated"],
+        queryKey: ["mauria", "planning", "updated", userID],
         queryFn: async () => {
             return await fetchUpdatedMauriaPlanning(userID as string);
         },
         enabled: !!userID,
+        onSuccess: (data) => {
+            queryClient.setQueryData(["mauria", "planning", userID], data);
+        },
     });
 
     console.log(updatedPlanning);
@@ -29,7 +39,7 @@ export default function MauriaWidget() {
         isLoading,
         isError,
     } = useQuery({
-        queryKey: ["mauria", "planning"],
+        queryKey: ["mauria", "planning", userID],
         queryFn: async () => {
             return await fetchMauriaPlanning(userID as string);
         },
@@ -54,7 +64,16 @@ export default function MauriaWidget() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, transition: { delay: 0.3 } }}
             exit={{ opacity: 0 }}
-            className="min-w-64 max-h-48 p-2 bg-white rounded-2xl flex flex-col gap-2"
+            className={twMerge(
+                "min-w-64 max-h-48 p-2 bg-white rounded-2xl flex flex-col gap-2",
+                "origin-bottom-right transition-all duration-500 relative",
+                "after:absolute after:top-0 after:left-0 after:-z-10",
+                "after:bg-white after:rounded-2xl",
+                "after:transition-all after:duration-500",
+                "after:w-full after:h-full",
+                props.isHover &&
+                    "scale-110 after:opacity-40 after:rounded-2xl after:outline after:outline-offset-0 after:outline-8 after:outline-white -translate-y-1 -translate-x-1"
+            )}
         >
             <div className="flex justify-between items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center">

@@ -7,10 +7,12 @@ type FaceData = {
 
 export const useUserFaces = () => {
     const [gestureData, setGestureData] = useState<FaceData>();
+    const [isConnected, setIsConnected] = useState(false);
 
     const face = useFaceStore();
 
     useEffect(() => {
+        if (isConnected) return;
         const websocket = new WebSocket(`ws:/localhost:8000/ws/faces`);
         websocket.onopen = () => {
             console.log("Connected to face websocket");
@@ -19,7 +21,6 @@ export const useUserFaces = () => {
         websocket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             setGestureData(data);
-            console.log("data : ", data.userID);
             face.updateUser(data.userID);
         };
 

@@ -15,6 +15,8 @@ export default function Home() {
     const firstname = useFaceStore((state) => state.firstName);
     const [isDisplayed, setIsDisplayed] = React.useState(true);
     const isNewUser = useFaceStore((state) => state.isNewUser);
+    const gotMauria = useFaceStore((state) => state.gotMauria);
+    const gotSpotify = useFaceStore((state) => state.gotSpotify);
 
     // // detect if firstname changed
     // useEffect(() => {
@@ -62,13 +64,20 @@ export default function Home() {
 
             <div className="flex justify-between items-end">
                 <AnimatePresence>
-                    <SpotifyPlayer
-                        isHover={current_swipe == "hover_up-right"}
-                        onClick={() => router.push("/spotify")}
-                    />
+                    {gotSpotify && (
+                        <SpotifyPlayer
+                            isHover={current_swipe == "hover_up-right"}
+                            onClick={() => router.push("/spotify")}
+                        />
+                    )}
                 </AnimatePresence>
                 <AnimatePresence>
-                    <MauriaWidget />
+                    {gotMauria && (
+                        <MauriaWidget
+                            isHover={current_swipe == "hover_up-left"}
+                            onClick={() => router.push("/mauria")}
+                        />
+                    )}
                 </AnimatePresence>
             </div>
         </div>
