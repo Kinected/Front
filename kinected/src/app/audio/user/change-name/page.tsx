@@ -7,9 +7,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { putFirstname } from "@/utils/requests/user/put-firstname";
 import { useFaceStore } from "@/stores/faces.store";
 import { useRouter } from "next/navigation";
+import Modal from "@/components/modal";
+import AudioButton from "@/components/audioButton";
 
 export default function AudioChangeNameUser() {
-    const [size, setSize] = useState(0);
     const [isRecording, setIsRecording] = useState(false);
     const [progress, setProgress] = useState(0);
     const recordingTimeout = useRef<ReturnType<typeof setInterval> | null>(
@@ -46,35 +47,6 @@ export default function AudioChangeNameUser() {
 
     const startRecording = () => {};
 
-    useEffect(() => {
-        const audioContext = new (window.AudioContext || window.AudioContext)();
-        const analyser = audioContext.createAnalyser();
-        analyser.fftSize = 256;
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-
-        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-            const source = audioContext.createMediaStreamSource(stream);
-            source.connect(analyser);
-
-            const update = () => {
-                analyser.getByteTimeDomainData(dataArray);
-
-                let sum = 0;
-                for (let i = 0; i < bufferLength; i++) {
-                    const v = (dataArray[i] - 128) / 128.0;
-                    sum += v * v;
-                }
-                const rms = Math.sqrt(sum / bufferLength);
-                setSize(rms * 100);
-
-                requestAnimationFrame(update);
-            };
-
-            update();
-        });
-    }, []);
-
     const toggleRecording = (milis: number) => {
         if (!isRecording && mediaRecorder) {
             setIsRecording((prev) => !prev);
@@ -110,7 +82,6 @@ export default function AudioChangeNameUser() {
                 );
                 console.log("Sending audio...");
                 console.log("Audio size:", formData);
-                // console.log("Audio size:", formData.get("audio")?.size);
 
                 try {
                     const response = await fetch(
@@ -131,51 +102,57 @@ export default function AudioChangeNameUser() {
         reader.readAsArrayBuffer(audioBlob);
     };
 
+    async function ConfirmFirstname() {
+        if (!name) return;
+        const data = await putFirstname(name, userID as string);
+        if (data.success == true) {
+            router.push("/");
+        }
+    }
+
     return (
         <div className="w-full h-full flex flex-col items-center justify-center">
             <AnimatePresence>
                 {name && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="w-3/4 bg-white rounded-2xl flex flex-col p-4 gap-4"
+                    <Modal
+                        onCancel={() => setName(null)}
+                        onConfirm={ConfirmFirstname}
                     >
-                        <span className="text-xl font-medium">
-                            Vous vous appelez &quot;{name}&quot; ?
-                        </span>
-                        <div className="flex gap-4">
-                            <button
-                                onClick={() => setName(null)}
-                                className="w-1/2 bg-red-500 text-white rounded-lg p-2"
-                            >
-                                Non
-                            </button>
-                            <button
-                                onClick={async () => {
-                                    const data = await putFirstname(
-                                        name,
-                                        userID as string
-                                    );
-                                    if (data.success == true) {
-                                        router.push("/");
-                                    }
-                                }}
-                                className="w-1/2 bg-green-500 text-white rounded-lg p-2"
-                            >
-                                Oui
-                            </button>
+                        <div className="flex flex-col items-center">
+                            <span className="text-white text-5xl font-medium">
+                                Votre nom est ...
+                            </span>
+                            <span className="text-white text-7xl font-bold">
+                                &quot;{name}&quot; ?
+                            </span>
                         </div>
-                    </motion.div>
+                    </Modal>
                 )}
             </AnimatePresence>
             <AnimatePresence>
                 {!name && (
-                    <motion.div
+                    <motion.div className="flex flex-col gap-8">
+                        <span className="text-6xl font-bold text-white">
+                            Quel est votre nom?
+                        </span>
+                        <AudioButton
+                            currentTime={time}
+                            isRecording={isRecording}
+                            onClick={() => toggleRecording(2000)}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+}
+
+{
+    /* <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="w-3/4 bg-white rounded-2xl flex flex-col p-4 gap-8"
+                        className="w-1/2 bg-white rounded-2xl flex flex-col p-4 px-8 gap-8"
                     >
                         <div className="flex flex-col">
                             <span className="text-xl font-medium">
@@ -199,47 +176,13 @@ export default function AudioChangeNameUser() {
                                 <span className="font-light text-xs">
                                     {time}
                                 </span>
-                                <div className="w-full h-24 flex justify-center items-center">
-                                    <div
-                                        style={{
-                                            width: `${52 + size * 1.25}px`,
-                                            height: `${52 + size * 1.25}px`,
-                                        }}
-                                        className={twMerge(
-                                            "bg-black animate-all rounded-full duration-[50ms] relative"
-                                        )}
-                                    >
-                                        <div className="w-12 h-12 rounded-full bg-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 p-1 relative">
-                                            <div
-                                                onClick={() =>
-                                                    toggleRecording(2000)
-                                                }
-                                                className={twMerge(
-                                                    "animate-all duration-500",
-                                                    "flex items-center justify-center",
-                                                    isRecording
-                                                        ? "w-1/2 h-1/2 bg-red-500 rounded-[25%]"
-                                                        : "w-full h-full bg-red-500 rounded-[100%]"
-                                                )}
-                                            >
-                                                <Palm
-                                                    className={twMerge(
-                                                        "transition-all duration-500",
-                                                        isRecording
-                                                            ? "w-0 h-0 opacity-0"
-                                                            : "w-6 h-6 opacity-100"
-                                                    )}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <AudioButton
+                                    isRecording={isRecording}
+                                    onClick={() => toggleRecording(2000)}
+                                />
+
                                 <span className="font-light text-xs">0:02</span>
                             </div>
                         </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
-    );
+                    </motion.div> */
 }

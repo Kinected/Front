@@ -13,6 +13,7 @@ import { useFaceStore } from "@/stores/faces.store";
 export default function Home() {
     const router = useRouter();
     const firstname = useFaceStore((state) => state.firstName);
+    const userID = useFaceStore((state) => state.userID);
     const [isDisplayed, setIsDisplayed] = React.useState(true);
     const isNewUser = useFaceStore((state) => state.isNewUser);
     const gotMauria = useFaceStore((state) => state.gotMauria);
@@ -54,7 +55,9 @@ export default function Home() {
                                     Bonjour
                                 </span>
                                 <span className="text-white text-8xl text-start font-bold">
-                                    {firstname}
+                                    {firstname == ""
+                                        ? `Utilisateur ${userID}`
+                                        : firstname}
                                 </span>
                             </div>
                         </motion.main>
