@@ -3,15 +3,19 @@ import Image from "next/image";
 import Arrow from "@/../public/arrow.svg";
 import { Song } from "@/types/song";
 import { useQuery } from "react-query";
-import { fetchCurrentlyPlaying } from "@/utils/currently-playing";
-import { fetchPreviousSong } from "@/utils/previously-playing";
-import { fetchNextSong, playNextSong, playPreviousSong } from "@/utils/pause";
+import { fetchCurrentlyPlaying } from "@/utils/requests/spotify/currently-playing";
+import { fetchPreviousSong } from "@/utils/requests/spotify/previously-playing";
+import {
+    fetchNextSong,
+    playNextSong,
+    playPreviousSong,
+} from "@/utils/requests/spotify/pause";
 import CarouselItem from "./item";
-import {Gestures, Swipes} from "@/stores/gestures.store";
+import { Gestures, Swipes } from "@/stores/gestures.store";
 
 type Props = {
     token: string;
-    currentSwipe: Swipes | null
+    currentSwipe: Swipes | null;
     previous: Song | null;
     setPreviousSong: (song: Song) => void;
     current: Song | null;

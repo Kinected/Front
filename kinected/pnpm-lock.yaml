@@ -41,6 +41,9 @@ dependencies:
   react-query:
     specifier: ^3.39.3
     version: 3.39.3(react-dom@18.2.0)(react@18.2.0)
+  react-use-websocket:
+    specifier: ^4.8.1
+    version: 4.8.1(react-dom@18.2.0)(react@18.2.0)
   react-use-websockets:
     specifier: ^2.3.2
     version: 2.3.2(react@18.2.0)
@@ -4159,6 +4162,16 @@ packages:
 
   /react-use-variable@1.2.0:
     resolution: {integrity: sha512-EbsUVk5fICfBdDyB1dPgsiT0FReSYCBaBDcXwOqPmKLIDqz5YKoVWidJZh5wsq8xA+lhjm83cB/qcY73MWNaeA==}
+    dev: false
+
+  /react-use-websocket@4.8.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-FTXuG5O+LFozmu1BRfrzl7UIQngECvGJmL7BHsK4TYXuVt+mCizVA8lT0hGSIF0Z0TedF7bOo1nRzOUdginhDw==}
+    peerDependencies:
+      react: '>= 18.0.0'
+      react-dom: '>= 18.0.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-use-websockets@2.3.2(react@18.2.0):

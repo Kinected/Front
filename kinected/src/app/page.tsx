@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { User } from "@/types/user";
-import { fetchUser } from "@/utils/get-user";
+import { fetchUser } from "@/utils/requests/get-user";
 import SpotifyPlayer from "@/components/widgets/Spotify";
 import MauriaWidget from "@/components/containers/mauria/widget";
 import { useRouter } from "next/navigation";
@@ -13,8 +13,11 @@ import { useFaceStore } from "@/stores/faces.store";
 export default function Home() {
     const router = useRouter();
     const firstname = useFaceStore((state) => state.firstName);
+    const userID = useFaceStore((state) => state.userID);
     const [isDisplayed, setIsDisplayed] = React.useState(true);
     const isNewUser = useFaceStore((state) => state.isNewUser);
+    const gotMauria = useFaceStore((state) => state.gotMauria);
+    const gotSpotify = useFaceStore((state) => state.gotSpotify);
 
     // // detect if firstname changed
     // useEffect(() => {
@@ -52,10 +55,9 @@ export default function Home() {
                                     Bonjour
                                 </span>
                                 <span className="text-white text-8xl text-start font-bold">
-                                    {firstname}
-                                </span>
-                                <span className="text-white">
-                                    {isNewUser ? "true" : "false"}
+                                    {firstname == ""
+                                        ? `Utilisateur ${userID}`
+                                        : firstname}
                                 </span>
                             </div>
                         </motion.main>
@@ -65,14 +67,21 @@ export default function Home() {
 
             <div className="flex justify-between items-end">
                 <AnimatePresence>
-                    <SpotifyPlayer
-                        isHover={current_swipe == "hover_up-right"}
-                        onClick={() => router.push("/spotify")}
-                    />
+                    {gotSpotify && (
+                        <SpotifyPlayer
+                            isHover={current_swipe == "hover_up-right"}
+                            onClick={() => router.push("/spotify")}
+                        />
+                    )}
                 </AnimatePresence>
-                {/*<AnimatePresence>*/}
-                {/*    <MauriaWidget />*/}
-                {/*</AnimatePresence>*/}
+                <AnimatePresence>
+                    {gotMauria && (
+                        <MauriaWidget
+                            isHover={current_swipe == "hover_up-left"}
+                            onClick={() => router.push("/mauria")}
+                        />
+                    )}
+                </AnimatePresence>
             </div>
         </div>
     );
