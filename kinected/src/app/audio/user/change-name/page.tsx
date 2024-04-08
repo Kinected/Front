@@ -105,6 +105,7 @@ export default function AudioChangeNameUser() {
                     name.charAt(0).toUpperCase() + name.slice(1);
 
                 setName(formattedName);
+
             }
         };
         reader.readAsArrayBuffer(audioBlob);
