@@ -142,4 +142,5 @@ export default function AudioChatVocUser() {
             </div>
         </motion.div>
     );
+
 }
