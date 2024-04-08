@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+
+    
+
+
       keyframes: {
         switchPages: {
           "0%, 100%": { top: "-100%" },
