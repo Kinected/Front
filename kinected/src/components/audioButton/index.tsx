@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Palm from "@/../public/Palm.svg";
+import Attention from "@/../public/Error badge.svg";
 
 type Props = {
+    isTooLoud?: boolean;
     isRecording: boolean;
     onClick: () => void;
-    currentTime: string;
+    currentTime?: string;
 };
 
 export default function AudioButton(props: Props) {
@@ -73,9 +75,17 @@ export default function AudioButton(props: Props) {
                             : "w-10 h-10 opacity-100"
                     )}
                 />
-                <span className="text-white absolute -right-32 font-medium text-sm font-light">
-                    {props.currentTime} / 0:02
-                </span>
+                {props.currentTime && (
+                    <span className="text-white absolute -right-32 font-medium text-sm font-light">
+                        {props.currentTime} / 0:02
+                    </span>
+                )}
+                {props.isTooLoud && (
+                    <div className="text-white text-sm font-light text-xl absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap flex gap-2 items-center">
+                        <Attention className="size-8" />
+                        Il y a beaucoup de bruit ambiant
+                    </div>
+                )}
             </div>
             {/* <div
                 style={{

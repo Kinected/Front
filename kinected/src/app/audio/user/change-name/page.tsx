@@ -9,14 +9,10 @@ import { useFaceStore } from "@/stores/faces.store";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/modal";
 import AudioButton from "@/components/audioButton";
+import { getTranscription } from "@/utils/requests/whisper/audio-transcription";
 
 export default function AudioChangeNameUser() {
     const [isRecording, setIsRecording] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const recordingTimeout = useRef<ReturnType<typeof setInterval> | null>(
-        null
-    );
-    const [time, setTime] = useState("0:00");
 
     const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
         null
@@ -25,52 +21,67 @@ export default function AudioChangeNameUser() {
     const router = useRouter();
 
     const [name, setName] = useState<null | string>(null);
-    // const [chunks, setChunks] = useState<BlobPart[]>([]);
-    let chunks: BlobPart[] = [];
+
+    const [isUserTalked, setIsUserTalked] = useState(false);
+
+    const [average, setAverage] = useState(0);
+
+    const treshhold = 25;
 
     useEffect(() => {
         navigator.mediaDevices
             .getUserMedia({ audio: true })
             .then((stream) => {
+                const audioContext = new AudioContext();
+                const source = audioContext.createMediaStreamSource(stream);
+                const analyser = audioContext.createAnalyser();
+                source.connect(analyser);
+
                 const newMediaRecorder = new MediaRecorder(stream);
                 setMediaRecorder(newMediaRecorder);
 
                 newMediaRecorder.ondataavailable = (e) => {
-                    chunks.push(e.data);
+                    console.log("Data available");
                     if (newMediaRecorder.state === "inactive") {
-                        sendAudio(new Blob(chunks, { type: "audio/mp3" }));
+                        sendAudio(new Blob([e.data], { type: "audio/mp3" }));
                     }
                 };
+
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+                const checkAudio = () => {
+                    analyser.getByteFrequencyData(dataArray);
+                    const sum = dataArray.reduce((a, b) => a + b);
+                    setAverage(sum / dataArray.length);
+                    requestAnimationFrame(() => checkAudio());
+                };
+
+                checkAudio();
             })
             .catch((err) => console.error("Error: ", err));
     }, []);
 
-    const startRecording = () => {};
+    useEffect(() => {
+        if (!isUserTalked && average > treshhold * 1.5 && isRecording) {
+            setIsUserTalked(true);
+        } else if (average < treshhold && isRecording && isUserTalked) {
+            setTimeout(() => {
+                if (!mediaRecorder) return;
+                mediaRecorder.stop();
+                setIsRecording(false);
+                setIsUserTalked(false);
+            }, 1000);
+        }
+    }, [isRecording, isUserTalked, average]);
 
     const toggleRecording = (milis: number) => {
         if (!isRecording && mediaRecorder) {
             setIsRecording((prev) => !prev);
-            chunks = []; // Reset chunks at the start of recording
             mediaRecorder.start();
-            setProgress(0);
-            const startTime = Date.now();
-            recordingTimeout.current = setInterval(() => {
-                const elapsed = Date.now() - startTime;
-                setProgress((elapsed / milis) * 100);
-                setTime(`0:0${((elapsed % 60000) / 1000).toFixed(0)}`);
-            }, 50) as NodeJS.Timeout;
-            setTimeout(() => {
-                setIsRecording(false);
-                clearInterval(recordingTimeout.current ?? undefined);
-                mediaRecorder.stop();
-            }, milis);
-        } else {
-            clearInterval(recordingTimeout.current ?? undefined);
         }
     };
 
     const sendAudio = (audioBlob: Blob) => {
-        console.log("Audio size:", audioBlob.size);
         const reader = new FileReader();
         reader.onloadend = async () => {
             if (reader.result) {
@@ -80,23 +91,15 @@ export default function AudioChangeNameUser() {
                     new Blob([reader.result]),
                     "audio.mp3"
                 );
-                console.log("Sending audio...");
-                console.log("Audio size:", formData);
-
-                try {
-                    const response = await fetch(
-                        `http://localhost:8000/api/audio/firstname?userID=${userID}`,
-                        {
-                            method: "POST",
-                            body: formData,
-                        }
-                    );
-                    const data = await response.json();
-                    console.log(data);
-                    setName(data.firstname);
-                } catch (error) {
-                    console.error("Error sending audio:", error);
-                }
+                console.log("Send Audio size:", formData);
+                const data = await getTranscription(formData);
+                console.log("Data:", data);
+                const name = data.transcription.replace(
+                    /[^a-zA-Z0-9 ]/g,
+                    ""
+                ) as string;
+                console.log("Name:", name);
+                setName(name.split(" ")[0]);
             }
         };
         reader.readAsArrayBuffer(audioBlob);
@@ -136,7 +139,9 @@ export default function AudioChangeNameUser() {
                             Quel est votre nom?
                         </span>
                         <AudioButton
-                            currentTime={time}
+                            isTooLoud={
+                                average > treshhold * 1.25 && !isRecording
+                            }
                             isRecording={isRecording}
                             onClick={() => toggleRecording(2000)}
                         />
