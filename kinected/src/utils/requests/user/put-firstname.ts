@@ -1,3 +1,5 @@
+import { useFaceStore } from "@/stores/faces.store";
+
 type func = {
     success: boolean;
 };
@@ -19,5 +21,7 @@ export async function putFirstname(
     if (response.status !== 200) {
         throw new Error("Failed to update firstname");
     }
+
+    useFaceStore.getState().refreshUser();
     return await response.json();
 }

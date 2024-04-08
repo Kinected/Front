@@ -9,6 +9,7 @@ type FaceStore = {
     isNewUser: boolean | null;
     gotMauria: boolean | null;
     gotSpotify: boolean | null;
+    refreshUser: () => void;
     updateUser: (newUserID: string) => void;
 };
 
@@ -19,8 +20,22 @@ export const useFaceStore = create<FaceStore>((set) => ({
     isNewUser: null,
     gotMauria: true,
     gotSpotify: true,
+    refreshUser: () => {
+        const id = useFaceStore.getState().userID;
+        if (!id) return;
+        fetchUser(id).then((data) => {
+            set({
+                userID: useFaceStore.getState().userID,
+                firstName: data.firstname,
+                lastName: data.lastname,
+                isNewUser: false,
+                gotMauria: data.gotMauria,
+                gotSpotify: data.gotSpotify,
+            });
+        });
+    },
     updateUser: (newUserID: string) => {
-        if (newUserID == useFaceStore.getState().userID) return;
+        // if (newUserID == useFaceStore.getState().userID) return;
         if (newUserID == "Unknown") {
             console.log("Unknown user");
             set({
