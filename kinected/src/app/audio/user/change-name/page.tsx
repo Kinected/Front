@@ -94,12 +94,17 @@ export default function AudioChangeNameUser() {
                 console.log("Send Audio size:", formData);
                 const data = await getTranscription(formData);
                 console.log("Data:", data);
-                const name = data.transcription.replace(
+                let name = data.transcription.replace(
                     /[^a-zA-Z0-9 ]/g,
                     ""
                 ) as string;
+                name = name.split(" ")[0];
                 console.log("Name:", name);
-                setName(name.split(" ")[0]);
+
+                const formattedName =
+                    name.charAt(0).toUpperCase() + name.slice(1);
+
+                setName(formattedName);
             }
         };
         reader.readAsArrayBuffer(audioBlob);
