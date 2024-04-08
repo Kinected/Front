@@ -99,12 +99,14 @@ export default function AudioChatVocUser() {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      <AnimatePresence>
-        <>
-          {question && <span key="question">{question}</span>}
-          {response && <span key="answer">{response}</span>}
-        </>
-      </AnimatePresence>
+      <div className="flex flex-col items-center text-6xl font-bold text-white gap-10">
+        <AnimatePresence>
+          <>
+            {question && <span key="question">{question}</span>}
+            {response && <span key="answer">{response}</span>}
+          </>
+        </AnimatePresence>
+      </div>
       <AnimatePresence>
         {!question && (
           <motion.div className="flex flex-col gap-8">
