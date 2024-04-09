@@ -27,18 +27,26 @@ export default function Home() {
     //     }, 5000);
     // }, [firstname]);
 
-  const updateActionsOnSwipe = useUserActionsStore(
+
+    const current_action = useUserActionsStore((state) => state.current_action);
+
+    const updateActionsOnSwipe = useUserActionsStore(
     (state) => state.updateEffectsOnAction,
-  );
+    );
 
-  const current_action = useUserActionsStore((state) => state.current_action);
+    useEffect(() => {
+        updateActionsOnSwipe({
+            "up-right": () => router.push("/spotify"),
+            click: () => console.log("click"),
+        });
+      }, []);
 
-  useEffect(() => {
-    updateActionsOnSwipe({
-      "up-right": () => router.push("/spotify"),
-      click: () => console.log("click"),
-    });
-  }, []);
+    useEffect(() => {
+        updateActionsOnSwipe({
+            "down-left": () => router.push("/sensors"),
+            click: () => console.log("click"),
+        });
+    }, []);
 
     return (
         <div className="flex flex-col flex-1">

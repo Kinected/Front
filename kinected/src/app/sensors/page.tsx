@@ -12,14 +12,26 @@ import Clouds from "@/../public/Clouds.svg";
 import Sun from "@/../public/Sun.svg";
 import Calendar from "@/../public/Calendar.svg";
 import Arrow from "@/../public/Arrow - Up.svg";
+import { useUserActionsStore } from "@/stores/gestures.store";
 import { it } from "node:test";
+import {useRouter} from "next/navigation";
 
 export default function SensorsPage() {
     const temperature = useSensorStore((state) => state.temperature);
     const humidity = useSensorStore((state) => state.humidity);
     const luminosity = useSensorStore((state) => state.luminosity);
+    const router = useRouter();
 
     const API_KEY = "9e8e78c2678d8180cbc4c164765560c3"; // Correct line
+
+    const updateActionsOnSwipe = useUserActionsStore((state) => state.updateEffectsOnAction);
+
+    useEffect(() => {
+        updateActionsOnSwipe({
+            "up": () => router.push("/"),
+            click: () => console.log("click"),
+        });
+    }, []);
 
     const { data: weatherData } = useQuery<WeatherData>("weather", async () => {
         const response = await fetch(
@@ -115,6 +127,7 @@ export default function SensorsPage() {
                 return "Ensoleillé";
         }
     };
+
 
     return (
         <AnimatePresence>
