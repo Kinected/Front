@@ -8,7 +8,6 @@ const container = tv({
   base: [
     "flex justify-center items-center gap-4",
     "-translate-y-full opacity-0",
-    "bg-red",
     "transition duration-300",
   ],
 
@@ -68,8 +67,6 @@ export const ListeningFeedback = (props: ListeningFeedbackProps) => {
 
   useEffect(() => {
     let isAction = false;
-
-    console.log("hello")
 
     if (props.action) {
       isAction = VALID_ACTIONS.includes(props.action);
