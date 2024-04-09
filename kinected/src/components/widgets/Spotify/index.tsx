@@ -51,7 +51,7 @@ export default function SpotifyPlayer(props: Props) {
       "flex flex-col justify-between",
       "bg-white rounded-2xl p-2",
       "origin-bottom-left transition-all duration-500",
-      "size-48 max-w-[25%]",
+      "size-48",
       "after:absolute after:top-0 after:left-0 after:-z-10",
       "after:bg-white after:rounded-2xl",
       "after:w-full after:h-full",
@@ -87,7 +87,7 @@ export default function SpotifyPlayer(props: Props) {
         </div>
         <Spotify className="min-w-12 w-12" />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col px-1 py-0.5">
         <span className="text-md font-medium truncate leading-tight">
           {displayedSong && displayedSong.track}
         </span>

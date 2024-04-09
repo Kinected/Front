@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { useGesturesStore } from "@/stores/gestures.store";
+import { useState } from "react";
+import { useUserActionsStore } from "@/stores/gestures.store";
 import useWebSocket from "react-use-websocket";
 
 type Coordinates = number[];
@@ -13,7 +13,7 @@ type GestureData = {
   is_listen: boolean;
   hand: "right_hand" | "left_hand";
   gesture: string;
-  swipe: string;
+  action: string;
   deltas: Deltas;
   coordinates: {
     face: Coordinates;
@@ -24,10 +24,10 @@ type GestureData = {
 
 const WEBSOCKET_URL = "ws://localhost:8000/ws/swipes";
 
-export const useGestures = () => {
+export const useUserActions = () => {
   const [gestureData, setGestureData] = useState<GestureData>();
 
-  const gestures = useGesturesStore();
+  const gestures = useUserActionsStore();
 
   useWebSocket(WEBSOCKET_URL, {
     shouldReconnect: () => true,
@@ -39,7 +39,7 @@ export const useGestures = () => {
       gestures.updateHand(data.hand);
       gestures.updateDeltas(data.deltas);
       gestures.updateCurrentGesture(data.gesture);
-      gestures.updateCurrentSwipe(data.swipe);
+      gestures.updateCurrentAction(data.action);
     },
     onError: (event) => console.log("error", event),
   });

@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { useGesturesStore } from "@/stores/gestures.store";
+import { useUserActionsStore } from "@/stores/gestures.store";
 
 import Header from "@/components/header";
 import HomeButton from "@/components/home";
@@ -23,7 +23,7 @@ export default function RootLayout({
   const path = usePathname();
   const queryClient = new QueryClient();
 
-  const current_swipe = useGesturesStore((state) => state.current_swipe);
+  const current_swipe = useUserActionsStore((state) => state.current_action);
 
   return (
     <html lang="en">

@@ -4,16 +4,17 @@ import { useRouter } from "next/navigation";
 import Apps from "@/../public/apps.svg";
 import Weather from "../containers/weather";
 import ListeningFeedback from "@/components/Feedbacks/ListeningFeedback";
-import { useGesturesStore } from "@/stores/gestures.store";
-import { useGestures } from "@/hooks/useGestures";
+import { useUserActionsStore } from "@/stores/gestures.store";
+import { useUserActions } from "../../hooks/useUserActions";
 
 type HeaderProps = {};
 
 export default function Header(props: HeaderProps) {
   const [time, setTime] = useState(new Date());
 
-  const hand = useGesturesStore((state) => state.hand);
-  const deltas = useGesturesStore((state) => state.deltas);
+  const hand = useUserActionsStore((state) => state.hand);
+  const deltas = useUserActionsStore((state) => state.deltas);
+  const action = useUserActionsStore((state) => state.current_action);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -51,7 +52,11 @@ export default function Header(props: HeaderProps) {
           </span>
         </div>
 
-        <ListeningFeedback isListening={!!hand} deltas={deltas} />
+        <ListeningFeedback
+          action={action}
+          isListening={!!hand}
+          deltas={deltas}
+        />
       </div>
 
       <div className="flex-1 flex justify-end items-start">

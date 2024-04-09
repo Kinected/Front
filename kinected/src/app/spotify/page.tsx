@@ -6,7 +6,7 @@ import SpotifyCarousel from "@/components/containers/spotify/carousel";
 import { Song } from "@/types/song";
 import { useQuery } from "react-query";
 import { fetchSpotifyAccessToken } from "@/utils/get-access-token";
-import { useGesturesStore } from "@/stores/gestures.store";
+import { useUserActionsStore } from "@/stores/gestures.store";
 import { useRouter } from "next/navigation";
 import { playNextSong, playPreviousSong } from "@/utils/pause";
 
@@ -22,10 +22,10 @@ export default function Home() {
     },
   });
 
-  const updateActionsOnSwipe = useGesturesStore(
-    (state) => state.updateActionsOnSwipe,
+  const updateActionsOnSwipe = useUserActionsStore(
+    (state) => state.updateEffectsOnAction,
   );
-  const currentSwipe = useGesturesStore((state) => state.current_swipe);
+  const currentSwipe = useUserActionsStore((state) => state.current_action);
 
   useEffect(() => {
     if (token) {

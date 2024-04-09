@@ -1,20 +1,22 @@
-import React from "react";
-import { useGestures } from "@/hooks/useGestures";
-import { Swipes, useGesturesStore } from "@/stores/gestures.store";
+import React, { useEffect } from "react";
+import { useUserActions } from "../../../hooks/useUserActions";
+import { Actions, useUserActionsStore } from "@/stores/gestures.store";
 
 type GestureHandlerProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 const GestureHandler = (props: GestureHandlerProps) => {
-    const actionsOnSwipe = useGesturesStore((state) => state.actionsOnSwipe);
-    const gesturesData = useGestures();
+  const actionsOnSwipe = useUserActionsStore((state) => state.effectOnAction);
+  const gesturesData = useUserActions();
 
-    if (gesturesData && actionsOnSwipe[gesturesData.swipe as Swipes]) {
-        actionsOnSwipe[gesturesData.swipe as Swipes]();
+  useEffect(() => {
+    if (gesturesData && actionsOnSwipe[gesturesData.action as Actions]) {
+      actionsOnSwipe[gesturesData.action as Actions]();
     }
+  }, [gesturesData, actionsOnSwipe]);
 
-    return <>{props.children}</>;
+  return <>{props.children}</>;
 };
 
 export default GestureHandler;
