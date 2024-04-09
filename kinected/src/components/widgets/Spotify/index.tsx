@@ -3,21 +3,20 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Spotify from "../../../../public/Spotify.svg";
 import { useQuery } from "react-query";
-import { fetchSpotifyAccessToken } from "@/utils/get-access-token";
-import { fetchCurrentlyPlaying } from "@/utils/currently-playing";
-import { twMerge } from "tailwind-merge";
-import { fetchPreviousSong } from "@/utils/previously-playing";
+import { fetchSpotifyAccessToken } from "@/utils/requests/spotify/get-access-token";
+import { fetchCurrentlyPlaying } from "@/utils/requests/spotify/currently-playing";
+import { fetchPreviousSong } from "@/utils/requests/spotify/previously-playing";
 import { tv } from "tailwind-variants";
 
 type Props = {
-  onClick?: () => void;
-  isHover?: boolean;
+    onClick?: () => void;
+    isHover?: boolean;
 };
 
 type Song = {
-  artist: string;
-  track: string;
-  cover: string;
+    artist: string;
+    track: string;
+    cover: string;
 };
 
 export default function SpotifyPlayer(props: Props) {
@@ -98,3 +97,4 @@ export default function SpotifyPlayer(props: Props) {
     </motion.div>
   );
 }
+

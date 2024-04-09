@@ -5,10 +5,10 @@ import PlayerComponent from "@/components/containers/spotify/player";
 import SpotifyCarousel from "@/components/containers/spotify/carousel";
 import { Song } from "@/types/song";
 import { useQuery } from "react-query";
-import { fetchSpotifyAccessToken } from "@/utils/get-access-token";
+import { fetchSpotifyAccessToken } from "@/utils/requests/spotify/get-access-token";
 import { useUserActionsStore } from "@/stores/gestures.store";
 import { useRouter } from "next/navigation";
-import { playNextSong, playPreviousSong } from "@/utils/pause";
+import { playNextSong, playPreviousSong } from "@/utils/requests/spotify/pause";
 
 export default function Home() {
   const router = useRouter();
@@ -60,3 +60,4 @@ export default function Home() {
     </AnimatePresence>
   );
 }
+

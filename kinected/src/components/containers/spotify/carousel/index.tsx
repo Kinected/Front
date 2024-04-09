@@ -1,9 +1,15 @@
 import React from "react";
+import Image from "next/image";
+import Arrow from "@/../public/arrow.svg";
 import { Song } from "@/types/song";
 import { useQuery } from "react-query";
-import { fetchCurrentlyPlaying } from "@/utils/currently-playing";
-import { fetchPreviousSong } from "@/utils/previously-playing";
-import { fetchNextSong, playNextSong, playPreviousSong } from "@/utils/pause";
+import { fetchCurrentlyPlaying } from "@/utils/requests/spotify/currently-playing";
+import { fetchPreviousSong } from "@/utils/requests/spotify/previously-playing";
+import {
+    fetchNextSong,
+    playNextSong,
+    playPreviousSong,
+} from "@/utils/requests/spotify/pause";
 import CarouselItem from "./item";
 import { Actions } from "@/stores/gestures.store";
 
@@ -78,3 +84,4 @@ export default function SpotifyCarousel(props: Props) {
     </div>
   );
 }
+

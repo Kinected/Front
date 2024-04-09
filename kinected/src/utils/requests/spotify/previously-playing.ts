@@ -1,5 +1,5 @@
 import { Song } from "@/types/song";
-import { formatDuration } from "./format-duration";
+import { formatDuration } from "../../other/format-duration";
 
 export const fetchPreviousSong = async (token: string) => {
     const headers = {
