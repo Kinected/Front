@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Palm from "@/../public/Palm.svg";
 import { tooglePlayerState } from "@/utils/requests/spotify/pause";
@@ -98,9 +98,45 @@ export default function AudioChatVocUser() {
         reader.readAsArrayBuffer(audioBlob);
     };
 
+    const fetchAudioTranscription = async () => {
+        console.log("Fetching audio transcription...");
+        const response = await fetch('/audio/transcription');
+        const data = await response.json();
+        const audioBase64 = data.audio;
+        
+        // Convert base64 to Blob
+        const byteCharacters = atob(audioBase64);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const audioBlob = new Blob([byteArray], { type: 'audio/mpeg' });
+      
+        // Create URL for the Blob
+        const audioUrl = URL.createObjectURL(audioBlob);
+      
+        // Now you can use audioUrl to play the audio
+        // For example, you can set it as the src of an audio element
+        const audioElement = document.querySelector('audio');
+        if (audioElement) {
+          audioElement.src = audioUrl;
+        }
+      };
+
+      useEffect(() => {
+        console.log("Fetching audio transcription...");
+        const fetchAudio = async () => {
+          await fetchAudioTranscription();
+        };
+      
+        fetchAudio();
+      }, []);
+
+
     return (
         <motion.div className="w-full h-full flex flex-col items-center justify-center">
-            <div className="flex flex-col gap-24 flex flex-col items-center">
+            <div className="flex flex-col gap-24 items-center">
                 <div className="flex flex-col gap-8">
                     <span className="text-6xl font-bold text-white">
                         Quelle est votre question ?
@@ -123,6 +159,7 @@ export default function AudioChatVocUser() {
                                 <span className="text-black font-medium text-2xl">
                                     Retranscription :
                                 </span>
+                                
 
                                 <span className="text-black text-xl">
                                     {question}
