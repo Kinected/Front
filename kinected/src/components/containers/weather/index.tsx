@@ -11,8 +11,12 @@ import { useQuery } from "react-query";
 import { ActualWeather } from "@/types/weather";
 import Meteo from "@/../public/Circle Cloud.svg";
 import { useRouter } from "next/navigation";
+import {twMerge} from "tailwind-merge";
 
-export default function Weather() {
+type Props = {
+    isHover: boolean;
+}
+export default function Weather(props: Props) {
     const API_KEY = "9e8e78c2678d8180cbc4c164765560c3"; // Correct line
     const router = useRouter();
 
@@ -32,11 +36,11 @@ export default function Weather() {
     const WeatherSVG = (weather: string) => {
         switch (weather) {
             case "Rain":
-                return <Rain className="w-8 h-8" />;
+                return <Rain className="w-10 h-10" />;
             case "Clouds":
-                return <Clouds className="w-8 h-8" />;
+                return <Clouds className="w-10 h-10" />;
             default:
-                return <Sun className="w-8 h-8" />;
+                return <Sun className="w-10 h-10" />;
         }
     };
 
@@ -52,13 +56,15 @@ export default function Weather() {
     };
 
     return (
-        // <Button className="origin-top-right">
-        //     {WeatherSVG(data.weather[0].main)}
-        //     {Math.round(data.main.temp)}°C
-        // </Button>
         <div
             onClick={() => router.push("/sensors")}
-            className="size-40 rounded-2xl bg-white flex flex-col p-4 justify-between"
+            className={twMerge("size-40 rounded-2xl bg-white flex flex-col p-4 justify-between relative origin-top-right transition-all duration-500",
+                "after:absolute after:top-0 after:left-0 after:-z-10",
+                "after:bg-white after:rounded-2xl",
+                "after:w-full after:h-full",
+                "after:transition-all after:duration-500",
+                props.isHover && "scale-110 after:opacity-40 after:scale-110 after:rounded-3xl")}
+
         >
             <div className="flex justify-between">
                 <div className="flex flex-col">
@@ -68,14 +74,13 @@ export default function Weather() {
                     </span>
                 </div>
                 {/* <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center"> */}
-                <Meteo className="w-12 h-12 -mr-1 -mt-1" />
+                <div className="-mt-1 -ml-1">{WeatherSVG(data.weather[0].main)}</div>
                 {/* </div> */}
             </div>
             <div className="flex justify-between items-end">
                 <span className="text-md">
                     {WeatherString(data.weather[0].main)}
                 </span>
-                <div className="-mb-1">{WeatherSVG(data.weather[0].main)}</div>
             </div>
         </div>
     );

@@ -32,7 +32,7 @@ export default function MauriaWidget(props: Props) {
         },
     });
 
-    console.log(updatedPlanning);
+    // console.log(updatedPlanning);
 
     const {
         data: planning,

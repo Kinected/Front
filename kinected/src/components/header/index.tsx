@@ -5,12 +5,11 @@ import Apps from "@/../public/apps.svg";
 import Weather from "../containers/weather";
 import ListeningFeedback from "@/components/Feedbacks/ListeningFeedback";
 import { useUserActionsStore } from "@/stores/gestures.store";
-import { useUserActions } from "../../hooks/useUserActions";
 
-type HeaderProps = {};
 
-export default function Header(props: HeaderProps) {
+export default function Header() {
   const [time, setTime] = useState(new Date());
+  const router = useRouter();
 
   const hand = useUserActionsStore((state) => state.hand);
   const deltas = useUserActionsStore((state) => state.deltas);
@@ -25,6 +24,12 @@ export default function Header(props: HeaderProps) {
       clearInterval(timer);
     };
   }, []);
+
+  const current_action = useUserActionsStore((state) => state.current_action);
+
+  const updateActionsOnSwipe = useUserActionsStore(
+      (state) => state.updateEffectsOnAction,
+  );
 
   return (
     <div className="flex justify-between">
@@ -60,7 +65,7 @@ export default function Header(props: HeaderProps) {
       </div>
 
       <div className="flex-1 flex justify-end items-start">
-        <Weather />
+        <Weather isHover={current_action == "hover_down-left"}/>
       </div>
     </div>
   );
