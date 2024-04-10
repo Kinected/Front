@@ -4,7 +4,5 @@ export const fetchUser = async (id: string) => {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
-
-    return data;
+    return await response.json();
 };

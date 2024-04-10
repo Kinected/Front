@@ -2,7 +2,7 @@
 
 import "./globals.css";
 import React from "react";
-import { Inter } from "next/font/google";
+import {Inter, Outfit, Poppins, Raleway, Rubik, Syne} from "next/font/google";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -14,7 +14,7 @@ import HomeButton from "@/components/home";
 import Provider from "@/components/provider";
 import Head from "next/head";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Outfit({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,

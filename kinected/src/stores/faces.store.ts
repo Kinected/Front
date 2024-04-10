@@ -1,5 +1,4 @@
 import { fetchUser } from "@/utils/requests/get-user";
-import { use } from "react";
 import { create } from "zustand";
 
 type FaceStore = {

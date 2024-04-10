@@ -1,5 +1,5 @@
 import React from "react";
-import Mauria from "../../../../public/Mauria.svg";
+import Mauria from "../../../icons/Mauria.svg";
 import { useQuery, useQueryClient } from "react-query";
 // import { format, parseISO } from "date-fns";
 import { nanoid } from "nanoid";
@@ -21,7 +21,7 @@ export default function MauriaWidget(props: Props) {
   const userID = useFaceStore((state) => state.userID);
   const queryClient = useQueryClient();
 
-  const { data: updatedPlanning } = useQuery({
+  useQuery({
     queryKey: ["mauria", "planning", "updated", userID],
     queryFn: async () => {
       return await fetchUpdatedMauriaPlanning(userID as string);
@@ -63,7 +63,7 @@ export default function MauriaWidget(props: Props) {
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0 }}
       className={twMerge(
-        "min-w-64 max-h-48 p-3 bg-white rounded-2xl flex flex-col gap-2",
+        "min-w-64 h-48 p-3 bg-white rounded-2xl flex flex-col gap-2",
         "origin-bottom-right transition-all duration-500 relative",
         "after:absolute after:top-0 after:left-0 after:-z-10",
         "after:bg-white after:rounded-2xl",
@@ -86,13 +86,13 @@ export default function MauriaWidget(props: Props) {
         </span>
       </div>
       <div className="flex flex-col">
-        {displayCourses.map((course: any, index: number) => {
+        {displayCourses.slice(0, 2).map((course: any, index: number) => {
           const start = new Date(course.start);
           const end = new Date(course.end);
 
           return (
-            <>
-              <div className="border-b-2 border-gray-200"/>
+            <React.Fragment key={index}>
+              <div className="border-b-2 border-gray-200" />
               <Line
                 key={nanoid()}
                 title={course.title.split("\n")[2]}
@@ -106,9 +106,19 @@ export default function MauriaWidget(props: Props) {
                   minute: "2-digit",
                 })}
               />
-            </>
+            </React.Fragment>
           );
         })}
+        <div className="border-b-2 border-gray-200" />
+        {displayCourses.length - 2 > 0 ? (
+          <span className="px-2 py-1 text-sm text-center">
+            Et {displayCourses.length - 2} autres cours...
+          </span>
+        ) : (
+          <span className="px-2 py-1 text-sm text-center">
+            C'est tout pour le moment
+          </span>
+        )}
         {displayCourses.length === 0 && (
           <span className="text-sm font-medium">
             Pas de cours prévus pour le moment
@@ -137,8 +147,8 @@ const Line = (props: LineProps) => (
       </span>
     </div>
     <div className="flex flex-col items-end w-fit">
-      <span className="text-sm truncate">{props.title}</span>
-      <span className="font-thin text-sm truncate">{props.room}</span>
+      <span className="text-sm truncate font-medium">{props.title}</span>
+      <span className="text-sm truncate opacity-50">{props.room}</span>
     </div>
   </div>
 );

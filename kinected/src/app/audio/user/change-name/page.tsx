@@ -1,8 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
-import Palm from "@/../public/Palm.svg";
-import { togglePlayerState } from "@/utils/requests/spotify/pause";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { putFirstname } from "@/utils/requests/user/put-firstname";
 import { useFaceStore } from "@/stores/faces.store";

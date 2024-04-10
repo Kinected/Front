@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Spotify from "../../../../public/Spotify.svg";
+import Spotify from "../../../icons/Spotify.svg";
 import { useQuery } from "react-query";
 import { fetchSpotifyAccessToken } from "@/utils/requests/spotify/get-access-token";
 import { fetchCurrentlyPlaying } from "@/utils/requests/spotify/currently-playing";
@@ -47,7 +47,7 @@ export default function SpotifyPlayer(props: Props) {
   const container = tv({
     base: [
       "relative",
-      "flex flex-col justify-between",
+      "flex flex-col gap-2",
       "bg-white rounded-2xl p-2",
       "origin-bottom-left transition-all duration-500",
       "size-48",

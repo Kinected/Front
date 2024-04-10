@@ -1,9 +1,9 @@
-import Pause from "@/../public/Pause.svg";
+import Pause from "../../../../icons/Pause.svg";
 import { useQuery } from "react-query";
 import { fetchCurrentlyPlaying } from "@/utils/requests/spotify/currently-playing";
 import { Song } from "@/types/song";
-import Play from "@/../public/Play.svg";
-import {togglePlayerState} from "@/utils/requests/spotify/pause";
+import Play from "../../../../icons/Play.svg";
+import { togglePlayerState } from "@/utils/requests/spotify/pause";
 
 type Props = {
   token: string;
@@ -51,12 +51,12 @@ const PlayerComponent = (props: Props) => {
             {displaySong.isplaying ? (
               <Pause
                 className="h-12"
-                onClick={() => togglePlayerState(props.token, false)}
+                onClick={() => togglePlayerState(props.token)}
               />
             ) : (
               <Play
                 className="h-12"
-                onClick={() => togglePlayerState(props.token, true)}
+                onClick={() => togglePlayerState(props.token)}
               />
             )}
             <span>{displaySong.duration}</span>

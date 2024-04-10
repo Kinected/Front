@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Arrow from "@/../public/arrow.svg";
+import Arrow from "../../../../../icons/arrow.svg";
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
 

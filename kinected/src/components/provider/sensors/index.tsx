@@ -1,5 +1,4 @@
 import React from "react";
-import { useFaceStore } from "@/stores/faces.store";
 import { useSensors } from "@/hooks/useSensors";
 
 type SensorsHandlerProps = {

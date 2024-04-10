@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
 import Webcam from "react-webcam";
-import Palm from "@/../public/Palm.svg";
+import Palm from "../../icons/Palm.svg";
 import { useRouter } from "next/navigation";
-import Attention from "@/../public/Error badge.svg";
+import Attention from "../../icons/Error badge.svg";
 
 export default function WebcamCapture() {
     const webcamRef = React.useRef<Webcam>(null);

@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Button from "../button";
 import { useRouter } from "next/navigation";
-import Apps from "@/../public/apps.svg";
-import Weather from "../containers/weather";
+import Apps from "../../icons/Apps.svg";
+import Weather from "../widgets/Weather";
 import ListeningFeedback from "@/components/Feedbacks/ListeningFeedback";
 import { useUserActionsStore } from "@/stores/gestures.store";
 
 
 export default function Header() {
   const [time, setTime] = useState(new Date());
-  const router = useRouter();
 
   const hand = useUserActionsStore((state) => state.hand);
   const deltas = useUserActionsStore((state) => state.deltas);
@@ -27,9 +26,6 @@ export default function Header() {
 
   const current_action = useUserActionsStore((state) => state.current_action);
 
-  const updateActionsOnSwipe = useUserActionsStore(
-      (state) => state.updateEffectsOnAction,
-  );
 
   return (
     <div className="flex justify-between">

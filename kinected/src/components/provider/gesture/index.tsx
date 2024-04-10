@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { useUserActions } from "../../../hooks/useUserActions";
+import React, { useEffect } from "react";
+import { useUserActions } from "@/hooks/useUserActions";
 import { Actions, useUserActionsStore } from "@/stores/gestures.store";
 
 type GestureHandlerProps = {

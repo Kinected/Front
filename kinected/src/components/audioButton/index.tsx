@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import Palm from "@/../public/Palm.svg";
-import Attention from "@/../public/Error badge.svg";
+import Palm from "../../icons/Palm.svg";
+import Attention from "../../icons/Error badge.svg";
 
 type Props = {
     isTooLoud?: boolean;

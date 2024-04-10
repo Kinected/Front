@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useQuery } from "react-query";
-import { fetchUpdatedMauriaPlanning } from "@/utils/requests/mauria/getPlanning";
+import { useQuery, useQueryClient } from "react-query";
+import {
+  fetchMauriaPlanning,
+  fetchUpdatedMauriaPlanning,
+} from "@/utils/requests/mauria/getPlanning";
 import { useFaceStore } from "@/stores/faces.store";
 import PageTitle from "../../components/Layout/PageTitle";
 import Page from "../../components/Layout/Page";
@@ -12,8 +15,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import FrLocale from "@fullcalendar/core/locales/fr";
-
-import type { ring } from "ldrs";
+import "ldrs/ring";
 import "./styles.scss";
 
 const LoadingContent = () => {
@@ -27,6 +29,8 @@ const ErrorContent = () => {
 const MauriaPage = () => {
   const userID = useFaceStore((state) => state.userID);
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const updateActionsOnSwipe = useUserActionsStore(
     (state) => state.updateEffectsOnAction,
   );
@@ -37,13 +41,23 @@ const MauriaPage = () => {
     });
   }, []);
 
+  useQuery({
+    queryKey: ["mauria", "planning", "updated", userID],
+    queryFn: async () => {
+      return await fetchUpdatedMauriaPlanning(userID as string);
+    },
+    enabled: !!userID,
+    onSuccess: (data) => {
+      queryClient.setQueryData(["mauria", "planning", userID], data);
+    },
+  });
+
   const { data, isLoading, isError } = useQuery({
     queryKey: ["mauria", "planning", userID],
-    queryFn: async () => fetchUpdatedMauriaPlanning(userID as string),
-
+    queryFn: async () => {
+      return await fetchMauriaPlanning(userID as string);
+    },
     enabled: !!userID,
-    // 5 minutes
-    cacheTime: 300000,
   });
 
   if (isLoading) {
