@@ -209,7 +209,7 @@ export default function SensorsPage() {
                                         key={nanoid()}
                                         className="flex flex-col gap-2"
                                     >
-                                        <div className="w-full h-0.5 bg-black rounded-xl " />
+                                        <div className="w-full h-0.5 bg-gray-200 rounded-xl " />
                                         <div className="flex gap-2 items-center flex-[1] justify-between">
                                             <span className="flex-1 text-lg font-medium">
                                                 {day}
