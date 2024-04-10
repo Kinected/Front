@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useUserActions } from "../../../hooks/useUserActions";
 import { Actions, useUserActionsStore } from "@/stores/gestures.store";
 
@@ -8,6 +8,7 @@ type GestureHandlerProps = {
 
 const GestureHandler = (props: GestureHandlerProps) => {
   const actionsOnSwipe = useUserActionsStore((state) => state.effectOnAction);
+
   const gesturesData = useUserActions();
 
   useEffect(() => {

@@ -12,6 +12,7 @@ import { useUserActionsStore } from "@/stores/gestures.store";
 import Header from "@/components/header";
 import HomeButton from "@/components/home";
 import Provider from "@/components/provider";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,8 +26,17 @@ export default function RootLayout({
 
   const current_swipe = useUserActionsStore((state) => state.current_action);
 
+  // Default values shown
   return (
-    <html lang="en">
+    <html lang="fr">
+      <Head>
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script
+          type="module"
+          src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/ring.js"
+        />
+      </Head>
+
       <QueryClientProvider client={queryClient}>
         <body className={inter.className}>
           <Provider>

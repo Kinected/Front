@@ -9,11 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.11",
+    "@fullcalendar/daygrid": "^6.1.11",
+    "@fullcalendar/react": "^6.1.11",
+    "@fullcalendar/timegrid": "^6.1.11",
     "@svgr/webpack": "^8.1.0",
     "clsx": "^2.1.0",
     "data-fns": "^1.1.0",
     "framer-motion": "^11.0.20",
     "gsap": "^3.12.5",
+    "ldrs": "^1.0.1",
     "nanoid": "^5.0.6",
     "next": "^14.1.4",
     "prettier": "^3.2.5",

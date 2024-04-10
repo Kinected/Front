@@ -1,6 +1,7 @@
 export type Course = {
+    id: string;
     title: string;
-    room: string;
+    description: string;
     start: string;
     end: string;
 };

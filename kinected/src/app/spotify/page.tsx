@@ -9,11 +9,13 @@ import { fetchSpotifyAccessToken } from "@/utils/requests/spotify/get-access-tok
 import { useUserActionsStore } from "@/stores/gestures.store";
 import { useRouter } from "next/navigation";
 import { playNextSong, playPreviousSong } from "@/utils/requests/spotify/pause";
+import { togglePlayerState } from "@/utils/requests/spotify/pause";
 
 export default function Home() {
   const router = useRouter();
   const [previousSong, setPreviousSong] = useState<Song | null>(null);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const { data: token } = useQuery<string>({
     queryKey: ["spotify", "token"],
@@ -33,9 +35,12 @@ export default function Home() {
         up: () => router.push("/"),
         left: async () => await playNextSong(token),
         right: async () => await playPreviousSong(token),
+        click: async () => {
+          await togglePlayerState(token);
+        },
       });
     }
-  }, [token]);
+  }, [token, isPlaying]);
 
   if (!token) return null;
 
@@ -60,4 +65,3 @@ export default function Home() {
     </AnimatePresence>
   );
 }
-

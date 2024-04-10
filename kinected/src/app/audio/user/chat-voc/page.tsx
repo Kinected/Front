@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Palm from "@/../public/Palm.svg";
-import { tooglePlayerState } from "@/utils/requests/spotify/pause";
+import { togglePlayerState } from "@/utils/requests/spotify/pause";
 import { AnimatePresence, motion } from "framer-motion";
 import { useFaceStore } from "@/stores/faces.store";
 import { useRouter } from "next/navigation";
