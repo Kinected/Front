@@ -6,6 +6,9 @@ import MauriaWidget from "@/components/widgets/Mauria";
 import { useRouter } from "next/navigation";
 import { useUserActionsStore } from "@/stores/gestures.store";
 import { useFaceStore } from "@/stores/faces.store";
+import IleviaVlilleWidget from "@/components/widgets/Ilevia/Vlille";
+import IleviaBusWidget from "@/components/widgets/Ilevia/Bus";
+import { twMerge } from "tailwind-merge";
 
 export default function Home() {
   const router = useRouter();
@@ -16,13 +19,15 @@ export default function Home() {
   const gotMauria = useFaceStore((state) => state.gotMauria);
   const gotSpotify = useFaceStore((state) => state.gotSpotify);
 
-    // // detect if firstname changed
-    // useEffect(() => {
-    //     setIsDisplayed(true);
-    //     setTimeout(() => {
-    //         setIsDisplayed(false);
-    //     }, 5000);
-    // }, [firstname]);
+  const [isHover, setIsHover] = React.useState(false);
+
+  // // detect if firstname changed
+  // useEffect(() => {
+  //     setIsDisplayed(true);
+  //     setTimeout(() => {
+  //         setIsDisplayed(false);
+  //     }, 5000);
+  // }, [firstname]);
 
   const updateActionsOnSwipe = useUserActionsStore(
     (state) => state.updateEffectsOnAction,
@@ -48,7 +53,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex h-full w-full justify-center items-center"
+              className="flex h-full w-full justify-center items-center fixed left-0 top-0"
             >
               <div className="flex flex-col items-center">
                 <span className="text-white text-8xl text-start ">Bonjour</span>
@@ -70,6 +75,7 @@ export default function Home() {
             />
           )}
         </AnimatePresence>
+
         <AnimatePresence>
           {gotMauria && (
             <MauriaWidget
@@ -77,6 +83,15 @@ export default function Home() {
               onClick={() => router.push("/mauria")}
             />
           )}
+        </AnimatePresence>
+        <AnimatePresence>
+          <div
+            onClick={() => setIsHover(!isHover)}
+            className={twMerge("flex flex-col", isHover ? "gap-10" : "gap-4")}
+          >
+            <IleviaBusWidget isHover={isHover} />
+            <IleviaVlilleWidget isHover={isHover} />
+          </div>
         </AnimatePresence>
       </div>
     </div>
