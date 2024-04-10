@@ -1,9 +1,5 @@
 "use client";
-import React, { use, useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
-import Palm from "@/../public/Palm.svg";
-import { tooglePlayerState } from "@/utils/requests/spotify/pause";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import AudioButton from "@/components/audioButton";
 import { getResponse } from "@/utils/requests/whisper/audio-chatbot";
@@ -14,7 +10,7 @@ export default function AudioChatVocUser() {
   const [isUserTalked, setIsUserTalked] = useState(false);
 
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
-    null
+    null,
   );
   const [average, setAverage] = useState(0);
   const treshhold = 25;
@@ -96,7 +92,9 @@ export default function AudioChatVocUser() {
 
   const fetchAudioTranscription = async () => {
     console.log("Fetching audio transcription...");
-    const response = await fetch("http://localhost:8000/api/audio/transcription");
+    const response = await fetch(
+      "http://localhost:8000/api/audio/transcription",
+    );
     const data = await response.json();
     const audioBase64 = data.audio;
 
