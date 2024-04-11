@@ -63,7 +63,7 @@ export default function MauriaWidget(props: Props) {
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0 }}
       className={twMerge(
-        "min-w-64 h-48 p-3 bg-white rounded-2xl flex flex-col gap-2",
+        "min-w-64 max-w-72 h-48 p-3 bg-white rounded-2xl flex flex-col gap-2",
         "origin-bottom-right transition-all duration-500 relative",
         "after:absolute after:top-0 after:left-0 after:-z-10",
         "after:bg-white after:rounded-2xl",
@@ -146,9 +146,9 @@ const Line = (props: LineProps) => (
         {props.end}
       </span>
     </div>
-    <div className="flex flex-col items-end w-fit">
-      <span className="text-sm truncate font-medium">{props.title}</span>
-      <span className="text-sm truncate opacity-50">{props.room}</span>
+    <div className="flex flex-col items-end truncate">
+      <span className="text-sm  font-medium text-end">{props.title}</span>
+      <span className="text-sm  opacity-50 text-end">{props.room}</span>
     </div>
   </div>
 );
