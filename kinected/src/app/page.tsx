@@ -6,9 +6,6 @@ import MauriaWidget from "@/components/widgets/Mauria";
 import { useRouter } from "next/navigation";
 import { useUserActionsStore } from "@/stores/gestures.store";
 import { useFaceStore } from "@/stores/faces.store";
-import IleviaVlilleWidget from "@/components/widgets/Ilevia/Vlille";
-import IleviaBusWidget from "@/components/widgets/Ilevia/Bus";
-import { twMerge } from "tailwind-merge";
 
 export default function Home() {
   const router = useRouter();
@@ -84,15 +81,15 @@ export default function Home() {
             />
           )}
         </AnimatePresence>
-        <AnimatePresence>
-          <div
-            onClick={() => setIsHover(!isHover)}
-            className={twMerge("flex flex-col", isHover ? "gap-10" : "gap-4")}
-          >
-            <IleviaBusWidget isHover={isHover} />
-            <IleviaVlilleWidget isHover={isHover} />
-          </div>
-        </AnimatePresence>
+        {/*<AnimatePresence>*/}
+        {/*  <div*/}
+        {/*    onClick={() => setIsHover(!isHover)}*/}
+        {/*    className={twMerge("flex flex-col", isHover ? "gap-10" : "gap-4")}*/}
+        {/*  >*/}
+        {/*    <IleviaBusWidget isHover={isHover} />*/}
+        {/*    <IleviaVlilleWidget isHover={isHover} />*/}
+        {/*  </div>*/}
+        {/*</AnimatePresence>*/}
       </div>
     </div>
   );
