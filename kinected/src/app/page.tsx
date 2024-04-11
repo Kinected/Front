@@ -65,12 +65,22 @@ export default function Home() {
             </motion.main>
           </AnimatePresence>
         )}
-        <AnimatePresence>
-          <TeethTimerWidget
-            isHover={current_action == "hover_left"}
-            onClick={() => router.push("/teeth-timer")}
-          />
-        </AnimatePresence>
+        <div
+          className={
+            "fixed inset-0 h-full w-full flex items-center justify-between p-4"
+          }
+        >
+          <AnimatePresence>
+            <div />
+            //je sais pas
+          </AnimatePresence>
+          <AnimatePresence>
+            <TeethTimerWidget
+              isHover={current_action == "hover_left"}
+              onClick={() => router.push("/teeth-timer")}
+            />
+          </AnimatePresence>
+        </div>
       </div>
 
       <div className="flex justify-between items-end">
