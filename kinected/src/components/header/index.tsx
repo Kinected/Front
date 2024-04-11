@@ -7,9 +7,11 @@ import { twMerge } from "tailwind-merge";
 import IleviaBusWidget from "@/components/widgets/Ilevia/Bus";
 import IleviaVlilleWidget from "@/components/widgets/Ilevia/Vlille";
 import { useFaceStore } from "@/stores/faces.store";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [time, setTime] = useState(new Date());
+  const path = usePathname();
 
   const hand = useUserActionsStore((state) => state.hand);
   const deltas = useUserActionsStore((state) => state.deltas);
@@ -35,18 +37,20 @@ export default function Header() {
   return (
     <div className="flex justify-between">
       <div className="flex-1">
-        <AnimatePresence>
-          <div
-            onClick={() => setIsHover(!isHover)}
-            className={twMerge(
-              "flex flex-col w-fit",
-              isHover ? "gap-10" : "gap-4",
-            )}
-          >
-            {gotIleviaBus && <IleviaBusWidget isHover={isHover} />}
-            {gotIleviaVlille && <IleviaVlilleWidget isHover={isHover} />}
-          </div>
-        </AnimatePresence>
+        {path == "/" && (
+          <AnimatePresence>
+            <div
+              onClick={() => setIsHover(!isHover)}
+              className={twMerge(
+                "flex flex-col w-fit",
+                isHover ? "gap-10" : "gap-4",
+              )}
+            >
+              {gotIleviaBus && <IleviaBusWidget isHover={isHover} />}
+              {gotIleviaVlille && <IleviaVlilleWidget isHover={isHover} />}
+            </div>
+          </AnimatePresence>
+        )}
       </div>
 
       <div className="flex-1 flex flex-col gap-2">
@@ -74,9 +78,11 @@ export default function Header() {
       </div>
 
       <div className="flex-1 flex justify-end items-start">
-        <AnimatePresence>
-          <Weather isHover={current_action == "hover_down-left"} />
-        </AnimatePresence>
+        {path == "/" && (
+          <AnimatePresence>
+            <Weather isHover={current_action == "hover_down-left"} />
+          </AnimatePresence>
+        )}
       </div>
     </div>
   );
