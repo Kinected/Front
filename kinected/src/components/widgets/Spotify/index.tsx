@@ -20,9 +20,26 @@ type Song = {
   cover: string;
 };
 
-export default function SpotifyPlayer(props: Props) {
-  const userID = useFaceStore((state) => state.userID);
+const container = tv({
+  base: [
+    "relative",
+    "flex flex-col gap-2",
+    "size-48",
+    "bg-white rounded-3xl p-2",
+    "origin-bottom-left transition-all duration-500",
+    "after:absolute after:top-0 after:left-0 after:-z-10",
+    "after:bg-white after:rounded-3xl",
+    "after:w-full after:h-full",
+    "after:transition-all after:duration-500",
+  ],
+  variants: {
+    isHover: {
+      true: ["scale-110 after:opacity-40 after:scale-110 after:rounded-3xl"],
+    },
+  },
+});
 
+export default function SpotifyWidget(props: Props) {
   const { data: token } = useQuery<string>({
     queryKey: ["spotify", "token"],
     queryFn: async () => {
@@ -47,25 +64,6 @@ export default function SpotifyPlayer(props: Props) {
   });
 
   const displayedSong = song || previousSong;
-
-  const container = tv({
-    base: [
-      "relative",
-      "flex flex-col gap-2",
-      "bg-white rounded-2xl p-2",
-      "origin-bottom-left transition-all duration-500",
-      "size-48",
-      "after:absolute after:top-0 after:left-0 after:-z-10",
-      "after:bg-white after:rounded-2xl",
-      "after:w-full after:h-full",
-      "after:transition-all after:duration-500",
-    ],
-    variants: {
-      isHover: {
-        true: ["scale-110 after:opacity-40 after:scale-110 after:rounded-3xl"],
-      },
-    },
-  });
 
   return (
     <motion.div

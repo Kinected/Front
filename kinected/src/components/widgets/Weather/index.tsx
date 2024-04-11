@@ -53,9 +53,9 @@ export default function Weather(props: Props) {
     <div
       onClick={() => router.push("/sensors")}
       className={twMerge(
-        "size-48 rounded-2xl bg-white flex flex-col p-4 justify-between relative origin-top-right transition-all duration-500",
+        "size-48 rounded-3xl bg-white flex flex-col p-4 justify-between relative origin-top-right transition-all duration-500",
         "after:absolute after:top-0 after:left-0 after:-z-10",
-        "after:bg-white after:rounded-2xl",
+        "after:bg-white after:rounded-3xl",
         "after:w-full after:h-full",
         "after:transition-all after:duration-500",
         props.isHover &&

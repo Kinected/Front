@@ -10,12 +10,30 @@ import {
 import { motion } from "framer-motion";
 import { useFaceStore } from "@/stores/faces.store";
 import { isSameDay } from "@/utils/other/isSameDay";
-import { twMerge } from "tailwind-merge";
+import { tv } from "tailwind-variants";
 
 type Props = {
   onClick: () => void;
   isHover: boolean;
 };
+
+const container = tv({
+  base: [
+    "min-w-64 h-48 p-3 bg-white rounded-3xl flex flex-col gap-2",
+    "origin-bottom-right transition-all duration-500 relative",
+    "after:absolute after:top-0 after:left-0 after:-z-10",
+    "after:bg-white after:rounded-3xl",
+    "after:transition-all after:duration-500",
+    "after:w-full after:h-full",
+  ],
+  variants: {
+    isHover: {
+      true: [
+        "scale-110 after:opacity-40 after:rounded-2xl after:outline after:outline-offset-0 after:outline-8 after:outline-white -translate-y-1 -translate-x-1",
+      ],
+    },
+  },
+});
 
 export default function MauriaWidget(props: Props) {
   const userID = useFaceStore((state) => state.userID);
@@ -62,16 +80,9 @@ export default function MauriaWidget(props: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0 }}
-      className={twMerge(
-        "min-w-64 max-w-72 h-48 p-3 bg-white rounded-2xl flex flex-col gap-2",
-        "origin-bottom-right transition-all duration-500 relative",
-        "after:absolute after:top-0 after:left-0 after:-z-10",
-        "after:bg-white after:rounded-2xl",
-        "after:transition-all after:duration-500",
-        "after:w-full after:h-full",
-        props.isHover &&
-          "scale-110 after:opacity-40 after:rounded-2xl after:outline after:outline-offset-0 after:outline-8 after:outline-white -translate-y-1 -translate-x-1",
-      )}
+      className={container({
+        isHover: props.isHover,
+      })}
     >
       <div className="flex justify-between items-center gap-4">
         <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center">
@@ -111,16 +122,16 @@ export default function MauriaWidget(props: Props) {
         })}
         <div className="border-b-2 border-gray-200" />
         {displayCourses.length - 2 > 0 ? (
-          <span className="px-2 py-1 text-sm text-center">
+          <span className="px-2 py-1 text-sm text-center font-medium opacity-50">
             Et {displayCourses.length - 2} autres cours...
           </span>
         ) : (
-          <span className="px-2 py-1 text-sm text-center">
-            C'est tout pour le moment
+          <span className="px-2 py-1 text-sm text-center font-medium opacity-50">
+            C&apos;est tout pour le moment
           </span>
         )}
         {displayCourses.length === 0 && (
-          <span className="text-sm font-medium">
+          <span className="text-sm font-medium font-medium opacity-50">
             Pas de cours prévus pour le moment
           </span>
         )}
@@ -146,9 +157,9 @@ const Line = (props: LineProps) => (
         {props.end}
       </span>
     </div>
-    <div className="flex flex-col items-end truncate">
-      <span className="text-sm  font-medium text-end">{props.title}</span>
-      <span className="text-sm  opacity-50 text-end">{props.room}</span>
+    <div className="flex flex-col items-end w-fit">
+      <span className="text-sm truncate font-medium">{props.title}</span>
+      <span className="text-sm truncate opacity-50">{props.room}</span>
     </div>
   </div>
 );
