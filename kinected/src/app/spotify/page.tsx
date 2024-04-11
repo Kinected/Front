@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PlayerComponent from "@/components/containers/spotify/player";
 import SpotifyCarousel from "@/components/containers/spotify/carousel";
@@ -8,11 +8,16 @@ import { useQuery } from "react-query";
 import { fetchSpotifyAccessToken } from "@/utils/requests/spotify/get-access-token";
 import { useUserActionsStore } from "@/stores/gestures.store";
 import { useRouter } from "next/navigation";
-import { playNextSong, playPreviousSong } from "@/utils/requests/spotify/pause";
-import { togglePlayerState } from "@/utils/requests/spotify/pause";
+import {
+  playNextSong,
+  playPreviousSong,
+  togglePlayerState,
+} from "@/utils/requests/spotify/pause";
+import { useFaceStore } from "@/stores/faces.store";
 
 export default function Home() {
   const router = useRouter();
+  const userID = useFaceStore((state) => state.userID);
   const [previousSong, setPreviousSong] = useState<Song | null>(null);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -20,8 +25,9 @@ export default function Home() {
   const { data: token } = useQuery<string>({
     queryKey: ["spotify", "token"],
     queryFn: async () => {
-      return await fetchSpotifyAccessToken("1");
+      return await fetchSpotifyAccessToken(userID as string);
     },
+    enabled: !!userID,
   });
 
   const updateActionsOnSwipe = useUserActionsStore(

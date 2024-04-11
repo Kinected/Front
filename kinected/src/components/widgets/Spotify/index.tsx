@@ -7,24 +7,28 @@ import { fetchSpotifyAccessToken } from "@/utils/requests/spotify/get-access-tok
 import { fetchCurrentlyPlaying } from "@/utils/requests/spotify/currently-playing";
 import { fetchPreviousSong } from "@/utils/requests/spotify/previously-playing";
 import { tv } from "tailwind-variants";
+import { useFaceStore } from "@/stores/faces.store";
 
 type Props = {
-    onClick?: () => void;
-    isHover?: boolean;
+  onClick?: () => void;
+  isHover?: boolean;
 };
 
 type Song = {
-    artist: string;
-    track: string;
-    cover: string;
+  artist: string;
+  track: string;
+  cover: string;
 };
 
 export default function SpotifyPlayer(props: Props) {
+  const userID = useFaceStore((state) => state.userID);
+
   const { data: token } = useQuery<string>({
     queryKey: ["spotify", "token"],
     queryFn: async () => {
-      return await fetchSpotifyAccessToken("1");
+      return await fetchSpotifyAccessToken(userID as string);
     },
+    enabled: !!userID,
   });
 
   const { data: song } = useQuery<Song | null>({
@@ -97,4 +101,3 @@ export default function SpotifyPlayer(props: Props) {
     </motion.div>
   );
 }
-
