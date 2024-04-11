@@ -3,6 +3,7 @@ import { tv } from "tailwind-variants";
 
 type Props = {
   children: React.ReactNode;
+  isHover?: boolean;
   onClick?: () => void;
   className?: string;
 };
@@ -14,13 +15,15 @@ const container = tv({
     "bg-white text-black",
     "rounded-2xl",
     "hover:scale-110",
-    "transition-all duration-500 ",
-    "after:absolute after:inset-0",
-    "after:w-full after:h-full",
-    "after:rounded-2xl after:bg-white after:opacity-0",
-    "hover:after:opacity-80",
-    "after:transition-all after:duration-500 ",
+    "ring-white/50",
+    "transition-all duration-500",
   ],
+
+  variants: {
+    isHover: {
+      true: ["scale-110 ring-8"],
+    },
+  },
 });
 
 export default function Button(props: Props) {
@@ -28,10 +31,11 @@ export default function Button(props: Props) {
     <button
       onClick={props.onClick}
       className={container({
+        isHover: props.isHover,
         className: props.className,
       })}
     >
-      <div className="flex items-center justify-center gap-2 text-xl font-semibold">
+      <div className="relative flex items-center justify-center gap-2 z-10 text-xl font-semibold">
         {props.children}
       </div>
     </button>

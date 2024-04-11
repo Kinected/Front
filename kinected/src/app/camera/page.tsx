@@ -41,6 +41,7 @@ export default function WebcamCapture() {
   useEffect(() => {
     updateEffectsOnAction({
       click: () => capture(),
+      up: () => router.push("/"),
     });
   }, []);
 
@@ -58,6 +59,10 @@ export default function WebcamCapture() {
             <Webcam
               audio={false}
               ref={webcamRef}
+              videoConstraints={{
+                width: 1920,
+                height: 1080,
+              }}
               screenshotFormat="image/jpeg"
               className="absolute object-cover w-full h-full rounded-2xl top-0 left-0"
             />

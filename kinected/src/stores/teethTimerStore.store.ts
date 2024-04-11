@@ -5,6 +5,7 @@ type TeethTimerStore = {
   time: number;
   updateTime: (value: number) => void;
   updateIsRunning: (value: boolean) => void;
+  toggleIsRunning: () => void;
 };
 
 export const useTeethTimerStore = create<TeethTimerStore>((set) => ({
@@ -21,6 +22,14 @@ export const useTeethTimerStore = create<TeethTimerStore>((set) => ({
   updateIsRunning: (value) => {
     set({
       isRunning: value,
+    });
+  },
+
+  toggleIsRunning: () => {
+    set((state) => {
+      return {
+        isRunning: !state.isRunning,
+      };
     });
   },
 }));

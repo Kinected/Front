@@ -6,14 +6,16 @@ type UseTeethTimerArgs = {
   isDefaultRunning?: boolean;
 };
 
+const DEFAULT_TIME = 180;
 export const useTeethTimer = ({
   initialTime,
   isDefaultRunning,
 }: UseTeethTimerArgs) => {
   const updateIsRunning = useTeethTimerStore((state) => state.updateIsRunning);
+  const toggleIsRunning = useTeethTimerStore((state) => state.toggleIsRunning);
   const updateTime = useTeethTimerStore((state) => state.updateTime);
 
-  const [time, setTime] = useState<number>(initialTime || 180);
+  const [time, setTime] = useState<number>(initialTime || DEFAULT_TIME);
   const [isRunning, setIsRunning] = useState<boolean>(
     isDefaultRunning || false,
   );
@@ -30,11 +32,11 @@ export const useTeethTimer = ({
 
   const toggleTimer = () => {
     setIsRunning((prevIsRunning) => !prevIsRunning);
-    updateIsRunning(!isRunning);
+    toggleIsRunning();
   };
 
   const resetTimer = (value?: number) => {
-    setTime(value || 180);
+    setTime(value || DEFAULT_TIME);
     setIsRunning(false);
   };
 
@@ -45,8 +47,8 @@ export const useTeethTimer = ({
           if (prevTime === 0) {
             setIsRunning(false);
             updateIsRunning(false);
-            updateTime(initialTime || 180);
-            return initialTime || 180;
+            updateTime(initialTime || DEFAULT_TIME);
+            return initialTime || DEFAULT_TIME;
           }
 
           updateTime(prevTime - 1);
@@ -60,7 +62,7 @@ export const useTeethTimer = ({
 
   return {
     timerTime: time,
-    formattedTime : formatTime(time),
+    formattedTime: formatTime(time),
     isRunning,
     toggleTimer,
     resetTimer,

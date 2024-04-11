@@ -118,10 +118,12 @@ export default function AudioChangeNameUser() {
       updateEffectsOnAction({
         left: () => ConfirmFirstname(),
         right: () => setName(null),
+        up: () => router.push("/"),
       });
     } else {
       updateEffectsOnAction({
         click: () => toggleRecording(),
+        up: () => router.push("/"),
       });
     }
   }, [toggleRecording]);
