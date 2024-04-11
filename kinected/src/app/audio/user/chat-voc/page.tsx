@@ -4,13 +4,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import AudioButton from "@/components/audioButton";
 import { getResponse } from "@/utils/requests/whisper/audio-chatbot";
 import pako from "pako";
+import { useFaceStore } from "@/stores/faces.store";
 
 export default function AudioChatVocUser() {
   const [isRecording, setIsRecording] = useState(false);
   const [isUserTalked, setIsUserTalked] = useState(false);
+  const userID = useFaceStore((state) => state.userID);
 
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
-    null,
+    null
   );
   const [average, setAverage] = useState(0);
   const treshhold = 25;
@@ -81,7 +83,7 @@ export default function AudioChatVocUser() {
         console.log("Sending audio...");
         console.log("Audio size:", formData);
 
-        const data = await getResponse(formData);
+        const data = await getResponse(formData, userID as string);
         setResponse((a) => data.response);
         setQuestion((a) => data.question);
         await fetchAudioTranscription();
@@ -93,7 +95,7 @@ export default function AudioChatVocUser() {
   const fetchAudioTranscription = async () => {
     console.log("Fetching audio transcription...");
     const response = await fetch(
-      "http://localhost:8000/api/audio/transcription",
+      "http://localhost:8000/api/audio/transcription"
     );
     const data = await response.json();
     const audioBase64 = data.audio;
