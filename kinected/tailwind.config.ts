@@ -8,10 +8,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-
-    
-
-
       keyframes: {
         switchPages: {
           "0%, 100%": { top: "-100%" },
@@ -28,8 +24,13 @@ const config: Config = {
       },
 
       transitionTimingFunction: {
-        "elastic": "cubic-bezier(0,1.75,.45,1)",
+        elastic: "cubic-bezier(0,1.75,.45,1)",
         DEFAULT: "cubic-bezier(0,1.75,.45,1)",
+      },
+
+      ringWidth: {
+        10: "10px",
+        12: "12px",
       },
     },
   },

@@ -21,16 +21,11 @@ const container = tv({
   base: [
     "min-w-64 h-48 p-3 bg-white rounded-3xl flex flex-col gap-2",
     "origin-bottom-right transition-all duration-500 relative",
-    "after:absolute after:top-0 after:left-0 after:-z-10",
-    "after:bg-white after:rounded-3xl",
-    "after:transition-all after:duration-500",
-    "after:w-full after:h-full",
+    "ring-white/60",
   ],
   variants: {
     isHover: {
-      true: [
-        "scale-110 after:opacity-40 after:rounded-2xl after:outline after:outline-offset-0 after:outline-8 after:outline-white -translate-y-1 -translate-x-1",
-      ],
+      true: ["scale-110 -translate-y-1 -translate-x-1", "ring-10"],
     },
   },
 });

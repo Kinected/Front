@@ -22,10 +22,11 @@ const container = tv({
     "max-w-24 p-4",
     "rounded-3xl border-4 border-white",
     "origin-right transition-all duration-500",
+    "ring-white/60"
   ],
   variants: {
     isHover: {
-      true: ["scale-110", "bg-white text-black", "ring-8 ring-white/50"],
+      true: ["scale-110", "bg-white text-black", "ring-10"],
     },
   },
 });

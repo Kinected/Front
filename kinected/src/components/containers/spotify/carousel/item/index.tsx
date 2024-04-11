@@ -43,9 +43,8 @@ export default function CarouselItem(props: Props) {
         isHover: props.isHover,
       })}
     >
-      <Image
+      <img
         src={props.cover}
-        fill
         className="w-full fit-cover rounded-2xl"
         alt="current_song_cover"
       />

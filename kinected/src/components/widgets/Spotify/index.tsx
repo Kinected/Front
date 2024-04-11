@@ -27,19 +27,19 @@ const container = tv({
     "size-48",
     "bg-white rounded-3xl p-2",
     "origin-bottom-left transition-all duration-500",
-    "after:absolute after:top-0 after:left-0 after:-z-10",
-    "after:bg-white after:rounded-3xl",
-    "after:w-full after:h-full",
-    "after:transition-all after:duration-500",
+    "ring-white/60",
   ],
   variants: {
     isHover: {
-      true: ["scale-110 after:opacity-40 after:scale-110 after:rounded-3xl"],
+      true: ["scale-110 ring-10"],
     },
   },
 });
 
 export default function SpotifyWidget(props: Props) {
+
+  const userID = useFaceStore((state) => state.userID);
+
   const { data: token } = useQuery<string>({
     queryKey: ["spotify", "token"],
     queryFn: async () => {

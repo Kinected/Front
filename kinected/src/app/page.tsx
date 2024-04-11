@@ -13,7 +13,6 @@ export default function Home() {
   const firstname = useFaceStore((state) => state.firstName);
   const userID = useFaceStore((state) => state.userID);
   const [isDisplayed, setIsDisplayed] = React.useState(true);
-  const isNewUser = useFaceStore((state) => state.isNewUser);
   const gotMauria = useFaceStore((state) => state.gotMauria);
   const gotSpotify = useFaceStore((state) => state.gotSpotify);
 
@@ -35,9 +34,7 @@ export default function Home() {
     updateActionsOnSwipe({
       "up-right": () => router.push("/spotify"),
       "up-left": () => router.push("/mauria"),
-
       "down-left": () => router.push("/sensors"),
-
       left: () => router.push("/teeth-timer"),
       click: () => console.log("click"),
     });
@@ -45,34 +42,31 @@ export default function Home() {
 
   return (
     <div className="flex flex-col flex-1 justify-between">
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-between">
+        <div/>
         {isDisplayed && (
-          <>
-            <AnimatePresence>
-              <motion.main
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 flex h-full w-full justify-center items-center"
-              >
-                <div className="flex flex-col items-center">
-                  <span className="text-white text-8xl text-start ">
-                    Bonjour
-                  </span>
-                  <span className="text-white text-8xl text-start font-bold">
-                    {firstname == "" ? `Utilisateur ${userID}` : firstname}
-                  </span>
-                </div>
-              </motion.main>
-            </AnimatePresence>
-            <AnimatePresence>
-              <TeethTimerWidget
-                isHover={current_action == "hover_left"}
-                onClick={() => router.push("/teeth-timer")}
-              />
-            </AnimatePresence>
-          </>
+          <AnimatePresence>
+            <motion.main
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 flex h-full w-full justify-center items-center"
+            >
+              <div className="flex flex-col items-center">
+                <span className="text-white text-8xl text-start ">Bonjour</span>
+                <span className="text-white text-8xl text-start font-bold">
+                  {firstname == "" ? `Utilisateur ${userID}` : firstname}
+                </span>
+              </div>
+            </motion.main>
+          </AnimatePresence>
         )}
+        <AnimatePresence>
+          <TeethTimerWidget
+            isHover={current_action == "hover_left"}
+            onClick={() => router.push("/teeth-timer")}
+          />
+        </AnimatePresence>
       </div>
 
       <div className="flex justify-between items-end">

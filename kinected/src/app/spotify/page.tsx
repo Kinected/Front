@@ -20,7 +20,6 @@ export default function Home() {
   const userID = useFaceStore((state) => state.userID);
   const [previousSong, setPreviousSong] = useState<Song | null>(null);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const { data: token } = useQuery<string>({
     queryKey: ["spotify", "token"],
@@ -46,7 +45,7 @@ export default function Home() {
         },
       });
     }
-  }, [token, isPlaying]);
+  }, [token]);
 
   if (!token) return null;
 

@@ -12,7 +12,10 @@ export default function WebcamCapture() {
 
   const capture = React.useCallback(() => {
     if (webcamRef.current) {
-      const imageSrc = webcamRef.current.getScreenshot();
+      const imageSrc = webcamRef.current.getScreenshot({
+        width: 1920,
+        height: 1080,
+      });
       console.log(imageSrc);
       fetch("http://localhost:8000/api/user", {
         method: "POST",
@@ -59,6 +62,9 @@ export default function WebcamCapture() {
             <Webcam
               audio={false}
               ref={webcamRef}
+              screenshotQuality={1}
+              mirrored
+              imageSmoothing={false}
               videoConstraints={{
                 width: 1920,
                 height: 1080,
