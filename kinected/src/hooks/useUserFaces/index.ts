@@ -25,7 +25,11 @@ export const useUserFaces = () => {
       face.updateUser(data.userID);
     };
 
-    websocket.onerror = (err) => {
+    websocket.onerror = async (err) => {
+      const response = await fetch(`http://localhost:8000/api/user/debug`);
+      const data = await response.json();
+      console.log(data);
+      face.updateUser(data.userID);
       console.log("ws err : ", err);
     };
 

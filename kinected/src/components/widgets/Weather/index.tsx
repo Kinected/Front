@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { ActualWeather } from "@/types/weather";
 import { useRouter } from "next/navigation";
 import { twMerge } from "tailwind-merge";
+import { motion } from "framer-motion";
 
 type Props = {
   isHover: boolean;
@@ -50,7 +51,10 @@ export default function Weather(props: Props) {
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       onClick={() => router.push("/sensors")}
       className={twMerge(
         "size-48 rounded-3xl bg-white flex flex-col p-4 justify-between relative origin-top-right transition-all duration-500",
@@ -74,6 +78,6 @@ export default function Weather(props: Props) {
       <div className="flex justify-between items-end">
         <span className="text-md">{WeatherString(data.weather[0].main)}</span>
       </div>
-    </div>
+    </motion.div>
   );
 }

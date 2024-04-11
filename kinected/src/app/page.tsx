@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <div className="flex flex-col flex-1 justify-between">
       <div className="flex-1 flex items-center justify-between">
-        <div/>
+        <div />
         {isDisplayed && (
           <AnimatePresence>
             <motion.main
@@ -55,7 +55,11 @@ export default function Home() {
               <div className="flex flex-col items-center">
                 <span className="text-white text-8xl text-start ">Bonjour</span>
                 <span className="text-white text-8xl text-start font-bold">
-                  {firstname == "" ? `Utilisateur ${userID}` : firstname}
+                  {userID == null
+                    ? "Invité"
+                    : firstname == ""
+                      ? `Utilisateur ${userID}`
+                      : firstname}
                 </span>
               </div>
             </motion.main>
