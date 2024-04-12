@@ -50,7 +50,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 flex h-full w-full justify-center items-center"
+              className="fixed -z-[10] inset-0 flex h-full w-full justify-center items-center"
             >
               <div className="flex flex-col items-center">
                 <span className="text-white text-8xl text-start ">Bonjour</span>
@@ -67,7 +67,7 @@ export default function Home() {
         )}
         <div
           className={
-            "fixed inset-0 h-full w-full flex items-center justify-between p-4"
+            "fixed inset-0 h-full w-full -z-[10] flex items-center justify-between p-4"
           }
         >
           <AnimatePresence>
