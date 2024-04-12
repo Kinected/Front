@@ -15,11 +15,11 @@ export const useUserFaces = () => {
   useWebSocket(`ws:/localhost:8000/ws/faces`, {
     shouldReconnect: () => true,
     onOpen: async () => {
-      console.log("opened");
-      const response = await fetch(`http://localhost:8000/api/user/debug`);
-      const data = await response.json();
-      console.log(data);
-      face.updateUser(data.userID);
+      // console.log("opened");
+      // const response = await fetch(`http://localhost:8000/api/user/debug`);
+      // const data = await response.json();
+      // console.log(data);
+      // face.updateUser(data.userID);
     },
     onMessage: (event) => {
       const data = JSON.parse(event.data);
