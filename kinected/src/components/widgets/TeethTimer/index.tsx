@@ -3,6 +3,7 @@
 import React from "react";
 
 import ToothBrush from "../../../icons/ToothBrush.svg";
+import Clock from "../../../icons/Circle Clock.svg";
 import Link from "next/link";
 import { useTeethTimer } from "@/hooks/useTeethTimer";
 import { useTeethTimerStore } from "@/stores/teethTimerStore.store";
@@ -18,11 +19,11 @@ const container = tv({
   base: [
     "relative",
     "flex flex-col gap-4 items-center",
-    "bg-black text-white",
+    "bg-white text-black",
     "max-w-24 p-4",
     "rounded-3xl border-4 border-white",
     "origin-right transition-all duration-500",
-    "ring-white/60"
+    "ring-white/60",
   ],
   variants: {
     isHover: {
@@ -47,16 +48,21 @@ export const TeethTimerWidget = (props: TeethTimerWidgetProps) => {
         isHover: props.isHover,
       })}
     >
-      <ToothBrush className={"size-16"} />
+      <div className={"relative size-16"}>
+        <ToothBrush className={"size-16 -ml-1 -mt-1"} />
+        <Clock className={"size-8 absolute bottom-0 right-0 -mr-1 -mb-1"} />
+      </div>
 
-      <span
-        className={twMerge(
-          "font-bold text-center leading-none",
-          isRunning && "text-xl",
-        )}
-      >
-        {isRunning ? formattedTime : "Minuteur brossage de dent"}
-      </span>
+      {isRunning && (
+        <span
+          className={twMerge(
+            "font-bold text-center leading-none",
+            isRunning && "text-xl",
+          )}
+        >
+          {isRunning ? formattedTime : "Minuteur brossage de dent"}
+        </span>
+      )}
     </Link>
   );
 };

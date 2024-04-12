@@ -4,8 +4,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import AudioButton from "@/components/audioButton";
 import { getResponse } from "@/utils/requests/whisper/audio-chatbot";
 import pako from "pako";
+import { useUserActionsStore } from "@/stores/gestures.store";
+import { useRouter } from "next/navigation";
 
 export default function AudioChatVocUser() {
+  const router = useRouter();
   const [isRecording, setIsRecording] = useState(false);
   const [isUserTalked, setIsUserTalked] = useState(false);
 
@@ -17,6 +20,21 @@ export default function AudioChatVocUser() {
 
   const [response, setResponse] = useState<string | null>(null);
   const [question, setQuestion] = useState<string | null>(null);
+
+  const updateEffectsOnAction = useUserActionsStore(
+    (state) => state.updateEffectsOnAction,
+  );
+
+  useEffect(() => {
+    updateEffectsOnAction({
+      click: () => {
+        toggleRecording(5000);
+      },
+      up: () => {
+        router.push("/");
+      },
+    });
+  }, []);
 
   useEffect(() => {
     navigator.mediaDevices

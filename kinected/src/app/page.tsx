@@ -2,11 +2,13 @@
 import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SpotifyWidget from "@/components/widgets/Spotify";
-import MauriaWidget from "@/components/widgets/Mauria";
 import { useRouter } from "next/navigation";
 import { useUserActionsStore } from "@/stores/gestures.store";
 import { useFaceStore } from "@/stores/faces.store";
 import { TeethTimerWidget } from "@/components/widgets/TeethTimer";
+import { twMerge } from "tailwind-merge";
+import IleviaBusWidget from "@/components/widgets/Ilevia/Bus";
+import IleviaVlilleWidget from "@/components/widgets/Ilevia/Vlille";
 
 export default function Home() {
   const router = useRouter();
@@ -15,6 +17,9 @@ export default function Home() {
   const [isDisplayed, setIsDisplayed] = React.useState(true);
   const gotMauria = useFaceStore((state) => state.gotMauria);
   const gotSpotify = useFaceStore((state) => state.gotSpotify);
+  const gotIleviaBus = useFaceStore((state) => state.gotIleviaBus);
+  const gotIleviaVlille = useFaceStore((state) => state.gotIleviaVlille);
+  const [isHover, setIsHover] = React.useState(false);
 
   // // detect if firstname changed
   // useEffect(() => {
@@ -33,10 +38,11 @@ export default function Home() {
   useEffect(() => {
     updateActionsOnSwipe({
       "up-right": () => router.push("/spotify"),
-      "up-left": () => router.push("/mauria"),
+      "up-left": () => router.push("/ilevia"),
+      "down-right": () => router.push("/mauria"),
       "down-left": () => router.push("/sensors"),
       left: () => router.push("/teeth-timer"),
-      click: () => console.log("click"),
+      click: () => router.push("/audio/chat-voc"),
     });
   }, []);
 
@@ -94,22 +100,21 @@ export default function Home() {
         </AnimatePresence>
 
         <AnimatePresence>
-          {gotMauria && (
-            <MauriaWidget
-              isHover={current_action == "hover_up-left"}
-              onClick={() => router.push("/mauria")}
-            />
-          )}
+          <div
+            onClick={() => setIsHover(!isHover)}
+            className={twMerge(
+              "flex flex-col w-fit",
+              current_action == "hover_up-left" ? "gap-10" : "gap-4",
+            )}
+          >
+            {gotIleviaBus && (
+              <IleviaBusWidget isHover={current_action == "hover_up-left"} />
+            )}
+            {gotIleviaVlille && (
+              <IleviaVlilleWidget isHover={current_action == "hover_up-left"} />
+            )}
+          </div>
         </AnimatePresence>
-        {/*<AnimatePresence>*/}
-        {/*  <div*/}
-        {/*    onClick={() => setIsHover(!isHover)}*/}
-        {/*    className={twMerge("flex flex-col", isHover ? "gap-10" : "gap-4")}*/}
-        {/*  >*/}
-        {/*    <IleviaBusWidget isHover={isHover} />*/}
-        {/*    <IleviaVlilleWidget isHover={isHover} />*/}
-        {/*  </div>*/}
-        {/*</AnimatePresence>*/}
       </div>
     </div>
   );
