@@ -26,6 +26,7 @@ export const useFaceStore = create<FaceStore>((set) => ({
   refreshUser: () => {
     const id = useFaceStore.getState().userID;
     if (!id) return;
+
     fetchUser(id).then((data) => {
       set({
         userID: useFaceStore.getState().userID,
@@ -42,7 +43,6 @@ export const useFaceStore = create<FaceStore>((set) => ({
   updateUser: (newUserID: string) => {
     // if (newUserID == useFaceStore.getState().userID) return;
     if (newUserID == "Unknown") {
-      console.log("Unknown user");
       set({
         userID: null,
         firstName: "",
@@ -54,21 +54,19 @@ export const useFaceStore = create<FaceStore>((set) => ({
         gotIleviaVlille: false,
       });
       return;
-    } else {
-      fetchUser(newUserID).then((data) => {
-        console.log(newUserID, data.firstname);
-        console.log(data);
-        set({
-          userID: newUserID,
-          firstName: data.firstname,
-          lastName: data.lastname,
-          isNewUser: false,
-          gotMauria: data.gotMauria,
-          gotSpotify: data.gotSpotify,
-          gotIleviaBus: data.gotIleviaBus,
-          gotIleviaVlille: data.gotIleviaVlille,
-        });
-      });
     }
+
+    fetchUser(newUserID).then((data) => {
+      set({
+        userID: newUserID,
+        firstName: data.firstname,
+        lastName: data.lastname,
+        isNewUser: false,
+        gotMauria: data.gotMauria,
+        gotSpotify: data.gotSpotify,
+        gotIleviaBus: data.gotIleviaBus,
+        gotIleviaVlille: data.gotIleviaVlille,
+      });
+    });
   },
 }));

@@ -88,10 +88,10 @@ export default function MauriaWidget(props: Props) {
             ? "Aujourd'hui"
             : tomorrowsCourses.length !== 0
               ? "Demain"
-              : "Lets go!"}
+              : "Mauria"}
         </span>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col flex-1">
         {displayCourses.slice(0, 2).map((course: any, index: number) => {
           const start = new Date(course.start);
           const end = new Date(course.end);
@@ -116,17 +116,18 @@ export default function MauriaWidget(props: Props) {
           );
         })}
         <div className="border-b-2 border-gray-200" />
-        {displayCourses.length - 2 > 0 ? (
-          <span className="px-2 py-1 text-sm text-center font-medium opacity-50">
-            Et {displayCourses.length - 2} autres cours...
-          </span>
+        {displayCourses.length > 0 ? (
+          displayCourses.length - 2 > 0 ? (
+            <span className="px-2 py-1 text-sm text-center font-medium opacity-50">
+              Et {displayCourses.length - 2} autres cours...
+            </span>
+          ) : (
+            <span className="px-2 py-1 text-center text-sm font-medium opacity-50">
+              Pas d&apos;autres cours de prévus pour le moment...
+            </span>
+          )
         ) : (
-          <span className="px-2 py-1 text-sm text-center font-medium opacity-50">
-            C&apos;est tout pour le moment
-          </span>
-        )}
-        {displayCourses.length === 0 && (
-          <span className="text-sm font-medium font-medium opacity-50">
+          <span className="flex flex-1 flex-col justify-center my-2 p-4 bg-black/10 rounded-lg text-center font-medium opacity-50">
             Pas de cours prévus pour le moment
           </span>
         )}

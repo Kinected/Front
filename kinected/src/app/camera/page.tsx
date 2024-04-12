@@ -26,6 +26,7 @@ export default function WebcamCapture() {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log("data", data);
           if (data.success === true) {
             console.log("User created");
             router.push("/audio/user/change-name");
