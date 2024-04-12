@@ -2,15 +2,19 @@ import { motion } from "framer-motion";
 import React from "react";
 import Check from "../../icons/Check square.svg";
 import Close from "../../icons/Close square.svg";
-import Arrow from "../../icons/arrow.svg";
+import ConfirmButton from "@/components/modal/ConfirmButton";
+import { useUserActionsStore } from "@/stores/gestures.store";
 
 type Props = {
   children: React.ReactNode;
+
   onConfirm: () => void;
   onCancel: () => void;
 };
 
 export default function Modal(props: Props) {
+  const current_action = useUserActionsStore((state) => state.current_action);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -18,27 +22,23 @@ export default function Modal(props: Props) {
       exit={{ opacity: 0 }}
       className="w-full flex justify-between items-center"
     >
-      <div
+      <ConfirmButton
         onClick={props.onCancel}
-        className="hover:scale-110 origin-left animation-all duration-500 size-40 p-4 border-solid border-4 border-white text-white rounded-full relative flex flex-col items-center justify-center"
-      >
-        <Close className="size-16" />
-        <span className="font-medium text-xl">Non</span>
-        <div className="absolute size-12 rounded-full shadow bg-white -right-0 translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center">
-          <Arrow className="size-8 rotate-180 text-black" />
-        </div>
-      </div>
+        icon={<Close className="size-16" />}
+        text={"Non"}
+        position={"left"}
+        isHover={current_action === "hover_right"}
+      />
+
       {props.children}
-      <div
-        onClick={props.onConfirm}
-        className="hover:scale-110 origin-right animation-all duration-500 size-40 p-4 border-solid border-4 border-white text-white rounded-full relative flex flex-col items-center justify-center"
-      >
-        <Check className="size-16" />
-        <span className="font-medium text-xl">Oui</span>
-        <div className="absolute size-12 rounded-full shadow bg-white -left-0 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center">
-          <Arrow className="size-8 text-black" />
-        </div>
-      </div>
+
+      <ConfirmButton
+        onClick={props.onCancel}
+        icon={<Check className="size-16" />}
+        text={"Oui"}
+        position={"right"}
+        isHover={current_action === "hover_left"}
+      />
     </motion.div>
   );
 }

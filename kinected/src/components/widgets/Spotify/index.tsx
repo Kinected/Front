@@ -37,7 +37,6 @@ const container = tv({
 });
 
 export default function SpotifyWidget(props: Props) {
-
   const userID = useFaceStore((state) => state.userID);
 
   const { data: token } = useQuery<string>({
@@ -76,13 +75,13 @@ export default function SpotifyWidget(props: Props) {
       })}
     >
       <div className="flex justify-between items-start gap-2">
-        <div className="relative w-full aspect-square bg-gray-300 rounded-2xl">
+        <div className="relative w-full aspect-square rounded-3xl overflow-hidden">
           {displayedSong && (
             <Image
               alt="cover current song"
               src={displayedSong.cover}
               fill
-              className="rounded-2xl fit-cover"
+              className="object-cover"
             />
           )}
         </div>
