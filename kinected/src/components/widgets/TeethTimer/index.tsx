@@ -22,7 +22,7 @@ const container = tv({
     "max-w-24 p-4",
     "rounded-3xl border-4 border-white",
     "origin-right transition-all duration-500",
-    "ring-white/60"
+    "ring-white/60",
   ],
   variants: {
     isHover: {
@@ -33,12 +33,10 @@ const container = tv({
 export const TeethTimerWidget = (props: TeethTimerWidgetProps) => {
   const isDefaultRunning = useTeethTimerStore((state) => state.isRunning);
   const time = useTeethTimerStore((state) => state.time);
-  const { timerTime, isRunning, formattedTime } = useTeethTimer({
+  const { isFinished, isRunning, formattedTime } = useTeethTimer({
     initialTime: time,
     isDefaultRunning: isDefaultRunning || false,
   });
-
-  console.log("timerTime", timerTime, "formattedTime", formattedTime);
 
   return (
     <Link
@@ -49,14 +47,27 @@ export const TeethTimerWidget = (props: TeethTimerWidgetProps) => {
     >
       <ToothBrush className={"size-16"} />
 
-      <span
-        className={twMerge(
-          "font-bold text-center leading-none",
-          isRunning && "text-xl",
-        )}
-      >
-        {isRunning ? formattedTime : "Minuteur brossage de dent"}
-      </span>
+      {isFinished ? (
+        <>
+          <div
+            className={
+              "absolute inset-0 size-full bg-white rounded-3xl -z-10 border-8 ring-12 ring-white/80 animate-pulse"
+            }
+          />
+          <span className={"relative font-bold text-center"}>
+            Minuteur Terminé
+          </span>
+        </>
+      ) : (
+        <span
+          className={twMerge(
+            "font-bold text-center leading-none",
+            isRunning && "text-xl",
+          )}
+        >
+          {isRunning ? formattedTime : "Minuteur brossage de dent"}
+        </span>
+      )}
     </Link>
   );
 };

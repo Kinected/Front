@@ -4,20 +4,28 @@ import { useTeethTimerStore } from "@/stores/teethTimerStore.store";
 type UseTeethTimerArgs = {
   initialTime?: number;
   isDefaultRunning?: boolean;
+  isDefaultFinished?: boolean;
 };
 
-const DEFAULT_TIME = 180;
+const DEFAULT_TIME = 10;
 export const useTeethTimer = ({
   initialTime,
   isDefaultRunning,
+  isDefaultFinished,
 }: UseTeethTimerArgs) => {
   const updateIsRunning = useTeethTimerStore((state) => state.updateIsRunning);
   const toggleIsRunning = useTeethTimerStore((state) => state.toggleIsRunning);
   const updateTime = useTeethTimerStore((state) => state.updateTime);
+  const updateIsFinished = useTeethTimerStore(
+    (state) => state.updateIsFinished,
+  );
 
   const [time, setTime] = useState<number>(initialTime || DEFAULT_TIME);
   const [isRunning, setIsRunning] = useState<boolean>(
     isDefaultRunning || false,
+  );
+  const [isFinished, setIsFinished] = useState<boolean>(
+    isDefaultFinished || false,
   );
 
   const formatTime = (time: number) => {
@@ -31,12 +39,21 @@ export const useTeethTimer = ({
   };
 
   const toggleTimer = () => {
+    if (isFinished) {
+      resetTimer();
+      return;
+    }
+
     setIsRunning((prevIsRunning) => !prevIsRunning);
     toggleIsRunning();
   };
 
   const resetTimer = (value?: number) => {
+    updateTime(value || DEFAULT_TIME);
     setTime(value || DEFAULT_TIME);
+    updateIsFinished(false);
+    setIsFinished(false);
+    updateIsRunning(false);
     setIsRunning(false);
   };
 
@@ -47,7 +64,10 @@ export const useTeethTimer = ({
           if (prevTime === 0) {
             setIsRunning(false);
             updateIsRunning(false);
-            updateTime(initialTime || DEFAULT_TIME);
+
+            setIsFinished(true);
+            updateIsFinished(true);
+
             return initialTime || DEFAULT_TIME;
           }
 
@@ -58,12 +78,13 @@ export const useTeethTimer = ({
 
       return () => clearInterval(interval);
     }
-  }, [isRunning]);
+  }, [isRunning, isFinished]);
 
   return {
     timerTime: time,
     formattedTime: formatTime(time),
     isRunning,
+    isFinished,
     toggleTimer,
     resetTimer,
   };

@@ -15,13 +15,13 @@ const container = tv({
     "bg-white text-black",
     "rounded-2xl",
     "hover:scale-110",
-    "ring-white/50",
+    "ring-white/60",
     "transition-all duration-500",
   ],
 
   variants: {
     isHover: {
-      true: ["scale-110 ring-8"],
+      true: ["scale-110 ring-10"],
     },
   },
 });

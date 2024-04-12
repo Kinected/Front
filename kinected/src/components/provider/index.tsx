@@ -4,15 +4,15 @@ import FaceHandler from "./face";
 import SensorsHandler from "./sensors";
 
 type Props = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export default function Provider(props: Props) {
-    return (
-        <SensorsHandler>
-            <GestureHandler>
-                <FaceHandler>{props.children}</FaceHandler>
-            </GestureHandler>
-        </SensorsHandler>
-    );
+  return (
+    <SensorsHandler>
+      <GestureHandler>
+        <FaceHandler>{props.children}</FaceHandler>
+      </GestureHandler>
+    </SensorsHandler>
+  );
 }
