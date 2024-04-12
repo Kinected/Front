@@ -14,7 +14,6 @@
     "@fullcalendar/react": "^6.1.11",
     "@fullcalendar/timegrid": "^6.1.11",
     "@svgr/webpack": "^8.1.0",
-    "@types/pako": "^2.0.3",
     "clsx": "^2.1.0",
     "data-fns": "^1.1.0",
     "framer-motion": "^11.0.20",
@@ -38,6 +37,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/pako": "^2.0.3",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",

@@ -47,7 +47,7 @@ const TeethTimer = () => {
         </div>
 
         {isFinished ? (
-          <Button onClick={toggleIsRunning}>Relancer le minuteur</Button>
+          <Button onClick={toggleIsRunning}>Réinitialiser le minuteur</Button>
         ) : (
           <Button onClick={toggleIsRunning}>
             {isRunning ? "Arrêter" : "Lancer"} le minuteur

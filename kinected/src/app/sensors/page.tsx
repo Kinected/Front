@@ -226,7 +226,7 @@ export default function SensorsPage() {
                 <span className="text-xs font-light">Interieur</span>
               </div>
               <div className="flex flex-col justify-end items-end">
-                <span className="text-6xl">{humidity}</span>
+                <span className="text-5xl">{humidity} g/m3</span>
               </div>
             </div>
             <div className="flex flex-1 bg-white p-4 rounded-2xl justify-between">
@@ -239,7 +239,7 @@ export default function SensorsPage() {
                 </div>
               </div>
               <div className="flex flex-col justify-end items-end">
-                <span className="text-6xl">{temperature}</span>
+                <span className="text-5xl">{temperature}°C</span>
               </div>
             </div>
             <div className="flex flex-1 bg-white p-4 rounded-2xl justify-between">
@@ -250,7 +250,7 @@ export default function SensorsPage() {
                 <span className="text-xs font-light">Interieur</span>
               </div>
               <div className="flex flex-col justify-end items-end">
-                <span className="text-6xl">{luminosity}</span>
+                <span className="text-5xl">{luminosity} lux</span>
               </div>
             </div>
           </div>

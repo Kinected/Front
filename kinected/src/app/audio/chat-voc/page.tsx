@@ -16,7 +16,7 @@ export default function AudioChatVocUser() {
     null,
   );
   const [average, setAverage] = useState(0);
-  const treshhold = 25;
+  const THRESHOLD = 25;
 
   const [response, setResponse] = useState<string | null>(null);
   const [question, setQuestion] = useState<string | null>(null);
@@ -24,17 +24,6 @@ export default function AudioChatVocUser() {
   const updateEffectsOnAction = useUserActionsStore(
     (state) => state.updateEffectsOnAction,
   );
-
-  useEffect(() => {
-    updateEffectsOnAction({
-      click: () => {
-        toggleRecording(5000);
-      },
-      up: () => {
-        router.push("/");
-      },
-    });
-  }, []);
 
   useEffect(() => {
     navigator.mediaDevices
@@ -49,7 +38,6 @@ export default function AudioChatVocUser() {
         setMediaRecorder(newMediaRecorder);
 
         newMediaRecorder.ondataavailable = (e) => {
-          console.log("Data available");
           if (newMediaRecorder.state === "inactive") {
             sendAudio(new Blob([e.data], { type: "audio/mp3" }));
           }
@@ -70,9 +58,9 @@ export default function AudioChatVocUser() {
   }, []);
 
   useEffect(() => {
-    if (!isUserTalked && average > treshhold * 1.5 && isRecording) {
+    if (!isUserTalked && average > THRESHOLD * 1.5 && isRecording) {
       setIsUserTalked(true);
-    } else if (average < treshhold && isRecording && isUserTalked) {
+    } else if (average < THRESHOLD && isRecording && isUserTalked) {
       setTimeout(() => {
         if (!mediaRecorder) return;
         mediaRecorder.stop();
@@ -82,7 +70,7 @@ export default function AudioChatVocUser() {
     }
   }, [isRecording, isUserTalked, average]);
 
-  const toggleRecording = (milis: number) => {
+  const toggleRecording = () => {
     if (!isRecording && mediaRecorder) {
       setIsRecording((prev) => !prev);
       mediaRecorder.start();
@@ -128,24 +116,19 @@ export default function AudioChatVocUser() {
     const decompressedData = pako.inflate(byteArray.buffer);
     const audioBlob = new Blob([decompressedData], { type: "audio/mpeg" });
     const audioUrl = URL.createObjectURL(audioBlob);
-    console.log("Audio URL:", audioUrl);
 
     // Now you can use audioUrl to play the audio
     // For example, you can set it as the src of an audio element
     const audioElement = document.querySelector("audio");
-    console.log("audioElement", audioElement);
     if (audioElement) {
       audioElement.src = audioUrl;
-      console.log("Audio element src:", audioElement.src);
       audioElement.oncanplay = () => {
         audioElement.play();
       };
       audioElement.onerror = (error) => {
         console.error("Audio error:", error);
       };
-      audioElement.onplaying = () => {
-        console.log("Audio is playing");
-      };
+      audioElement.onplaying = () => {};
     } else {
       console.error("feur");
     }
@@ -163,6 +146,15 @@ export default function AudioChatVocUser() {
     return <audio ref={audioRef} />;
   }
 
+  useEffect(() => {
+    updateEffectsOnAction({
+      click: () => toggleRecording(),
+      up: () => {
+        router.push("/");
+      },
+    });
+  }, []);
+
   return (
     <motion.div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex flex-col gap-24 items-center">
@@ -171,9 +163,9 @@ export default function AudioChatVocUser() {
             Quelle est votre question ?
           </span>
           <AudioButton
-            isTooLoud={average > treshhold * 1.5 && !isRecording}
+            isTooLoud={average > THRESHOLD * 1.5 && !isRecording}
             isRecording={isRecording}
-            onClick={() => toggleRecording(5000)}
+            onClick={() => toggleRecording()}
           />
         </div>
         <AnimatePresence>
