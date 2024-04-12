@@ -2,7 +2,7 @@
 
 import "./globals.css";
 import React from "react";
-import {Inter, Outfit, Poppins, Raleway, Rubik, Syne} from "next/font/google";
+import { Inter, Outfit, Poppins, Raleway, Rubik, Syne } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -26,7 +26,6 @@ export default function RootLayout({
 
   const current_swipe = useUserActionsStore((state) => state.current_action);
 
-  // Default values shown
   return (
     <html lang="fr">
       <Head>

@@ -28,9 +28,26 @@ export default function HomeButton(props: HomeButtonProps) {
           "transition-all duration-500",
         )}
       />
-      <div className={"relative py-3 px-6 "}>
-        <div className={twMerge("absolute -z-10 inset-0 rounded-2xl bg-white scale-50 opacity-0", props.isHover && "scale-100 opacity-100", "transition duration-300")}/>
-        <span className={twMerge("font-medium text-white text-2xl", props.isHover && "text-black", "transition duration-300")}>
+      <div
+        className={twMerge(
+          "relative py-3 px-6 ring-white/60 transition-all duration-500 rounded-2xl",
+          props.isHover && "ring-8",
+        )}
+      >
+        <div
+          className={twMerge(
+            "absolute -z-10 inset-0 rounded-2xl bg-white scale-50 opacity-0",
+            props.isHover && "scale-100 opacity-100",
+            "transition duration-300",
+          )}
+        />
+        <span
+          className={twMerge(
+            "font-medium text-white text-2xl",
+            props.isHover && "text-black",
+            "transition duration-300",
+          )}
+        >
           Accueil
         </span>
       </div>
