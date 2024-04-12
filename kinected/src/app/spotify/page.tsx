@@ -51,35 +51,22 @@ export default function Home() {
 
   return (
     <AnimatePresence>
-      {previousSong && currentSong ? (
-        <motion.main
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { delay: 0.3 } }}
-          exit={{ opacity: 0 }}
-          className="flex h-full flex-col justify-center gap-12"
-        >
-          <SpotifyCarousel
-            token={token}
-            currentSwipe={currentSwipe}
-            previous={previousSong}
-            setPreviousSong={setPreviousSong}
-            current={currentSong}
-            setCurrentSong={setCurrentSong}
-          />
-          <PlayerComponent token={token} />
-        </motion.main>
-      ) : (
-        <motion.main
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { delay: 0.3 } }}
-          exit={{ opacity: 0 }}
-          className="flex h-full w-full flex-col justify-center items-center gap-12"
-        >
-          <span className={"text-white text-4xl"}>
-            Aucune musique n'est joué pour le moment
-          </span>
-        </motion.main>
-      )}
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { delay: 0.3 } }}
+        exit={{ opacity: 0 }}
+        className="flex h-full flex-col justify-center gap-12"
+      >
+        <SpotifyCarousel
+          token={token}
+          currentSwipe={currentSwipe}
+          previous={previousSong}
+          setPreviousSong={setPreviousSong}
+          current={currentSong}
+          setCurrentSong={setCurrentSong}
+        />
+        {previousSong && currentSong && <PlayerComponent token={token} />}
+      </motion.main>
     </AnimatePresence>
   );
 }

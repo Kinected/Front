@@ -31,7 +31,9 @@ const container = tv({
   },
 });
 export const TeethTimerWidget = (props: TeethTimerWidgetProps) => {
-  const { time, formatTime,  isRunning, isFinished } = useTeethTimerStore((state) => state);
+  const { time, formatTime, isRunning, isFinished } = useTeethTimerStore(
+    (state) => state,
+  );
 
   return (
     <Link
@@ -45,7 +47,6 @@ export const TeethTimerWidget = (props: TeethTimerWidgetProps) => {
         <Clock className={"size-8 absolute bottom-0 right-0 -mr-1 -mb-1"} />
       </div>
 
-
       {isFinished ? (
         <>
           <div
@@ -58,15 +59,16 @@ export const TeethTimerWidget = (props: TeethTimerWidgetProps) => {
           </span>
         </>
       ) : (
-        <span
-          className={twMerge(
-            "font-bold text-center leading-none",
-            isRunning && "text-xl",
-          )}
-        >
-
-          {isRunning ? formatTime(time) : ""}
-        </span>
+        isRunning && (
+          <span
+            className={twMerge(
+              "font-bold text-center leading-none",
+              isRunning && "text-xl",
+            )}
+          >
+            {formatTime(time)}
+          </span>
+        )
       )}
     </Link>
   );

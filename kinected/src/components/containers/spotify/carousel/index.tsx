@@ -53,7 +53,11 @@ export default function SpotifyCarousel(props: Props) {
   });
 
   if (!props.previous || !props.current || !next) {
-    return;
+    return (
+      <span className={"text-white text-center text-4xl"}>
+        Aucune musique n'est jouée pour le moment
+      </span>
+    );
   }
   return (
     <div className="relative grid grid-cols-6 gap-24 items-center justify-center">
