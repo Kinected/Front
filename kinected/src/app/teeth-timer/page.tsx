@@ -5,35 +5,27 @@ import Page from "@/components/Layout/Page";
 import PageTitle from "@/components/Layout/PageTitle";
 import Button from "@/components/button";
 import { useUserActionsStore } from "@/stores/gestures.store";
-import { useTeethTimer } from "@/hooks/useTeethTimer";
 import { useRouter } from "next/navigation";
-import { useTeethTimerStore } from "@/stores/teethTimerStore.store";
+import { useTeethTimerStore } from "@/stores/teethTimer.store";
 
 const TeethTimer = () => {
   const router = useRouter();
 
+  const current_action = useUserActionsStore((state) => state.current_action);
   const updateEffectsOnAction = useUserActionsStore(
     (state) => state.updateEffectsOnAction,
   );
-  const isDefaultRunning = useTeethTimerStore((state) => state.isRunning);
-  const isDefaultFinished = useTeethTimerStore((state) => state.isFinished);
-  const time = useTeethTimerStore((state) => state.time);
-  const current_action = useUserActionsStore((state) => state.current_action);
 
-  const { formattedTime, isRunning, isFinished, toggleTimer, resetTimer } =
-    useTeethTimer({
-      initialTime: time || 10,
-      isDefaultRunning: isDefaultRunning || false,
-      isDefaultFinished: isDefaultFinished || false,
-    });
+  const { time, formatTime, isRunning, isFinished, toggleIsRunning, resetTime } =
+    useTeethTimerStore((state) => state);
 
   useEffect(() => {
     updateEffectsOnAction({
-      down: () => resetTimer(),
-      click: () => toggleTimer(),
+      down: () => resetTime(),
+      click: () => toggleIsRunning(),
       up: () => router.push("/"),
     });
-  }, [isFinished]);
+  }, []);
 
   return (
     <Page className={"items-center gap-24"}>
@@ -50,14 +42,14 @@ const TeethTimer = () => {
               Minuteur Terminé !
             </span>
           ) : (
-            <span className={"text-9xl font-bold"}>{formattedTime}</span>
+            <span className={"text-9xl font-bold"}>{formatTime(time)}</span>
           )}
         </div>
 
         {isFinished ? (
-          <Button onClick={toggleTimer}>Relancer le minuteur</Button>
+          <Button onClick={toggleIsRunning}>Relancer le minuteur</Button>
         ) : (
-          <Button onClick={toggleTimer}>
+          <Button onClick={toggleIsRunning}>
             {isRunning ? "Arrêter" : "Lancer"} le minuteur
           </Button>
         )}

@@ -4,8 +4,7 @@ import React from "react";
 
 import ToothBrush from "../../../icons/ToothBrush.svg";
 import Link from "next/link";
-import { useTeethTimer } from "@/hooks/useTeethTimer";
-import { useTeethTimerStore } from "@/stores/teethTimerStore.store";
+import { useTeethTimerStore } from "@/stores/teethTimer.store";
 import { tv } from "tailwind-variants";
 import { twMerge } from "tailwind-merge";
 
@@ -31,12 +30,7 @@ const container = tv({
   },
 });
 export const TeethTimerWidget = (props: TeethTimerWidgetProps) => {
-  const isDefaultRunning = useTeethTimerStore((state) => state.isRunning);
-  const time = useTeethTimerStore((state) => state.time);
-  const { isFinished, isRunning, formattedTime } = useTeethTimer({
-    initialTime: time,
-    isDefaultRunning: isDefaultRunning || false,
-  });
+  const { time, formatTime,  isRunning, isFinished } = useTeethTimerStore((state) => state);
 
   return (
     <Link
@@ -65,7 +59,7 @@ export const TeethTimerWidget = (props: TeethTimerWidgetProps) => {
             isRunning && "text-xl",
           )}
         >
-          {isRunning ? formattedTime : "Minuteur brossage de dent"}
+          {isRunning ? formatTime(time) : "Minuteur brossage de dent"}
         </span>
       )}
     </Link>

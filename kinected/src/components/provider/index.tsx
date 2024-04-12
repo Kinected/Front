@@ -2,6 +2,7 @@ import React from "react";
 import GestureHandler from "./gesture";
 import FaceHandler from "./face";
 import SensorsHandler from "./sensors";
+import { TeethTimerStoreProvider } from "@/components/provider/timer";
 
 type Props = {
   children: React.ReactNode;
@@ -9,10 +10,12 @@ type Props = {
 
 export default function Provider(props: Props) {
   return (
-    <SensorsHandler>
-      <GestureHandler>
-        <FaceHandler>{props.children}</FaceHandler>
-      </GestureHandler>
-    </SensorsHandler>
+    <TeethTimerStoreProvider>
+      <SensorsHandler>
+        <GestureHandler>
+          <FaceHandler>{props.children}</FaceHandler>
+        </GestureHandler>
+      </SensorsHandler>
+    </TeethTimerStoreProvider>
   );
 }
