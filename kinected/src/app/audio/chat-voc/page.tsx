@@ -26,17 +26,6 @@ export default function AudioChatVocUser() {
   );
 
   useEffect(() => {
-    updateEffectsOnAction({
-      click: () => {
-        toggleRecording(5000);
-      },
-      up: () => {
-        router.push("/");
-      },
-    });
-  }, []);
-
-  useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
@@ -156,6 +145,15 @@ export default function AudioChatVocUser() {
 
     return <audio ref={audioRef} />;
   }
+
+  useEffect(() => {
+    updateEffectsOnAction({
+      click: () => toggleRecording(),
+      up: () => {
+        router.push("/");
+      },
+    });
+  }, []);
 
   return (
     <motion.div className="w-full h-full flex flex-col items-center justify-center">
