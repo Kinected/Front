@@ -19,8 +19,8 @@ type Props = {
 
 const container = tv({
   base: [
-    "min-w-64 h-48 p-3 bg-white rounded-3xl flex flex-col gap-2",
-    "origin-bottom-right transition-all duration-500 relative",
+    "min-w-64 max-w-64 h-48 p-3 bg-white rounded-3xl flex flex-col gap-2",
+    "origin-top-left transition-all duration-500 relative",
     "ring-white/60",
   ],
   variants: {
@@ -152,7 +152,7 @@ const Line = (props: LineProps) => (
         {props.end}
       </span>
     </div>
-    <div className="flex flex-col items-end w-fit">
+    <div className="flex flex-col items-end truncate">
       <span className="text-sm truncate font-medium">{props.title}</span>
       <span className="text-sm truncate opacity-50">{props.room}</span>
     </div>

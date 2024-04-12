@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useFaceStore } from "@/stores/faces.store";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "react-query";
 import { nanoid } from "nanoid";
 import { BusData, VlilleData } from "@/types/ilevia";
 import { Line } from "@/components/widgets/Ilevia/Bus";
+import { useUserActionsStore } from "@/stores/gestures.store";
+import { useRouter } from "next/navigation";
 
 export default function Ilevia() {
   const userID = useFaceStore((state) => state.userID);
@@ -35,6 +37,20 @@ export default function Ilevia() {
       refetchInterval: 1000 * 60,
     },
   );
+
+  const updateEffectsOnAction = useUserActionsStore(
+    (state) => state.updateEffectsOnAction,
+  );
+
+  const router = useRouter();
+
+  useEffect(() => {
+    updateEffectsOnAction({
+      up: () => {
+        router.push("/");
+      },
+    });
+  }, []);
 
   if (!busData || !vlilleData) return;
 
@@ -108,7 +124,7 @@ export default function Ilevia() {
           <div className={"flex flex-col gap-8 flex-1"}>
             <div
               key={nanoid()}
-              className="flex flex-1 flex-col gap-4 bg-white p-4 rounded-2xl"
+              className="flex flex-col gap-4 bg-white p-4 rounded-2xl"
             >
               <span className={"text-2xl"}>Stations V'Lille</span>
               {vlilleData.map((borne) => (

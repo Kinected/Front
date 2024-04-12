@@ -3,15 +3,14 @@ import Weather from "../widgets/Weather";
 import ListeningFeedback from "@/components/Feedbacks/ListeningFeedback";
 import { useUserActionsStore } from "@/stores/gestures.store";
 import { AnimatePresence } from "framer-motion";
-import { twMerge } from "tailwind-merge";
-import IleviaBusWidget from "@/components/widgets/Ilevia/Bus";
-import IleviaVlilleWidget from "@/components/widgets/Ilevia/Vlille";
 import { useFaceStore } from "@/stores/faces.store";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import MauriaWidget from "@/components/widgets/Mauria";
 
 export default function Header() {
   const [time, setTime] = useState(new Date());
   const path = usePathname();
+  const router = useRouter();
 
   const hand = useUserActionsStore((state) => state.hand);
   const deltas = useUserActionsStore((state) => state.deltas);
@@ -31,24 +30,19 @@ export default function Header() {
 
   const current_action = useUserActionsStore((state) => state.current_action);
 
-  const gotIleviaBus = useFaceStore((state) => state.gotIleviaBus);
-  const gotIleviaVlille = useFaceStore((state) => state.gotIleviaVlille);
+  const gotMauria = useFaceStore((state) => state.gotMauria);
 
   return (
     <div className="flex justify-between">
       <div className="flex-1">
         {path == "/" && (
           <AnimatePresence>
-            <div
-              onClick={() => setIsHover(!isHover)}
-              className={twMerge(
-                "flex flex-col w-fit",
-                isHover ? "gap-10" : "gap-4",
-              )}
-            >
-              {gotIleviaBus && <IleviaBusWidget isHover={isHover} />}
-              {gotIleviaVlille && <IleviaVlilleWidget isHover={isHover} />}
-            </div>
+            {gotMauria && (
+              <MauriaWidget
+                isHover={current_action == "hover_down-right"}
+                onClick={() => router.push("/mauria")}
+              />
+            )}
           </AnimatePresence>
         )}
       </div>

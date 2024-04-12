@@ -73,7 +73,7 @@ const MauriaPage = () => {
           >
             <span className={"text-xl"}>Chargement en cours...</span>
 
-            <l-ring color="white" size={80} stroke={12}></l-ring>
+            {/*<l-ring color="white" size={80} stroke={12}></l-ring>*/}
             <span>Un peu de patience</span>
           </div>
         </div>

@@ -53,15 +53,7 @@ export default function SpotifyCarousel(props: Props) {
   });
 
   if (!props.previous || !props.current || !next) {
-    if (props.previous != null) {
-      return (
-        <div className="relative flex items-center">
-          <CarouselItem position="center" cover={props.previous.cover} />
-        </div>
-      );
-    }
-
-    return <div />;
+    return;
   }
   return (
     <div className="relative grid grid-cols-6 gap-24 items-center justify-center">
