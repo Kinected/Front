@@ -53,6 +53,21 @@ export default function AudioChatVocUser() {
         };
 
         checkAudio();
+
+        const toggleRecording = () => {
+          console.log(isRecording, mediaRecorder);
+          if (!isRecording) {
+            setIsRecording((prev) => !prev);
+            newMediaRecorder.start();
+          }
+        };
+
+        updateEffectsOnAction({
+          click: toggleRecording,
+          up: () => {
+            router.push("/");
+          },
+        });
       })
       .catch((err) => console.error("Error: ", err));
   }, []);
@@ -69,13 +84,6 @@ export default function AudioChatVocUser() {
       }, 1000);
     }
   }, [isRecording, isUserTalked, average]);
-
-  const toggleRecording = () => {
-    if (!isRecording && mediaRecorder) {
-      setIsRecording((prev) => !prev);
-      mediaRecorder.start();
-    }
-  };
 
   const sendAudio = (audioBlob: Blob) => {
     console.log("Audio size:", audioBlob.size);
@@ -146,14 +154,14 @@ export default function AudioChatVocUser() {
     return <audio ref={audioRef} />;
   }
 
-  useEffect(() => {
-    updateEffectsOnAction({
-      click: () => toggleRecording(),
-      up: () => {
-        router.push("/");
-      },
-    });
-  }, []);
+  // useEffect(() => {
+  //   updateEffectsOnAction({
+  //     click: () => toggleRecording(mediaRecorder),
+  //     up: () => {
+  //       router.push("/");
+  //     },
+  //   });
+  // }, []);
 
   return (
     <motion.div className="w-full h-full flex flex-col items-center justify-center">
