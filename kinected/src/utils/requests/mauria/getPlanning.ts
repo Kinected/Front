@@ -2,7 +2,7 @@ import { Course } from "@/types/course";
 
 export async function fetchMauriaPlanning(userID: string) {
   const response = await fetch(
-    `http://localhost:8000/api/mauria?userID=${userID}`,
+    `http://localhost:8000/api/mauria/?userID=${userID}`,
   );
 
   return await response.json();

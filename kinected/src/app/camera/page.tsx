@@ -19,7 +19,7 @@ export default function WebcamCapture() {
         width: 1920,
         height: 1080,
       });
-      fetch("http://localhost:8000/api/user", {
+      fetch("http://localhost:8000/api/user/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
