@@ -7,10 +7,27 @@ import { nanoid } from "nanoid";
 import { useFaceStore } from "@/stores/faces.store";
 import { useQuery } from "react-query";
 import { BusData } from "@/types/ilevia";
+import { tv } from "tailwind-variants";
 
 type Props = {
   isHover: boolean;
 };
+
+const container = tv({
+  base: [
+    "relative",
+    "flex flex-col gap-2",
+    "min-w-64",
+    "bg-white rounded-3xl p-3",
+    "origin-bottom-right transition-all duration-500",
+    "ring-white/60",
+  ],
+  variants: {
+    isHover: {
+      true: ["scale-110 ring-10"],
+    },
+  },
+});
 
 export default function IleviaBusWidget(props: Props) {
   const userID = useFaceStore((state) => state.userID);
@@ -39,16 +56,9 @@ export default function IleviaBusWidget(props: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { delay: 0.3 } }}
       exit={{ opacity: 0 }}
-      className={twMerge(
-        "min-w-64 p-3 bg-white rounded-2xl flex flex-col gap-2",
-        "origin-bottom-right transition-all duration-500 relative",
-        "after:absolute after:top-0 after:left-0 after:-z-10",
-        "after:bg-white after:rounded-2xl",
-        "after:transition-all after:duration-500",
-        "after:w-full after:h-full",
-        props.isHover &&
-          "scale-110 after:opacity-40 after:rounded-2xl after:outline after:outline-offset-0 after:outline-8 after:outline-white -translate-y-1 -translate-x-1",
-      )}
+      className={container({
+        isHover: props.isHover,
+      })}
     >
       <div className={"flex justify-between gap-4 items-center"}>
         <Ilevia className="w-10 h-10 rounded-xl" />

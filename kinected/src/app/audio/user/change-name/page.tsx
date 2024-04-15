@@ -37,6 +37,7 @@ export default function AudioChangeNameUser() {
 
         const newMediaRecorder = new MediaRecorder(stream);
         setMediaRecorder(newMediaRecorder);
+
         newMediaRecorder.ondataavailable = (e) => {
           if (newMediaRecorder.state === "inactive") {
             sendAudio(new Blob([e.data], { type: "audio/mp3" }));
@@ -53,9 +54,33 @@ export default function AudioChangeNameUser() {
         };
 
         checkAudio();
+
+        const toggleRecording = () => {
+          console.log(isRecording, mediaRecorder);
+          if (!isRecording) {
+            setIsRecording((prev) => !prev);
+            newMediaRecorder.start();
+          }
+        };
+
+        if (name) {
+          updateEffectsOnAction({
+            left: () => ConfirmFirstname(),
+            right: () => setName(null),
+            up: () => router.push("/"),
+          });
+        } else {
+          updateEffectsOnAction({
+            click: () => {
+              console.log("click");
+              toggleRecording();
+            },
+            up: () => router.push("/"),
+          });
+        }
       })
       .catch((err) => console.error("Error: ", err));
-  }, []);
+  }, [name]);
 
   useEffect(() => {
     if (!isUserTalked && average > THRESHOLD * 1.5 && isRecording) {
@@ -71,7 +96,12 @@ export default function AudioChangeNameUser() {
   }, [isRecording, isUserTalked, average]);
 
   const toggleRecording = () => {
+    console.log("toggleRecording");
+
+    console.log("isRecording", isRecording);
+    console.log("mediaRecorder", mediaRecorder);
     if (!isRecording && mediaRecorder) {
+      console.log("start");
       setIsRecording((prev) => !prev);
       mediaRecorder.start();
     }
@@ -106,21 +136,6 @@ export default function AudioChangeNameUser() {
   const updateEffectsOnAction = useUserActionsStore(
     (state) => state.updateEffectsOnAction,
   );
-
-  useEffect(() => {
-    if (name) {
-      updateEffectsOnAction({
-        left: () => ConfirmFirstname(),
-        right: () => setName(null),
-        up: () => router.push("/"),
-      });
-    } else {
-      updateEffectsOnAction({
-        click: () => toggleRecording(),
-        up: () => router.push("/"),
-      });
-    }
-  }, [toggleRecording]);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">

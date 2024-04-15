@@ -10,13 +10,15 @@ export default function WebcamCapture() {
   const webcamRef = React.useRef<Webcam>(null);
   const router = useRouter();
 
+  const [isCreatingProfile, setIsCreatingProfile] = React.useState(false);
+
   const capture = React.useCallback(() => {
+    setIsCreatingProfile(true);
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot({
         width: 1920,
         height: 1080,
       });
-      console.log(imageSrc);
       fetch("http://localhost:8000/api/user", {
         method: "POST",
         headers: {
@@ -28,7 +30,6 @@ export default function WebcamCapture() {
         .then((data) => {
           console.log("data", data);
           if (data.success === true) {
-            console.log("User created");
             router.push("/audio/user/change-name");
           }
         })
@@ -36,6 +37,7 @@ export default function WebcamCapture() {
           console.error("Error:", error);
         });
     }
+    setIsCreatingProfile(false);
   }, [webcamRef]);
 
   const updateEffectsOnAction = useUserActionsStore(
@@ -45,9 +47,12 @@ export default function WebcamCapture() {
   useEffect(() => {
     updateEffectsOnAction({
       click: () => capture(),
-      up: () => router.push("/"),
+      up: () => {
+        !isCreatingProfile && router.push("/");
+        console.log("up");
+      },
     });
-  }, []);
+  }, [isCreatingProfile]);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-8">

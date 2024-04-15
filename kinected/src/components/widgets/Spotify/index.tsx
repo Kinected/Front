@@ -75,7 +75,7 @@ export default function SpotifyWidget(props: Props) {
       })}
     >
       <div className="flex justify-between items-start gap-2">
-        <div className="relative w-full aspect-square rounded-3xl overflow-hidden">
+        <div className="relative w-full aspect-square rounded-2xl overflow-hidden">
           {displayedSong && (
             <Image
               alt="cover current song"

@@ -96,8 +96,8 @@ export default function AudioChatVocUser() {
         console.log("Audio size:", formData);
 
         const data = await getResponse(formData);
-        setResponse((a) => data.response);
-        setQuestion((a) => data.question);
+        setResponse(() => data.response);
+        setQuestion(() => data.question);
         await fetchAudioTranscription();
       }
     };
@@ -173,7 +173,7 @@ export default function AudioChatVocUser() {
           <AudioButton
             isTooLoud={average > THRESHOLD * 1.5 && !isRecording}
             isRecording={isRecording}
-            onClick={() => toggleRecording()}
+            onClick={() => {}}
           />
         </div>
         <AnimatePresence>

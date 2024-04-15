@@ -97,6 +97,10 @@ export const useUserActionsStore = create<UserActionStore>((set) => ({
   updateDeltaThreshold: (newThreshold) =>
     set({ delta_threshold: newThreshold }),
   updateDeltas: (newDeltas) => set({ deltas: newDeltas }),
-  updateEffectsOnAction: (newEffectsOnActions) =>
-    set({ effectOnAction: { ...emptyActions, ...newEffectsOnActions } }),
+  updateEffectsOnAction: (newEffectsOnActions) => {
+    set({
+      current_action: null, // Reset current action to avoid side effects on page load
+      effectOnAction: { ...emptyActions, ...newEffectsOnActions },
+    });
+  },
 }));
