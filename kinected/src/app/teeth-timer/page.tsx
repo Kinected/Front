@@ -54,6 +54,7 @@ const TeethTimer = () => {
           </Button>
         )}
       </div>
+
     </Page>
   );
 };

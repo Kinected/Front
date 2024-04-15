@@ -24,6 +24,7 @@ export type Gestures =
   | "point_up"
   | "rock";
 export type Actions =
+  | "none"
   | "left"
   | "right"
   | "up"
@@ -53,7 +54,7 @@ type UserActionStore = {
   updateIsListening: (isListening: boolean) => void;
   updateHand: (newHand: Hand) => void;
   updateCurrentGesture: (newGesture: Gestures) => void;
-  updateCurrentAction: (newSwipe: Actions) => void;
+  updateCurrentAction: (newAction: Actions) => void;
   updateDeltaThreshold: (newThreshold: number) => void;
   updateDeltas: (newDeltas: Deltas) => void;
   updateEffectsOnAction: (
@@ -62,6 +63,7 @@ type UserActionStore = {
 };
 
 const emptyActions: Record<Actions, () => void> = {
+  none: () => {},
   click: () => {},
   left: () => {},
   right: () => {},
@@ -99,7 +101,7 @@ export const useUserActionsStore = create<UserActionStore>((set) => ({
   updateDeltas: (newDeltas) => set({ deltas: newDeltas }),
   updateEffectsOnAction: (newEffectsOnActions) => {
     set({
-      current_action: null, // Reset current action to avoid side effects on page load
+      current_action: null,
       effectOnAction: { ...emptyActions, ...newEffectsOnActions },
     });
   },

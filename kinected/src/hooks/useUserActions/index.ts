@@ -35,9 +35,6 @@ export const useUserActions = () => {
     onMessage: (event) => {
       const data = JSON.parse(event.data);
 
-      if (data.action && data.action === "none") {
-        console.log("action", data.action);
-      }
       setGestureData(data);
       gestures.updateDeltas(data.deltas);
       gestures.updateHand(data.hand);

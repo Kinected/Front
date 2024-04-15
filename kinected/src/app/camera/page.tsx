@@ -48,6 +48,7 @@ export default function WebcamCapture() {
     updateEffectsOnAction({
       click: () => capture(),
       up: () => {
+        console.log("isCreatingProfile", isCreatingProfile);
         !isCreatingProfile && router.push("/");
         console.log("up");
       },

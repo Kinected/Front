@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, {useEffect, useLayoutEffect} from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SpotifyWidget from "@/components/widgets/Spotify";
 import { useRouter } from "next/navigation";
@@ -34,6 +34,9 @@ export default function Home() {
   );
 
   const current_action = useUserActionsStore((state) => state.current_action);
+  const updateCurrentAction = useUserActionsStore(
+    (state) => state.updateCurrentAction,
+  );
 
   useEffect(() => {
     updateActionsOnSwipe({
@@ -78,7 +81,6 @@ export default function Home() {
         >
           <AnimatePresence>
             <div />
-            //je sais pas
           </AnimatePresence>
           <AnimatePresence>
             <TeethTimerWidget

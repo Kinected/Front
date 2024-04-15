@@ -14,7 +14,7 @@ import HomeButton from "@/components/home";
 import Provider from "@/components/provider";
 import Head from "next/head";
 
-const inter = Outfit({ subsets: ["latin"] });
+const outfit = Outfit({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -37,7 +37,7 @@ export default function RootLayout({
       </Head>
 
       <QueryClientProvider client={queryClient}>
-        <body className={inter.className}>
+        <body className={outfit.className}>
           <Provider>
             <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
               <Header />
