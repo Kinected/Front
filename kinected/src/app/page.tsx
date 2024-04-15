@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useLayoutEffect} from "react";
+import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SpotifyWidget from "@/components/widgets/Spotify";
 import { useRouter } from "next/navigation";
@@ -14,29 +14,16 @@ export default function Home() {
   const router = useRouter();
   const firstname = useFaceStore((state) => state.firstName);
   const userID = useFaceStore((state) => state.userID);
-  const [isDisplayed, setIsDisplayed] = React.useState(true);
-  const gotMauria = useFaceStore((state) => state.gotMauria);
   const gotSpotify = useFaceStore((state) => state.gotSpotify);
   const gotIleviaBus = useFaceStore((state) => state.gotIleviaBus);
   const gotIleviaVlille = useFaceStore((state) => state.gotIleviaVlille);
   const [isHover, setIsHover] = React.useState(false);
-
-  // // detect if firstname changed
-  // useEffect(() => {
-  //     setIsDisplayed(true);
-  //     setTimeout(() => {
-  //         setIsDisplayed(false);
-  //     }, 5000);
-  // }, [firstname]);
 
   const updateActionsOnSwipe = useUserActionsStore(
     (state) => state.updateEffectsOnAction,
   );
 
   const current_action = useUserActionsStore((state) => state.current_action);
-  const updateCurrentAction = useUserActionsStore(
-    (state) => state.updateCurrentAction,
-  );
 
   useEffect(() => {
     updateActionsOnSwipe({
@@ -53,27 +40,27 @@ export default function Home() {
     <div className="flex flex-col flex-1 justify-between">
       <div className="flex-1 flex items-center justify-between">
         <div />
-        {isDisplayed && (
-          <AnimatePresence>
-            <motion.main
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed -z-[10] inset-0 flex h-full w-full justify-center items-center"
-            >
-              <div className="flex flex-col items-center">
-                <span className="text-white text-8xl text-start ">Bonjour</span>
-                <span className="text-white text-8xl text-start font-bold">
-                  {userID == null
-                    ? "Invité"
-                    : firstname == ""
-                      ? `Utilisateur ${userID}`
-                      : firstname}
-                </span>
-              </div>
-            </motion.main>
-          </AnimatePresence>
-        )}
+
+        <AnimatePresence>
+          <motion.main
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed -z-[10] inset-0 flex h-full w-full justify-center items-center"
+          >
+            <div className="flex flex-col items-center">
+              <span className="text-white text-8xl text-start ">Bonjour</span>
+              <span className="text-white text-8xl text-start font-bold">
+                {userID == null
+                  ? "Invité"
+                  : firstname == ""
+                    ? `Utilisateur ${userID}`
+                    : firstname}
+              </span>
+            </div>
+          </motion.main>
+        </AnimatePresence>
+
         <div
           className={
             "fixed inset-0 h-full w-full -z-[10] flex items-center justify-between p-4"
