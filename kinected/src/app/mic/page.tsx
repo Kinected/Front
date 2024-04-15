@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 export default function MicCapture() {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
-    null
+    null,
   );
   // const [chunks, setChunks] = useState<BlobPart[]>([]);
   let chunks: BlobPart[] = [];
@@ -49,11 +49,11 @@ export default function MicCapture() {
 
         try {
           const response = await fetch(
-            `http://localhost:8000/api/audio/firstname?userID=${userID}`,
+            `http://localhost:8000/api/audio/firstname/?userID=${userID}`,
             {
               method: "POST",
               body: formData,
-            }
+            },
           );
           const data = await response.json();
           console.log(data);
@@ -85,7 +85,7 @@ export default function MicCapture() {
                 mediaRecorder.state === "inactive"
               ) {
                 audioElement.src = URL.createObjectURL(
-                  new Blob(chunks, { type: "audio/mp3" })
+                  new Blob(chunks, { type: "audio/mp3" }),
                 );
               }
             }}

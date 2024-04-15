@@ -57,6 +57,8 @@ export const useFaceStore = create<FaceStore>((set) => ({
     }
 
     fetchUser(newUserID).then((data) => {
+      console.log("updating user", data);
+
       set({
         userID: newUserID,
         firstName: data.firstname,
