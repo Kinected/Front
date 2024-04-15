@@ -1,9 +1,9 @@
 "use client";
 
 import "./globals.css";
-import React from "react";
-import { Inter, Outfit, Poppins, Raleway, Rubik, Syne } from "next/font/google";
-import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
+import { Outfit } from "next/font/google";
+import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -13,6 +13,7 @@ import Header from "@/components/header";
 import HomeButton from "@/components/home";
 import Provider from "@/components/provider";
 import Head from "next/head";
+import { useFaceStore } from "@/stores/faces.store";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -23,8 +24,17 @@ export default function RootLayout({
 }>) {
   const path = usePathname();
   const queryClient = new QueryClient();
+  const router = useRouter();
 
   const current_swipe = useUserActionsStore((state) => state.current_action);
+
+  const id = useFaceStore((state) => state.userID);
+
+  useEffect(() => {
+    console.log("id", id);
+    if (id == null) router.push("/camera");
+    else router.push("/");
+  }, [id]);
 
   return (
     <html lang="fr">

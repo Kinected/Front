@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 
 export default function Ilevia() {
   const userID = useFaceStore((state) => state.userID);
+  const router = useRouter();
+  if (userID == null) router.push("/camera");
 
   const { data: busData } = useQuery<BusData[]>(
     ["bus", userID],
@@ -41,8 +43,6 @@ export default function Ilevia() {
   const updateEffectsOnAction = useUserActionsStore(
     (state) => state.updateEffectsOnAction,
   );
-
-  const router = useRouter();
 
   useEffect(() => {
     updateEffectsOnAction({
