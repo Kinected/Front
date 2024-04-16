@@ -1,7 +1,6 @@
 "use client";
 
 import Carousel from "@/components/containers/app/carousel";
-import Button from "@/components/button";
 
 export default function AppPage() {
   return (
