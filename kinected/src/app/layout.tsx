@@ -30,11 +30,11 @@ export default function RootLayout({
 
   const id = useFaceStore((state) => state.userID);
 
-  useEffect(() => {
-    console.log("id", id);
-    if (id == null) router.push("/camera");
-    else router.push("/");
-  }, [id]);
+  // useEffect(() => {
+  //   console.log("id", id);
+  //   if (id == null) router.push("/camera");
+  //   else router.push("/");
+  // }, [id]);
 
   return (
     <html lang="fr">

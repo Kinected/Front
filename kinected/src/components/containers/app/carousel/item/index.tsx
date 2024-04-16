@@ -5,9 +5,10 @@ import { tv } from "tailwind-variants";
 
 type Props = {
   position: "left" | "center" | "right";
-  cover?: string;
+  content?: string;
   isHover?: boolean;
   onClick?: () => void;
+  children?: React.ReactNode;
 };
 
 const item = tv({
@@ -34,7 +35,7 @@ const item = tv({
   },
 });
 
-export default function CarouselItem(props: Props) {
+export default function CarouselItemApp(props: Props) {
   return (
     <div
       className={item({
@@ -42,15 +43,11 @@ export default function CarouselItem(props: Props) {
         isHover: props.isHover,
       })}
     >
-      {props.cover ? (
+      {props.children ? (
         <div
           className={"overflow-hidden w-full h-full bg-gray-200 rounded-2xl"}
         >
-          <img
-            src={props.cover}
-            className="w-full fit-cover rounded-2xl "
-            alt="current_song_cover"
-          />
+          {props.children}
         </div>
       ) : (
         <div className="w-full h-full bg-gray-200 rounded-2xl" />
