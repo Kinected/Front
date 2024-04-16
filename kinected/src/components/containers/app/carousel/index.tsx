@@ -54,21 +54,27 @@ import Link from "next/link";
 import Button from "@/components/button";
 import CarouselItemApp from "./item";
 import { useUserActionsStore } from "@/stores/gestures.store";
+import Mauria from "@/icons/mauria.svg";
+import Spotify from "@/icons/spotify.svg";
+import Sun from "@/icons/sun.svg";
 
 const carouselProducts = [
   {
     id: 1,
     name: "Spotify",
+    // image: Spotify,
     link: "https://demo.vercel.store/product/acme-geometric-circles-tshirt",
   },
   {
     id: 2,
     name: "Mauria",
+    // image: Mauria,
     link: "https://demo.vercel.store/product/acme-drawstring-bag",
   },
   {
     id: 3,
     name: "Météo",
+    // image: Sun,
     link: "https://demo.vercel.store/product/acme-cup",
   },
 ];
@@ -80,17 +86,27 @@ export default function Carousel() {
   const [currentID, setCurrentID] = useState(carouselProducts[0].name);
   const [nextID, setNextID] = useState(carouselProducts[1].name);
 
-  const handleButtonClick = () => {
+  const handleNextButtonClick = () => {
     const firstProduct = carouselProducts.shift();
     if (firstProduct) {
       carouselProducts.push(firstProduct);
       setCurrentID(carouselProducts[0].name);
-      setNextID(carouselProducts[1].name);
+      setNextID(carouselProducts[1]?.name || "");
       setBeforeID(carouselProducts[carouselProducts.length - 1].name);
     }
-    // + bouton dans l'autre sens
-    console.log("currentId", currentID);
   };
+
+  const handlePreviousButtonClick = () => {
+    const lastProduct = carouselProducts.pop();
+    if (lastProduct) {
+      carouselProducts.unshift(lastProduct);
+      setCurrentID(carouselProducts[0].name);
+      setNextID(carouselProducts[1]?.name || "");
+      setBeforeID(carouselProducts[carouselProducts.length - 1].name);
+    }
+  };
+  console.log("currentId", currentID);
+
   const currentSwipe = useUserActionsStore((state) => state.current_action);
 
   return (
@@ -100,7 +116,7 @@ export default function Carousel() {
         isHover={currentSwipe === "hover_right"}
         content={beforeID}
         // onClick={() => playPreviousSong(props.token)}
-        onClick={handleButtonClick}
+        onClick={handlePreviousButtonClick}
       >
         {/* flex col + image + txt */}
       </CarouselItemApp>
@@ -110,7 +126,7 @@ export default function Carousel() {
         isHover={currentSwipe === "hover_left"}
         content={nextID}
         // onClick={() => playNextSong(props.token)}
-        onClick={handleButtonClick}
+        onClick={handleNextButtonClick}
       />
     </div>
   );
