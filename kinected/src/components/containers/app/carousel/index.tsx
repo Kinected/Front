@@ -6,8 +6,11 @@ import { useUserActionsStore } from "@/stores/gestures.store";
 import Mauria from "@/icons/mauria.svg";
 import Spotify from "@/icons/spotify.svg";
 import Sun from "@/icons/sun.svg";
+import Ilevia from "@/icons/ilevia.svg";
+import OpenAI from "@/icons/openai.svg";
+import ToothBrush from "@/icons/ToothBrush.svg";
 
-const carouselProducts = [
+const initialProducts = [
   {
     id: 1,
     name: "Spotify",
@@ -26,9 +29,29 @@ const carouselProducts = [
     image: Sun,
     link: "/weather",
   },
+  {
+    id: 4,
+    name: "Chatvoc",
+    image: OpenAI,
+    link: "/audio/chat-voc",
+  },
+  {
+    id: 5,
+    name: "Ilévia",
+    image: Ilevia,
+    link: "/ilevia",
+  },
+  {
+    id: 6,
+    name: "Teeth Timer",
+    image: ToothBrush,
+    link: "/teeth-timer",
+  },
 ];
 
 export default function Carousel() {
+  const [carouselProducts, setCarouselProducts] = useState(initialProducts);
+
   const [beforeProduct, setBeforeProduct] = useState(
     carouselProducts[carouselProducts.length - 1]
   );
@@ -36,22 +59,26 @@ export default function Carousel() {
   const [nextProduct, setNextProduct] = useState(carouselProducts[1]);
 
   const handleNextButtonClick = () => {
-    const firstProduct = carouselProducts.shift();
+    const newCarouselProducts = [...carouselProducts];
+    const firstProduct = newCarouselProducts.shift();
     if (firstProduct) {
-      carouselProducts.push(firstProduct);
-      setCurrentProduct(carouselProducts[0]);
-      setNextProduct(carouselProducts[1]);
-      setBeforeProduct(carouselProducts[carouselProducts.length - 1]);
+      newCarouselProducts.push(firstProduct);
+      setCarouselProducts(newCarouselProducts);
+      setCurrentProduct(newCarouselProducts[0]);
+      setNextProduct(newCarouselProducts[1]);
+      setBeforeProduct(newCarouselProducts[newCarouselProducts.length - 1]);
     }
   };
 
   const handlePreviousButtonClick = () => {
-    const lastProduct = carouselProducts.pop();
+    const newCarouselProducts = [...carouselProducts];
+    const lastProduct = newCarouselProducts.pop();
     if (lastProduct) {
-      carouselProducts.unshift(lastProduct);
-      setCurrentProduct(carouselProducts[0]);
-      setNextProduct(carouselProducts[1]);
-      setBeforeProduct(carouselProducts[carouselProducts.length - 1]);
+      newCarouselProducts.unshift(lastProduct);
+      setCarouselProducts(newCarouselProducts);
+      setCurrentProduct(newCarouselProducts[0]);
+      setNextProduct(newCarouselProducts[1]);
+      setBeforeProduct(newCarouselProducts[newCarouselProducts.length - 1]);
     }
   };
 
@@ -73,7 +100,7 @@ export default function Carousel() {
       <CarouselItemApp
         position="left"
         isHover={currentSwipe === "hover_right"}
-        onClick={handleNextButtonClick}
+        onClick={handlePreviousButtonClick}
       >
         <div className="flex flex-col items-center">
           <beforeProduct.image className="size-30 text-white" />
@@ -87,7 +114,7 @@ export default function Carousel() {
       <CarouselItemApp
         position="right"
         isHover={currentSwipe === "hover_left"}
-        onClick={handlePreviousButtonClick}
+        onClick={handleNextButtonClick}
       >
         <nextProduct.image className="size-30 text-white" />
         <p>{nextProduct.name}</p>
