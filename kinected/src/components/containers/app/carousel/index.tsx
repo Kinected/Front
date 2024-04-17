@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CarouselItemApp from "./item";
 import { useUserActionsStore } from "@/stores/gestures.store";
 import Mauria from "@/icons/mauria.svg";
@@ -12,19 +12,19 @@ const carouselProducts = [
     id: 1,
     name: "Spotify",
     image: Spotify,
-    link: "https://demo.vercel.store/product/acme-geometric-circles-tshirt",
+    link: "/spotify",
   },
   {
     id: 2,
     name: "Mauria",
     image: Mauria,
-    link: "https://demo.vercel.store/product/acme-drawstring-bag",
+    link: "/mauria",
   },
   {
     id: 3,
     name: "Météo",
     image: Sun,
-    link: "https://demo.vercel.store/product/acme-cup",
+    link: "/weather",
   },
 ];
 
@@ -56,29 +56,40 @@ export default function Carousel() {
   };
 
   const currentSwipe = useUserActionsStore((state) => state.current_action);
+  const updateEffectsOnAction = useUserActionsStore(
+    (state) => state.updateEffectsOnAction
+  );
+
+  useEffect(() => {
+    updateEffectsOnAction({
+      left: handleNextButtonClick,
+      right: handlePreviousButtonClick,
+      click: () => window.open(currentProduct.link),
+    });
+  }, []);
 
   return (
-    <div className="relative grid grid-cols-6 gap-24 items-center justify-center">
+    <div className="relative grid grid-cols-6 text-white items-center justify-center">
       <CarouselItemApp
         position="left"
         isHover={currentSwipe === "hover_right"}
-        onClick={handlePreviousButtonClick}
+        onClick={handleNextButtonClick}
       >
         <div className="flex flex-col items-center">
-          <img src={beforeProduct.image} alt={beforeProduct.name} />
+          <beforeProduct.image className="size-30 text-white" />
           <p>{beforeProduct.name}</p>
         </div>
       </CarouselItemApp>
       <CarouselItemApp position="center">
-        <img src={currentProduct.image} alt={currentProduct.name} />
+        <currentProduct.image className="size-40 text-white" />
         <p>{currentProduct.name}</p>
       </CarouselItemApp>
       <CarouselItemApp
         position="right"
         isHover={currentSwipe === "hover_left"}
-        onClick={handleNextButtonClick}
+        onClick={handlePreviousButtonClick}
       >
-        <img src={nextProduct.image} alt={nextProduct.name} />
+        <nextProduct.image className="size-30 text-white" />
         <p>{nextProduct.name}</p>
       </CarouselItemApp>
     </div>
