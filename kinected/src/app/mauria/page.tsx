@@ -15,11 +15,29 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import FrLocale from "@fullcalendar/core/locales/fr";
-import "ldrs/ring";
 import "./styles.scss";
 
+import Loader from "@/icons/Loader.svg";
+
 const LoadingContent = () => {
-  return <div className={"text-white"}>Loading...</div>;
+  return (
+    <Page>
+      <PageTitle>Votre Semaine:</PageTitle>
+
+      <div className={"flex flex-1 justify-center items-center"}>
+        <div
+          className={
+            "flex flex-col items-center justify-center h-fit gap-16 p-16 bg-white/25 rounded-3xl text-2xl"
+          }
+        >
+          <span>Chargement en cours...</span>
+
+          <Loader className={"size-40 animate-spin"} />
+          <span>Un peu de patience</span>
+        </div>
+      </div>
+    </Page>
+  );
 };
 
 const ErrorContent = () => {
@@ -60,29 +78,14 @@ const MauriaPage = () => {
     enabled: !!userID,
   });
 
-  if (isLoading) {
-    return (
-      <Page>
-        <PageTitle>Votre Semaine:</PageTitle>
+  console.log("data", data, isLoading, isError);
 
-        <div className={"flex flex-1 justify-center items-center"}>
-          <div
-            className={
-              "flex flex-col items-center justify-center h-fit gap-16 p-16 bg-white/25 rounded-2xl"
-            }
-          >
-            <span className={"text-xl"}>Chargement en cours...</span>
-
-            {/*<l-ring color="white" size={80} stroke={12}></l-ring>*/}
-            <span>Un peu de patience</span>
-          </div>
-        </div>
-      </Page>
-    );
+  if (isLoading || !data) {
+    return <LoadingContent />;
   }
 
-  if (isError || !data) {
-    return <div className={"text-white"}>Error...</div>;
+  if (isError) {
+    return <ErrorContent />;
   }
 
   return (

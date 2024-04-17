@@ -29,7 +29,7 @@ export const useFaceStore = create<FaceStore>((set) => ({
 
     fetchUser(id).then((data) => {
       set({
-        userID: useFaceStore.getState().userID,
+        userID: data.id,
         firstName: data.firstname,
         lastName: data.lastname,
         isNewUser: false,
@@ -42,6 +42,7 @@ export const useFaceStore = create<FaceStore>((set) => ({
   },
   updateUser: (newUserID: string) => {
     // if (newUserID == useFaceStore.getState().userID) return;
+
     if (newUserID == "Unknown") {
       set({
         userID: null,
@@ -57,10 +58,8 @@ export const useFaceStore = create<FaceStore>((set) => ({
     }
 
     fetchUser(newUserID).then((data) => {
-      console.log("updating user", data);
-
       set({
-        userID: newUserID,
+        userID: data.id,
         firstName: data.firstname,
         lastName: data.lastname,
         isNewUser: false,

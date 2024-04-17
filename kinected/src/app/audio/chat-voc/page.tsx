@@ -6,11 +6,13 @@ import { getResponse } from "@/utils/requests/whisper/audio-chatbot";
 import pako from "pako";
 import { useUserActionsStore } from "@/stores/gestures.store";
 import { useRouter } from "next/navigation";
+import Loader from "@/icons/Loader.svg";
 import { useFaceStore } from "@/stores/faces.store";
 
 export default function AudioChatVocUser() {
   const router = useRouter();
   const [isRecording, setIsRecording] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isUserTalked, setIsUserTalked] = useState(false);
   const userID = useFaceStore((state) => state.userID);
 
@@ -28,6 +30,11 @@ export default function AudioChatVocUser() {
   );
 
   useEffect(() => {
+    if (!userID) {
+      console.error("User ID not found");
+      return;
+    }
+
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
@@ -57,10 +64,13 @@ export default function AudioChatVocUser() {
         checkAudio();
 
         const toggleRecording = () => {
-          console.log(isRecording, mediaRecorder);
-          if (!isRecording) {
-            setIsRecording((prev) => !prev);
+          if (!isRecording && newMediaRecorder.state === "inactive") {
+            setIsRecording(() => true);
             newMediaRecorder.start();
+          } else {
+            newMediaRecorder.stop();
+            setIsUserTalked(() => true);
+            setIsRecording(() => false);
           }
         };
 
@@ -72,7 +82,7 @@ export default function AudioChatVocUser() {
         });
       })
       .catch((err) => console.error("Error: ", err));
-  }, []);
+  }, [userID]);
 
   useEffect(() => {
     if (!isUserTalked && average > THRESHOLD * 1.5 && isRecording) {
@@ -94,15 +104,20 @@ export default function AudioChatVocUser() {
       if (reader.result) {
         const formData = new FormData();
         formData.append("audio", new Blob([reader.result]), "audio.mp3");
-        console.log("Sending audio...");
-        console.log("Audio size:", formData);
 
-        const data = await getResponse(formData, userID as string);
-        setResponse((a) => data.response);
-        setQuestion((a) => data.question);
-        await fetchAudioTranscription();
+        try {
+          const data = await getResponse(formData, userID as string);
+          setQuestion(() => data.question);
+          setResponse(() => data.response);
+          setIsLoading(() => false);
+          await fetchAudioTranscription();
+        } catch (error) {
+          window.alert(error);
+          setIsLoading(() => false);
+        }
       }
     };
+    setIsLoading(() => true);
     reader.readAsArrayBuffer(audioBlob);
   };
 
@@ -142,6 +157,8 @@ export default function AudioChatVocUser() {
     } else {
       console.error("feur");
     }
+
+    setIsLoading(() => false);
   };
 
   function AudioHP() {
@@ -168,23 +185,42 @@ export default function AudioChatVocUser() {
   return (
     <motion.div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex flex-col gap-24 items-center">
-        <div className="flex flex-col gap-8">
-          <span className="text-6xl font-bold text-white">
-            Quelle est votre question ?
-          </span>
-          <AudioButton
-            isTooLoud={average > THRESHOLD * 1.5 && !isRecording}
-            isRecording={isRecording}
-            onClick={() => {}}
-          />
-        </div>
+        {!isLoading && (
+          <div className="flex flex-col gap-8">
+            <span className="text-6xl font-bold text-white">
+              Quelle est votre question ?
+            </span>
+            <AudioButton
+              isTooLoud={average > THRESHOLD * 1.5 && !isRecording}
+              isRecording={isRecording}
+              onClick={() => {}}
+            />
+          </div>
+        )}
         <AnimatePresence>
-          {question && response && (
+          {isLoading && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex-1 max-w-[75%] bg-white rounded-2xl p-4 px-8 flex flex-col gap-4"
+              className="flex-1max-w-[75%] bg-white rounded-2xl p-8 flex flex-col gap-4"
+            >
+              <div className="flex flex-col gap-4 items-center w-64">
+                <span className="text-black font-medium text-2xl">
+                  <Loader className={"size-40 animate-spin"} />
+                </span>
+                <span className="text-black text-xl text-center">
+                  Chargement en cours...
+                </span>
+              </div>
+            </motion.div>
+          )}
+          {!isLoading && question && response && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex-1 w-full max-w-[75%] bg-white rounded-2xl p-4 px-8 flex flex-col gap-4"
             >
               <div className="flex flex-col gap-2">
                 <span className="text-black font-medium text-2xl">

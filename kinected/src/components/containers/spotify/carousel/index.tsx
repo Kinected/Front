@@ -35,7 +35,7 @@ export default function SpotifyCarousel(props: Props) {
     refetchInterval: 1000,
   });
 
-  const { data: previous } = useQuery<Song | null>({
+  useQuery<Song | null>({
     queryKey: ["song", "previous"],
     queryFn: async () => {
       const data = await fetchPreviousSong(props.token);
@@ -54,8 +54,8 @@ export default function SpotifyCarousel(props: Props) {
 
   if (!props.previous || !props.current || !next) {
     return (
-      <span className={"text-white text-center text-4xl"}>
-        Aucune musique n'est jouée pour le moment
+      <span className={"text-white text-center text-4xl w-2/3 mx-auto"}>
+        Aucune musique n&apos;est jouée pour le moment
       </span>
     );
   }

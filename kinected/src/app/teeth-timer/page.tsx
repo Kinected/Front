@@ -3,10 +3,11 @@
 import React, { useEffect } from "react";
 import Page from "@/components/Layout/Page";
 import PageTitle from "@/components/Layout/PageTitle";
-import Button from "@/components/button";
+import Button from "../../components/Layout/Buttons/Button";
 import { useUserActionsStore } from "@/stores/gestures.store";
 import { useRouter } from "next/navigation";
 import { useTeethTimerStore } from "@/stores/teethTimer.store";
+import SwipeButton from "@/components/Layout/Buttons/SwipeButton";
 
 const TeethTimer = () => {
   const router = useRouter();
@@ -16,8 +17,14 @@ const TeethTimer = () => {
     (state) => state.updateEffectsOnAction,
   );
 
-  const { time, formatTime, isRunning, isFinished, toggleIsRunning, resetTime } =
-    useTeethTimerStore((state) => state);
+  const {
+    time,
+    formatTime,
+    isRunning,
+    isFinished,
+    toggleIsRunning,
+    resetTime,
+  } = useTeethTimerStore((state) => state);
 
   useEffect(() => {
     updateEffectsOnAction({
@@ -28,10 +35,11 @@ const TeethTimer = () => {
   }, []);
 
   return (
-    <Page className={"items-center gap-24"}>
-      <Button className={"w-fit"} isHover={current_action === "hover_down"}>
+    <Page className={"items-center gap-0"}>
+      <SwipeButton position={"down"} isHover={current_action === "hover_down"}>
         Réinitialiser
-      </Button>
+      </SwipeButton>
+
       <div
         className={"flex flex-col items-center justify-center gap-24 flex-1"}
       >
@@ -54,7 +62,6 @@ const TeethTimer = () => {
           </Button>
         )}
       </div>
-
     </Page>
   );
 };

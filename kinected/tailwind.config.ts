@@ -28,6 +28,15 @@ const config: Config = {
         DEFAULT: "cubic-bezier(0,1.75,.45,1)",
       },
 
+      borderRadius: {
+        "4xl": "2rem",
+        "5xl": "2.5rem",
+      },
+
+      borderWidth: {
+        12: "12px",
+        16: "16px",
+      },
       ringWidth: {
         10: "10px",
         12: "12px",

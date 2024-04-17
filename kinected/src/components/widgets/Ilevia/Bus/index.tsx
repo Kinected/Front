@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React from "react";
-import Ilevia from "@/icons/Ilevia.svg";
-import Bus from "@/icons/Bus front.svg";
+import Ilevia from "@/icons/Apps/ilevia.svg";
+import Bus from "@/icons/Apps/Ilevia/Bus front.svg";
 import { nanoid } from "nanoid";
 import { useFaceStore } from "@/stores/faces.store";
 import { useQuery } from "react-query";

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Spotify from "../../../icons/Spotify.svg";
+import Spotify from "../../../icons/Apps/Spotify.svg";
 import { useQuery } from "react-query";
 import { fetchSpotifyAccessToken } from "@/utils/requests/spotify/get-access-token";
 import { fetchCurrentlyPlaying } from "@/utils/requests/spotify/currently-playing";

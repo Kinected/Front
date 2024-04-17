@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
-import Ilevia from "@/icons/ilevia.svg";
+import Ilevia from "@/icons/Apps/ilevia.svg";
 import { useQuery } from "react-query";
 import { VlilleData } from "@/types/ilevia";
 import { useFaceStore } from "@/stores/faces.store";

@@ -56,10 +56,13 @@ export default function AudioChangeNameUser() {
         checkAudio();
 
         const toggleRecording = () => {
-          console.log(isRecording, mediaRecorder);
-          if (!isRecording) {
-            setIsRecording((prev) => !prev);
+          if (!isRecording && newMediaRecorder.state === "inactive") {
+            setIsRecording(() => true);
             newMediaRecorder.start();
+          } else {
+            newMediaRecorder.stop();
+            setIsUserTalked(() => true);
+            setIsRecording(() => false);
           }
         };
 
@@ -142,9 +145,9 @@ export default function AudioChangeNameUser() {
       <AnimatePresence>
         {name && (
           <Modal onCancel={() => setName(null)} onConfirm={ConfirmFirstname}>
-            <div className="flex flex-col items-center">
-              <span className="text-white text-5xl font-medium">
-                Votre nom est ...
+            <div className="flex max-w-[75%] flex-col items-center">
+              <span className="text-white text-5xl font-medium text-center ">
+                Vous souhaitez être appellé...
               </span>
               <span className="text-white text-7xl font-bold">
                 &quot;{name}&quot; ?
@@ -155,9 +158,9 @@ export default function AudioChangeNameUser() {
       </AnimatePresence>
       <AnimatePresence>
         {!name && (
-          <motion.div className="flex flex-col gap-8">
-            <span className="text-6xl font-bold text-white">
-              Quel est votre nom?
+          <motion.div className="flex max-w-[75%] flex-col gap-8">
+            <span className="text-6xl font-bold text-white text-center">
+              Comment souhaitez-vous que l&apos;on vous appelle ?
             </span>
             <AudioButton
               isTooLoud={average > THRESHOLD * 1.25 && !isRecording}

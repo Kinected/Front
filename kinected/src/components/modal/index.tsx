@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React from "react";
-import Check from "../../icons/Check square.svg";
-import Close from "../../icons/Close square.svg";
+import Check from "../../icons/actions/Confirm.svg";
+import Close from "../../icons/actions/Cancel.svg";
 import ConfirmButton from "@/components/modal/ConfirmButton";
 import { useUserActionsStore } from "@/stores/gestures.store";
 

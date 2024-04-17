@@ -4,15 +4,14 @@ import "./globals.css";
 import React from "react";
 import { Outfit } from "next/font/google";
 import { usePathname, useRouter } from "next/navigation";
-import { AnimatePresence } from "framer-motion";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { useUserActionsStore } from "@/stores/gestures.store";
 
 import Header from "@/components/header";
-import HomeButton from "@/components/home";
 import Provider from "@/components/provider";
-import Head from "next/head";
+import ListeningContainer from "@/components/Layout/ListeningContainer";
+import SwipeButton from "@/components/Layout/Buttons/SwipeButton";
 import { useFaceStore } from "@/stores/faces.store";
 
 const outfit = Outfit({ subsets: ["latin"] });
@@ -25,41 +24,29 @@ export default function RootLayout({
   const path = usePathname();
   const queryClient = new QueryClient();
   const router = useRouter();
-
   const current_swipe = useUserActionsStore((state) => state.current_action);
 
   const id = useFaceStore((state) => state.userID);
-
-  // useEffect(() => {
-  //   console.log("id", id);
-  //   if (id == null) router.push("/camera");
-  //   else router.push("/");
-  // }, [id]);
-
   return (
     <html lang="fr">
-      <Head>
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script
-          type="module"
-          src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/ring.js"
-        />
-      </Head>
-
       <QueryClientProvider client={queryClient}>
         <body className={outfit.className}>
           <Provider>
-            <div className="flex flex-col gap-8 p-4 w-full h-screen overflow-hidden">
-              <Header />
-
-              {children}
-
-              {path !== "/" && (
-                <AnimatePresence>
-                  <HomeButton isHover={current_swipe === "hover_up"} />
-                </AnimatePresence>
-              )}
-            </div>
+            <ListeningContainer>
+              <div className="flex flex-col items-center gap-8 p-4 w-full h-full overflow-hidden">
+                <Header />
+                {children}
+                {path !== "/" && (
+                  <SwipeButton
+                    position={"up"}
+                    onClick={() => router.push("/")}
+                    isHover={current_swipe === "hover_up"}
+                  >
+                    Accueil
+                  </SwipeButton>
+                )}
+              </div>
+            </ListeningContainer>
           </Provider>
         </body>
       </QueryClientProvider>

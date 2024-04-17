@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import Palm from "../../icons/Palm.svg";
-import Attention from "../../icons/Error badge.svg";
+import Palm from "../../icons/actions/Click.svg";
+import Attention from "../../icons/Warning.svg";
 import { motion } from "framer-motion";
 
 type Props = {

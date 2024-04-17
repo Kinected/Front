@@ -33,7 +33,7 @@ export default function Header() {
   const gotMauria = useFaceStore((state) => state.gotMauria);
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between w-full">
       <div className="flex-1">
         {path == "/" && (
           <AnimatePresence>

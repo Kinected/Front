@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect } from "react";
 import Webcam from "react-webcam";
-import Palm from "../../icons/Palm.svg";
+import Palm from "../../icons/actions/Click.svg";
 import { useRouter } from "next/navigation";
-import Attention from "../../icons/Error badge.svg";
+import Attention from "../../icons/Warning.svg";
 import { useUserActionsStore } from "@/stores/gestures.store";
 
 export default function WebcamCapture() {
