@@ -53,6 +53,14 @@ export default function SpotifyCarousel(props: Props) {
   });
 
   if (!props.previous || !props.current || !next) {
+    console.log(props.current);
+    if (props.current) {
+      return (
+        <div className="relative">
+          <CarouselItem position="center" cover={props.current.cover} />
+        </div>
+      );
+    }
     return (
       <span className={"text-white text-center text-4xl"}>
         Aucune musique n'est jouée pour le moment
