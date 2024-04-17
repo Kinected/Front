@@ -37,7 +37,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col flex-1 justify-between">
+    <div className="relative w-full flex flex-col flex-1 justify-between">
       <div className="flex-1 flex items-center justify-between">
         <div />
 
@@ -46,7 +46,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed -z-[10] inset-0 flex h-full w-full justify-center items-center"
+            className="fixed z-10 inset-0 flex h-full w-full justify-center items-center"
           >
             <div className="flex flex-col items-center">
               <span className="text-white text-8xl text-start ">Bonjour</span>
@@ -62,9 +62,7 @@ export default function Home() {
         </AnimatePresence>
 
         <div
-          className={
-            "fixed inset-0 h-full w-full -z-[10] flex items-center justify-between p-4"
-          }
+          className={"h-full w-full z-[10] flex items-center justify-between"}
         >
           <AnimatePresence>
             <div />

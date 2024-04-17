@@ -1,5 +1,5 @@
 import React from "react";
-import Mauria from "../../../icons/Mauria.svg";
+import Mauria from "../../../icons/Apps/Mauria.svg";
 import { useQuery, useQueryClient } from "react-query";
 // import { format, parseISO } from "date-fns";
 import { nanoid } from "nanoid";
@@ -123,12 +123,12 @@ export default function MauriaWidget(props: Props) {
             </span>
           ) : (
             <span className="px-2 py-1 text-center text-sm font-medium opacity-50">
-              Pas d&apos;autres cours de prévus pour le moment...
+              Pas d&apos;autres cours de prévus...
             </span>
           )
         ) : (
           <span className="flex flex-1 flex-col justify-center my-2 p-4 bg-black/10 rounded-lg text-center font-medium opacity-50">
-            Pas de cours prévus pour le moment
+            Pas de cours prévus
           </span>
         )}
       </div>

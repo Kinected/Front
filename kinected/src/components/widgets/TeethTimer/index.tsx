@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import ToothBrush from "../../../icons/ToothBrush.svg";
+import ToothBrush from "../../../icons/Apps/ToothBrush.svg";
 import Link from "next/link";
 import { useTeethTimerStore } from "@/stores/teethTimer.store";
 import { tv } from "tailwind-variants";

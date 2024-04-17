@@ -1,8 +1,8 @@
-import Pause from "../../../../icons/Pause.svg";
+import Pause from "../../../../icons/Apps/Spotify/Pause.svg";
 import { useQuery } from "react-query";
 import { fetchCurrentlyPlaying } from "@/utils/requests/spotify/currently-playing";
 import { Song } from "@/types/song";
-import Play from "../../../../icons/Play.svg";
+import Play from "../../../../icons/Apps/Spotify/Play.svg";
 import { togglePlayerState } from "@/utils/requests/spotify/pause";
 
 type Props = {

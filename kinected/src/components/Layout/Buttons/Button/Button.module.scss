@@ -1,0 +1,15 @@
+.animate-button {
+  animation: AnimateButton 1s ease-in-out forwards;
+}
+
+@keyframes AnimateButton {
+  0% {
+    @apply bg-white
+  }
+  100% {
+    @apply bg-blue-500
+  }
+  100% {
+    @apply bg-white
+  }
+}

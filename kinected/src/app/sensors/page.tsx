@@ -6,9 +6,9 @@ import { useQuery } from "react-query";
 import { nanoid } from "nanoid";
 import { ActualWeather, DailyWeather, WeatherData } from "@/types/weather";
 
-import Rain from "../../icons/Cloud Rain.svg";
-import Clouds from "../../icons/Clouds.svg";
-import Sun from "../../icons/Sun.svg";
+import Rain from "@/icons/Apps/Weather/Cloud Rain.svg";
+import Clouds from "@/icons/Apps/Weather/Clouds.svg";
+import Sun from "@/icons/Apps/Weather/Sun.svg";
 import Calendar from "../../icons/Calendar.svg";
 import Arrow from "../../icons/Arrow - Up.svg";
 import { useUserActionsStore } from "@/stores/gestures.store";
