@@ -96,7 +96,7 @@ export default function Carousel() {
   }, []);
 
   return (
-    <div className="relative grid grid-cols-6 text-white items-center justify-center">
+    <div className="relative grid grid-cols-6 h-1/2 text-white items-center justify-center">
       <CarouselItemApp
         position="left"
         isHover={currentSwipe === "hover_right"}
