@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import React, { useEffect } from "react";
+import React from "react";
 import { Outfit } from "next/font/google";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
@@ -30,11 +30,11 @@ export default function RootLayout({
 
   const id = useFaceStore((state) => state.userID);
 
-  useEffect(() => {
-    console.log("id", id);
-    if (id == null) router.push("/camera");
-    else router.push("/");
-  }, [id]);
+  // useEffect(() => {
+  //   console.log("id", id);
+  //   if (id == null) router.push("/camera");
+  //   else router.push("/");
+  // }, [id]);
 
   return (
     <html lang="fr">

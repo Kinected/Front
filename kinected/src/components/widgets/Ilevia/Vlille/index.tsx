@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import React from "react";
-import { twMerge } from "tailwind-merge";
 import Ilevia from "@/icons/ilevia.svg";
 import { useQuery } from "react-query";
 import { VlilleData } from "@/types/ilevia";
@@ -36,7 +35,7 @@ export default function IleviaVlilleWidget(props: Props) {
       return await response.json();
     },
     {
-      refetchInterval: 1000 * 60,
+      refetchInterval: 10000 * 60,
     },
   );
 

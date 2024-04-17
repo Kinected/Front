@@ -221,7 +221,7 @@ export default function SensorsPage() {
             <div className="flex flex-1 bg-white p-4 rounded-2xl justify-between">
               <div className="flex flex-col">
                 <span className="text-xl">
-                  Humidité <span className="text-sm font-light">(g/m3)</span>
+                  Humidité <span className="text-sm font-light">(%)</span>
                 </span>
                 <span className="text-xs font-light">Interieur</span>
               </div>

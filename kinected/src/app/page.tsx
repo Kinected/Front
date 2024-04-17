@@ -80,11 +80,13 @@ export default function Home() {
 
       <div className="flex justify-between items-end">
         <AnimatePresence>
-          {gotSpotify && (
+          {gotSpotify ? (
             <SpotifyWidget
               isHover={current_action == "hover_up-right"}
               onClick={() => router.push("/spotify")}
             />
+          ) : (
+            <div />
           )}
         </AnimatePresence>
 

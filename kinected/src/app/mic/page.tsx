@@ -49,7 +49,7 @@ export default function MicCapture() {
 
         try {
           const response = await fetch(
-            `http://localhost:8000/api/audio/firstname/?userID=${userID}`,
+            `http://localhost:8000/api/whisper/audio/firstname/?userID=${userID}`,
             {
               method: "POST",
               body: formData,

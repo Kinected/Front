@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import React from "react";
-import { twMerge } from "tailwind-merge";
 import Ilevia from "@/icons/Ilevia.svg";
 import Bus from "@/icons/Bus front.svg";
 import { nanoid } from "nanoid";
@@ -41,7 +40,7 @@ export default function IleviaBusWidget(props: Props) {
       return await response.json();
     },
     {
-      refetchInterval: 1000 * 60,
+      refetchInterval: 10000 * 60,
     },
   );
 

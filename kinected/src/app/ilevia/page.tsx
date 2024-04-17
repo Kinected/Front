@@ -23,7 +23,7 @@ export default function Ilevia() {
       return await response.json();
     },
     {
-      refetchInterval: 1000 * 60,
+      refetchInterval: 10000 * 60,
     },
   );
 
@@ -36,7 +36,7 @@ export default function Ilevia() {
       return await response.json();
     },
     {
-      refetchInterval: 1000 * 60,
+      refetchInterval: 10000 * 60,
     },
   );
 

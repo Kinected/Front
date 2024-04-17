@@ -15,7 +15,7 @@ export default function AudioChatVocUser() {
   const userID = useFaceStore((state) => state.userID);
 
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
-    null
+    null,
   );
   const [average, setAverage] = useState(0);
   const THRESHOLD = 25;
@@ -109,7 +109,7 @@ export default function AudioChatVocUser() {
   const fetchAudioTranscription = async () => {
     console.log("Fetching audio transcription...");
     const response = await fetch(
-      "http://localhost:8000/api/audio/transcription"
+      "http://localhost:8000/api/whisper/audio/transcription",
     );
     const data = await response.json();
     const audioBase64 = data.audio;
